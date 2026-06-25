@@ -1,0 +1,73 @@
+@import "tailwindcss";
+
+/* earKART design tokens — see design-system/MASTER.md (frozen v1 brand) */
+@theme {
+  --color-cream: #f7f3ee;
+  --color-surface: #ffffff;
+  --color-teal: #1a6b72;
+  --color-teal-700: #145157;
+  --color-amber: #d4831a;
+  --color-charcoal: #2c3340;
+  --color-charcoal-60: #6b7180;
+  --color-sage: #6b9e7a;
+  --color-rose: #c4786b;
+  --color-bluegray: #e8eff5;
+  --color-line: rgba(44, 51, 64, 0.12);
+
+  --font-display: var(--font-playfair), Georgia, serif;
+  --font-sans: var(--font-dmsans), system-ui, sans-serif;
+
+  --radius-sm: 0.5rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+
+  --shadow-card: 0 1px 3px rgba(44, 51, 64, 0.08);
+  --shadow-raised: 0 6px 24px rgba(44, 51, 64, 0.1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-charcoal);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Visible, accessible focus ring (WDS A-078, skill §1) */
+:focus-visible {
+  outline: 3px solid var(--color-teal);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Respect reduced motion globally (WDS A-081, skill §7) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes ek-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ek-rise {
+  animation: ek-rise 0.6s cubic-bezier(0, 0, 0.2, 1) both;
+}
