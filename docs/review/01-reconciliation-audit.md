@@ -38,7 +38,7 @@
 | Role | Face | Notes |
 |------|------|-------|
 | Primary | **Montserrat** | Confirmed primary font in guidelines. |
-| Secondary | *(guidelines reference a secondary face — page truncated in extract)* | **B-ACTION-2:** confirm the exact secondary font named in the brand PDF. |
+| Secondary | **Poppins** | ✅ Confirmed from brand guidelines typography page. (B-ACTION-2 closed.) |
 
 > Spec's Playfair Display + DM Sans + DM Mono are **superseded**. The spec's *reasoning* about senior-friendly sizing, line-height, and the type scale (§2.4) remains useful and can be re-applied to Montserrat.
 
@@ -139,11 +139,11 @@ earKART
 └── BOOK A HEARING TEST       (persistent primary CTA)
 ```
 
-### Judgment calls made (please confirm)
-- **J1:** Kept **Hearing Health** as its own top-level pillar (Spec treats education as the primary acquisition channel) rather than folding it under Resources as the Handoff did. Trade-off: 6 nav items instead of 5. *Confirm: keep separate, or fold education into Resources?*
-- **J2:** Merged devices + services into one **Solutions** pillar to avoid two overlapping menus. *Confirm.*
-- **J3:** Added **Investor Relations** under About (required for a BSE-listed company). *Confirm placement — some listed firms make it top-level.*
-- **J4:** **OMNI** placed under Technology, with a note that the Handoff wants a "dedicated OMNI microsite." *Confirm: in-site section vs. standalone microsite.*
+### Judgment calls — ✅ CONFIRMED by owner ("they are as mentioned")
+- **J1:** ✅ **Hearing Health** stays its own top-level pillar (education is the primary acquisition channel). 6 nav items.
+- **J2:** ✅ Devices + services merged into one **Solutions** pillar.
+- **J3:** ✅ **Investor Relations** sits under About.
+- **J4:** ✅ **OMNI** under Technology (as proposed in the sitemap).
 
 ---
 
@@ -161,15 +161,20 @@ earKART
 
 ---
 
-## 5. Open Questions for earKART (real data needed to finish verification)
-1. Exact current **partner-clinic count** (confirm "1400+").
-2. What does **"15+ years"** legitimately refer to, if anything?
-3. **Aggregate patient rating + review count**, with source (Google/Practo)?
-4. Confirmed **brand-partner list** for the logo strip.
-5. **Named audiologists** (with qualifications/registration) for review stamps + profiles.
-6. The **secondary font** named in the brand PDF (extract was truncated).
-7. OMNI: **in-site section or standalone microsite?**
-8. Any **awards** to name explicitly (spec §11.2 warns against unnamed "award-winning" claims).
+## 5. Open Data — resolution: **use placeholders** (owner decision)
+
+Per owner: leave clear placeholders for unverified data; do not invent numbers. Standard placeholder token: `[TBD: description]`. These get filled by earKART before launch (gated by the Final Quality Gate, Spec §12).
+
+| # | Data point | Placeholder token to use until verified |
+|---|------------|------------------------------------------|
+| 1 | Partner-clinic count | `[TBD: clinic count — official brand doc states 1400+]` |
+| 2 | "Years of experience" meaning | `[TBD: confirm what "Xyears" refers to]` (do not display until confirmed) |
+| 3 | Aggregate rating + review count | `[TBD: rating]/5 from [TBD: review count] reviews` |
+| 4 | Brand-partner logo list | `[TBD: confirmed partner brands]` |
+| 5 | Named audiologists (stamps/profiles) | `[TBD: Reviewer Name, Qualification, Reg. No.]` |
+| 6 | Secondary font | ✅ Resolved — **Poppins** |
+| 7 | OMNI microsite vs. section | ✅ Resolved — under Technology (J4) |
+| 8 | Nameable awards | `[TBD: named awards only — no unnamed "award-winning" claims per §11.2]` |
 
 ---
 
