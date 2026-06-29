@@ -118,11 +118,183 @@ Dep: clinic/OMNI location data + photos + audiologist links `[TBD]`, maps provid
 
 ---
 
-## Queued flows (next UX Blueprint batch)
-Awareness/education → tool (blog → hearing check) · Hearing-aid selection (anti-catalog → trial request) · Patient-story consumption → booking · Returning-patient portal (sign-in → manage) · Caregiver "book/gift on behalf" · Newsletter/lead nurture · Investor-relations access · Corporate/B2B OMNI partner inquiry.
+## FLOW 4 — Homepage Orientation / Pathway routing
 
-Each follows the same state-checklist template.
+**Goal:** Pass the 5-second test and route each visitor to their relevant journey (Spec §6.1).
+**Personas:** Rajan (P1, skeptical), Priya (P2, researcher), Sunita (P4, anxious parent).
+**Journey stage:** Aware → Curious.
+**Entry:** organic/paid/referral landing on Home.
+**Primary components:** Hero (C1) · Empathy block (C6) · Pathway cards (C4) · Trust bar (C3) · Patient story card (D5) · CTA banner (C5).
+
+### Happy path
+1. Land → Hero answers what/for-whom/next-step → `hero_primary_cta_click` | `hero_secondary_cta_click`.
+2. Empathy bridge normalizes concern → Pathway cards (max 3) → `pathway_card_click` (property: card_label) → routes to Check / Family-help / Solutions.
+3. Scroll: Trust bar (`trust_section_viewed`) → Patient story (`story_card_click`) → Hearing-check banner (`hearing_check_banner_click`) → Clinic finder preview (`clinic_finder_search`).
+
+### States
+- **Empty/edge:** stats are `[TBD]` placeholders until verified — never render fabricated numbers; if a stat is unavailable, hide that cell rather than guess.
+- **Loading:** hero media lazy + preloaded; counters animate on view (reduced-motion static).
+- **Accessibility:** one H1; scrim ensures AAA over imagery; keyboard-first; Hindi toggle.
+**Analytics:** as above + `blog_preview_click`. **Handoffs:** → Flow 2 (Check), Flow 1 (Book), Flow 3 (Find), Flow 6 (Solutions). **AI hook:** "not sure where to start?" assistant suggests a pathway.
 
 ---
 
-*Next: continue for the queued flows, or advance to Phase 5 (Wireframes) once flows are approved. No code until Phase 8.*
+## FLOW 5 — Education → Tool (blog / Hearing Health Hub → hearing check)
+
+**Goal:** Convert trust earned via content into a micro-conversion (Cleveland Clinic mechanism, Spec §1.6, §7).
+**Personas:** Priya (P2), Arjun (P3), Sunita (P4).
+**Journey stage:** Unaware/Aware → Curious → Trusting.
+**Entry:** organic search → pillar/cluster article; internal links.
+**Primary components:** Article card (D6) · Accordion/FAQ (F9/F10) · inline CTA banner (C5) · medical-review stamp · related links.
+
+### Happy path
+1. Land on article → read (review stamp visible) → `article_read_3min`.
+2. Inline tool CTA + contextual booking CTA → ⎇ Flow 2 (Check) or Flow 1 (Book).
+3. Related-reading links deepen the cluster (3–5 same-topic links, Spec §7.5).
+
+### States
+- **Empty:** no related content yet → show pillar hub link (no dead-end).
+- **Trust gate:** every medical claim sourced; stamp `[TBD: reviewer]`; no 2019 back-dating (review/00 §3).
+- **Accessibility:** Grade-8 reading level, inline term tooltips (G9), `Article`/`FAQPage`/`MedicalWebPage` schema; Hindi term-pairs.
+**Analytics:** `article_read_3min` · `article_tool_cta_click` · `article_booking_cta_click` · `related_link_click`. **AI hook:** AI Hearing Coach (G3) answers follow-up questions inline.
+
+---
+
+## FLOW 6 — Hearing-Aid Selection (anti-catalog → trial request)
+
+**Goal:** Guide to a fitting choice without decision paralysis or feeling sold-to (Spec §6.5).
+**Personas:** Meera (P5, upgrader, fears upsell), Priya (P2), Rajan (P1).
+**Journey stage:** Considering → Deciding.
+**Entry:** Solutions nav · homepage pathway · article links.
+**Primary components:** Product cards (D4, lifestyle-first) · Filters (F12) · Comparison table (F6) · Pricing block (F7) · "No pressure" callout · CTA "Try in a Free Trial"/"Ask an Audiologist".
+
+### Happy path
+1. Land on Solutions → orientation (hearing aids have changed) → choose **by situation/lifestyle** (filter), not by tech.
+2. See 2–3 relevant Product cards with "Right for you if…" + context price (EMI prominent) → optional Comparison (recommended-for-you column highlighted).
+3. CTA → ⎇ "Try in a Free Trial" (→ Flow 1 variant) or "Ask an Audiologist" (→ contact/booking) → `hearing_aid_trial_started`.
+
+### States
+- **Empty/edge:** filter yields nothing → broaden suggestion + "ask an audiologist" (no dead-end).
+- **Pricing:** context-priced; offers from pricelist (0% EMI, free insurance, ₹25,000 upgrade); `[TBD: scheme/insurance]`.
+- **Accessibility:** comparison uses real table semantics; terms have tooltips; no spec-first.
+**Analytics:** `solutions_filter_used` (property: situation) · `product_card_view` · `comparison_opened` · `hearing_aid_trial_started` · `ask_audiologist_clicked`. **Anti-pattern guard:** no model-number/price-first; no "best/premium" without evidence (Spec §6.5.2). **AI hook:** device-recommendation assistant from hearing profile (with audiologist caveat).
+
+---
+
+## FLOW 7 — Patient Story → Booking
+
+**Goal:** Convert emotional resonance into action (identifiable-victim effect, Spec §6.6).
+**Personas:** Rajan (P1), Priya (P2).
+**Journey stage:** Considering → Trusting → Deciding.
+**Entry:** homepage story preview · Resources · article links.
+**Primary components:** Patient story card (D5) → story page (before/moment/journey/after/advice) → contextual CTA.
+
+### Happy path
+1. Open story → read → optional video (`patient_story_played`).
+2. Contextual CTA ("Take the first step [Name] took") → Flow 1 or Flow 2.
+
+### States
+- **Trust gate:** real, consented stories only; `[TBD: real stories]` until supplied — **no fabricated testimonials** (Spec §11.2).
+- **Empty:** few stories → show diverse available set; story-diversity mandate (Spec §6.6.3).
+- **Accessibility:** captions on video; person-first; Hindi pull-quotes for older demographic.
+**Analytics:** `story_opened` (id) · `patient_story_played` · `story_cta_click`. **AI hook:** "find a story like my situation" matcher.
+
+---
+
+## FLOW 8 — Returning-Patient Portal (sign-in → manage)
+
+**Goal:** Continuity of care; retention (Spec §journey Returning).
+**Personas:** existing patients; Meera (P5).
+**Journey stage:** Returning.
+**Entry:** "Patient login" in nav/footer.
+**Primary components:** Portal shell (G1) · Appointments · My Devices · Results (audiogram G6) · Maintenance reminders (G2) · Support.
+
+### Happy path
+1. Sign in `[TBD: auth model]` → Dashboard (next appointment, reminders, quick actions).
+2. Manage: reschedule (→ Flow 1), view results/audiogram (with text equivalent), action reminders, contact support.
+
+### States
+- **Empty (first-time):** guided setup; what the portal offers.
+- **Loading:** skeletons. **Error:** failed sign-in (clear, no blame); session timeout warning ≥60s with save.
+- **Edge:** account recovery `[TBD]`; multi-clinic history; caregiver-linked access (Flow 9).
+- **Accessibility:** landmarks/focus per view; 200% zoom; audiogram never graphic-only.
+**Analytics:** `portal_signin` · `portal_reschedule` · `portal_result_viewed` · `reminder_actioned`. **AI hook:** maintenance reminders + AI coach inside portal.
+
+---
+
+## FLOW 9 — Caregiver "Book / Gift on Behalf"
+
+**Goal:** Let a family member initiate care for a parent without triggering resistance (Spec personas P6/P2; "gift a hearing check").
+**Journey stage:** Considering.
+**Entry:** homepage pathway ("help for a family member") · article CTAs · portal (G5).
+**Primary components:** Caregiver dashboard (G5) · Appointment widget (F5, "for someone else") · conversation-help resources.
+
+### Happy path
+1. Choose "help someone you love" → guidance + scripts for the conversation (reactance-aware framing).
+2. ⎇ "Gift a hearing check" (send to parent) · ⎇ "Book on their behalf" (consent-aware) → Flow 1 with caregiver fields.
+
+### States
+- **Consent:** explicit consent before accessing/booking for another (PDPB; Spec §11 L5); `[TBD: consent model]`.
+- **Empty:** no linked patient yet → explain linking.
+- **Accessibility/tone:** non-judgmental, "act of care not intrusion" (Spec §7.4 framing).
+**Analytics:** `caregiver_path_entered` · `gift_check_sent` · `book_on_behalf_started`. **AI hook:** conversation assistant generates a tailored "how to raise it" script.
+
+---
+
+## FLOW 10 — Lead Nurture (guide download / newsletter → follow-up)
+
+**Goal:** Capture consented leads by giving value first; nurture toward booking (reciprocity, Spec §6.2.4).
+**Journey stage:** Curious → Considering.
+**Entry:** newsletter signup (F4) · downloadable guide CTAs · post-hearing-check email.
+**Happy path:** value offered → email (post-value, not gated) → confirmation → consented sequence `[TBD: CRM]` → later booking.
+**States:** double-opt-in `[TBD]`; unsubscribe always clear (no hidden cancel — Spec §9); empty/success/error per A3/E1.
+**Analytics:** `download_guide_submitted` · `newsletter_subscribed` · `nurture_to_booking`. **Guard:** no pre-ticked consent; no dark patterns.
+
+---
+
+## FLOW 11 — Investor-Relations Access
+
+**Goal:** Serve investors/analysts/press for a BSE-SME-listed company; reinforce patient trust.
+**Journey stage:** (separate audience).
+**Entry:** About → Investor Relations; footer.
+**Primary components:** IR page (Page 11 spec) · document list/downloads · announcements · investor contact.
+**Happy path:** browse overview → filings/reports `[TBD: docs]` → download or contact compliance officer `[TBD]`.
+**States:** empty (no filings yet) handled honestly; restrained corporate tone; **compliance review required** before publish.
+**Analytics:** `ir_document_download` · `ir_contact_submitted`. **Note:** measured on completeness/compliance, not conversion.
+
+---
+
+## FLOW 12 — B2B / OMNI Partner Inquiry
+
+**Goal:** Convert clinics/retailers/hospitals into OMNI/shop-in-shop partners.
+**Personas:** clinic owner, pharmacy/hospital decision-maker.
+**Journey stage:** Consideration (B2B).
+**Entry:** Technology → OMNI "For Clinics & Partners"; Manufacturing page.
+**Primary components:** OMNI partner block · lead form (A3) · credibility (certs/timeline).
+**Happy path:** read OMNI B2B value → submit partner inquiry (org details) → confirmation + follow-up `[TBD: sales pipeline]`.
+**States:** validation/empty/success/error per forms; honest scope of OMNI.
+**Analytics:** `omni_partner_cta_click` · `omni_partner_inquiry_submitted`. **AI hook:** none v1.
+
+---
+
+## UX Blueprint — coverage summary
+| # | Flow | Status |
+|---|------|--------|
+| 1 | Book a Hearing Test | ✅ |
+| 2 | Online Hearing Check | ✅ |
+| 3 | Find a Clinic / OMNI | ✅ |
+| 4 | Homepage Orientation | ✅ |
+| 5 | Education → Tool | ✅ |
+| 6 | Hearing-Aid Selection | ✅ |
+| 7 | Patient Story → Booking | ✅ |
+| 8 | Returning-Patient Portal | ✅ |
+| 9 | Caregiver Book/Gift | ✅ |
+| 10 | Lead Nurture | ✅ |
+| 11 | Investor Relations | ✅ |
+| 12 | B2B / OMNI Partner | ✅ |
+
+All flows: state-complete, analytics-tagged, accessibility-noted, no dead-ends, no dark patterns. `[TBD]`s (APIs, data, auth/consent/CRM, scope) tracked here + `review/00 §3`.
+
+---
+
+*UX Blueprint v1.0 complete. Next phase: Phase 5 — Low-Fidelity Wireframes (assemble components per flow into screen layouts). No code until Phase 8.*

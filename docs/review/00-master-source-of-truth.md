@@ -28,7 +28,7 @@
 | Spacing & grid (§2.5) | Spec v1.0 §2.5 | ✅ unchanged (brand-independent) |
 | **Design System (tokens, principles, component inventory)** | `design-system/earKART-design-system-v1.md` | 🆕 Phase 2 deliverable |
 | **Component Library (per-component specs)** | `component-library/earKART-component-library-v1.md` | ✅ Phase 3 complete — Batches 1–3 (~50 components) |
-| **UX Blueprint (journey flows + states)** | `ux-blueprint/earKART-ux-blueprint-v1.md` | 🆕 Phase 4 — Flows 1–3 done (Book, Hearing Check, Find a Clinic); rest queued |
+| **UX Blueprint (journey flows + states)** | `ux-blueprint/earKART-ux-blueprint-v1.md` | ✅ Phase 4 complete — 12 flows, state-complete |
 | **Icon/illustration/motion color refs** | `02` §2.6–2.7 | 🔁 color refs corrected; logic unchanged |
 | Personas (§3) | Spec v1.0 §3 | ✅ unchanged |
 | Customer journey (§4) | Spec v1.0 §4 | ✅ unchanged |
