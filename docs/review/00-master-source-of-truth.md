@@ -27,7 +27,7 @@
 | **Typography** | `02-brand-identity-corrected.md` §2.4 | 🔁 **replaced** (Montserrat/Poppins) |
 | Spacing & grid (§2.5) | Spec v1.0 §2.5 | ✅ unchanged (brand-independent) |
 | **Design System (tokens, principles, component inventory)** | `design-system/earKART-design-system-v1.md` | 🆕 Phase 2 deliverable |
-| **Component Library (per-component specs)** | `component-library/earKART-component-library-v1.md` | 🆕 Phase 3 — Batch 1 of 3 (Foundations + Core) |
+| **Component Library (per-component specs)** | `component-library/earKART-component-library-v1.md` | 🆕 Phase 3 — Batches 1–2 of 3 done (Foundations, Core, Forms & Data); Batch 3 (portal/AI) queued |
 | **Icon/illustration/motion color refs** | `02` §2.6–2.7 | 🔁 color refs corrected; logic unchanged |
 | Personas (§3) | Spec v1.0 §3 | ✅ unchanged |
 | Customer journey (§4) | Spec v1.0 §4 | ✅ unchanged |

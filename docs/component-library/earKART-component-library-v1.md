@@ -201,12 +201,118 @@
 
 ---
 
-# F. Queued for Batch 2 / 3 (not yet fully specced)
-**Batch 2 (forms & data):** Select · Date/Time picker · File upload · Newsletter signup · Appointment widget · Comparison table · Pricing block · Timeline · Accordion · FAQ · Tabs · Filters · Map+results · Search · Pagination · Tag/chip · Language toggle (standalone).
-**Batch 3 (portal & future AI):** Patient-portal shell · Maintenance reminder · AI Hearing Coach widget · Symptom checker · Caregiver dashboard · Audiogram visualization · Empty/error states · Tooltip.
+# F. FORMS & DATA (Batch 2)
+
+## F1. Select / Dropdown
+**Purpose:** Pick one option from a known set without typing.
+**Anatomy:** visible label (A3 rules) · trigger (radius `--radius-sm`, 1px border, cyan caret) · option list (`--elev-2`).
+**States:** default · focus (cyan ring) · open · selected · error · disabled.
+**Accessibility:** native `<select>` preferred; if custom, full `listbox` ARIA + arrow-key nav + type-ahead; 44px options; label associated.
+**Usage:** ✅ for ≤ ~12 known options. ❌ don't use for 2–3 options (use radios) or free text.
+
+## F2. Date / Time Picker
+**Purpose:** Choose an appointment slot with minimum friction.
+**Anatomy:** field + calendar/time panel; available slots emphasized, unavailable disabled (gray, non-color cue too).
+**States:** default · focus · open · selected · unavailable · error.
+**Accessibility:** keyboard-navigable grid (`grid`/arrow keys); announce selected date; allow typed entry as alternative; no precise-pointer-only interaction (Spec §8).
+**Usage:** ✅ show next available prominently. ❌ never convey availability by color alone.
+
+## F3. File Upload
+**Purpose:** Accept documents (e.g., prior audiogram).
+**Anatomy:** labeled drop zone + browse button + file list with remove + progress.
+**States:** idle · drag-over · uploading (progress) · success · error (type/size, named + fix).
+**Accessibility:** keyboard-triggerable (not drag-only); clear accepted types/size in text; status via `aria-live`.
+
+## F4. Newsletter Signup
+**Anatomy:** one email field (A3) + button + consent micro-copy + post-submit success state.
+**Accessibility:** visible label; success/error via inline alert (E1).
+**Psychology:** offered after value (reciprocity), never gated before it (Spec §6.2.4). **Usage:** ❌ no pre-ticked consent (Spec §9 dark-pattern ban).
+
+## F5. Appointment Widget (booking)
+**Purpose:** The macro-conversion — book with the least friction.
+**Anatomy:** multi-step (E6 progress): service → location/clinic or OMNI → date/time (F2) → details (A3) → confirm. Persistent summary; price/insurance context where relevant `[TBD: data]`.
+**States:** per-step valid/invalid · submitting (loading) · confirmed (success screen + what-next) · failure (recoverable, no data loss).
+**Accessibility:** each step a labeled region; errors block politely with fixes; back never loses entered data; 60s+ on any timeout.
+**Psychology:** progress + clarity + "no pressure" framing reduce abandonment (Spec §1.2, §6.4).
+**Usage:** ✅ low-commitment alt visible ("prefer to call?"). ❌ no fake-scarcity slot counts (Spec §9).
+
+## F6. Comparison Table
+**Purpose:** Help users compare options without overwhelm.
+**Anatomy:** sticky header row/column; plain-language row labels; tooltips (G-batch) for terms; highlighted "recommended for you" column.
+**States:** default · row hover · responsive collapse (stacked cards on mobile).
+**Accessibility:** real `<table>` semantics (`th scope`); horizontal scroll has keyboard access; never term-only without plain-language.
+**Psychology:** relevance highlighting beats raw feature dumps (Spec §6.5). **Usage:** ❌ never spec-first/model-number-first.
+
+## F7. Pricing Block (context-priced)
+**Purpose:** Present cost as manageable, with context.
+**Anatomy:** "Starts from" + **monthly/EMI prominent** · 0% No-Cost EMI · Free 1-Year Insurance · Exchange/Upgrade (save up to ₹25,000) · Free Online Consultation `[verified offers]` · insurance/scheme note `[TBD]`.
+**Accessibility:** tabular figures; not color-coded only.
+**Psychology:** cost-per-day/financing reframing lowers price anxiety (Spec §6.5). **Usage:** ❌ no absolute-number-first; ❌ no hidden fees (Spec §11 L4).
+
+## F8. Timeline
+**Purpose:** Show momentum/process (milestones 2021–2025; or "what to expect" steps).
+**Anatomy:** vertical (mobile) / horizontal (desktop) nodes: marker · year/step · label.
+**States:** in-view reveal (`--dur-reveal`, reduced-motion static) · current node emphasis.
+**Accessibility:** ordered list semantics; not motion-dependent for meaning.
+
+## F9. Accordion
+**Purpose:** Layer detail on demand (progressive disclosure).
+**Anatomy:** header button (label + cyan chevron) · collapsible panel.
+**States:** collapsed · expanded · focus · hover.
+**Accessibility:** `button` + `aria-expanded` + controlled region; keyboard toggle; one-or-many open `[TBD: choose]`.
+**Psychology:** reduces cognitive load; summary visible, depth optional (Spec §1.2).
+
+## F10. FAQ
+**Purpose:** Answer common questions + earn `FAQPage` schema.
+**Anatomy:** accordion list (F9) grouped by topic; optional search.
+**Accessibility:** `FAQPage` structured data; each Q a heading for SR navigation.
+
+## F11. Tabs
+**Purpose:** Switch between sibling content views in place.
+**States:** selected · unselected · focus · disabled.
+**Accessibility:** `tablist`/`tab`/`tabpanel` ARIA; arrow-key navigation; selected not color-only (underline/weight).
+**Usage:** ❌ don't hide critical content (e.g., pricing) behind a non-default tab on key pages.
+
+## F12. Filters
+**Purpose:** Narrow large sets (clinics, articles, products) by relevance.
+**Anatomy:** chips/checkboxes/selects + active-filter summary + clear-all + result count.
+**States:** default · active · disabled (no results) · loading.
+**Accessibility:** grouped, labeled; announce result-count changes (`aria-live`); keyboard operable.
+**Psychology:** relevance filtering cuts choice paralysis (Spec §6.5).
+
+## F13. Map + Results (clinic / OMNI finder)
+**Purpose:** Connect users to a physical/OMNI location with low anxiety.
+**Anatomy:** location input (F? + Search) · split map+list (desktop) / list with map toggle (mobile) · Clinic cards (D2)/OMNI cards (D3) · "or call us" fallback.
+**States:** idle · geolocating (permission w/ polite reason) · results · empty · error.
+**Accessibility:** list is fully usable without the map (map not sole channel); keyboard list nav; permission rationale in text.
+**Psychology:** pre-visit info + named audiologist reduce no-shows ~23% (Spec §6.7.3).
+
+## F14. Search
+**Anatomy:** input + icon (always visible in nav) · suggestions · results with category tags.
+**States:** empty · typing/suggesting · results · no-results (helpful empty state).
+**Accessibility:** labeled; `combobox` ARIA for suggestions; keyboard-selectable; no-results offers next step.
+
+## F15. Pagination
+**Anatomy:** prev/next + page numbers (or load-more).
+**Accessibility:** `nav` landmark; `aria-current="page"`; 44px targets; current not color-only.
+
+## F16. Tag / Chip
+**Variants:** static label (category) · removable (active filter) · selectable (filter choice).
+**Accessibility:** removable chips keyboard-deletable with clear label; not color-only state.
+
+## F17. Language Toggle (EN / हिंदी)
+**Purpose:** Switch language anywhere (nav + footer).
+**States:** current language indicated (text, not flag-only) · focus.
+**Accessibility:** real control with `lang` handling; label in both scripts; persists choice `[TBD: mechanism]`.
+**Psychology:** Hindi availability critical for older/Tier-2 audience (Spec §13.2). **Usage:** core conversion flows must work in Hindi before launch.
+
+---
+
+# G. Queued for Batch 3 (portal & future AI)
+Patient-portal shell · Maintenance reminder · AI Hearing Coach widget · Symptom checker · Caregiver dashboard · Audiogram visualization · Empty state · Error state · Tooltip (keyboard-triggerable).
 
 Each will follow the same template on the same tokens. `[TBD]` data/assets per review/00 §3.
 
 ---
 
-*Next: say "continue" for Batch 2. No code until Phase 8.*
+*Next: say "continue" for Batch 3. No code until Phase 8.*
