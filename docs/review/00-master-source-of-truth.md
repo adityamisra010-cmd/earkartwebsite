@@ -13,7 +13,8 @@
 3. **Pricelist / corporate facts** (`EARKART_pricelist_2026.pdf`) — wins for company facts, offers, milestones, OMNI/manufacturing.
 4. **This control document + corrected modules** (`docs/review/01`, `02`, `03`) — wins for brand application, IA, and new-section specs.
 5. **Design Spec v1.0** (`earKART_Website_Design_Specification_v1.md`) — authoritative for everything else (strategy, personas, journey, CRO, accessibility, analytics, voice).
-6. Later: user research & A/B results supersede all of the above except #1.
+6. **WDS v2 — Phases 2–10** (`docs/source/v2/`) — canonical research/critique inputs (evidence audit, expanded competitive analysis, psychology/adversarial/risk audits, business review, user-testing simulation, density audit, innovations). Concrete changes captured in `review/04-v2-integration.md`. **Citation Integrity Protocol (v2 Phase 2 §2.3) applies globally.**
+7. Later: user research & A/B results supersede all of the above except #1.
 
 ---
 
@@ -28,7 +29,9 @@
 | Spacing & grid (§2.5) | Spec v1.0 §2.5 | ✅ unchanged (brand-independent) |
 | **Design System (tokens, principles, component inventory)** | `design-system/earKART-design-system-v1.md` | 🆕 Phase 2 deliverable |
 | **Component Library (per-component specs)** | `component-library/earKART-component-library-v1.md` | ✅ Phase 3 complete — Batches 1–3 (~50 components) |
-| **UX Blueprint (journey flows + states)** | `ux-blueprint/earKART-ux-blueprint-v1.md` | ✅ Phase 4 complete — 12 flows, state-complete |
+| **UX Blueprint (journey flows + states)** | `ux-blueprint/earKART-ux-blueprint-v1.md` | ✅ Phase 4 complete — 12 flows, state-complete (v2 revisions pending per review/04 §9) |
+| **WDS v2 source phases (2–10)** | `source/v2/` | 🆕 canonical research inputs |
+| **v2 Integration & Reconciliation** | `review/04-v2-integration.md` | 🆕 converts v2 findings into concrete add/change/resolve/decide actions |
 | **Icon/illustration/motion color refs** | `02` §2.6–2.7 | 🔁 color refs corrected; logic unchanged |
 | Personas (§3) | Spec v1.0 §3 | ✅ unchanged |
 | Customer journey (§4) | Spec v1.0 §4 | ✅ unchanged |
