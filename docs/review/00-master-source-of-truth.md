@@ -32,6 +32,7 @@
 | **UX Blueprint (journey flows + states)** | `ux-blueprint/earKART-ux-blueprint-v1.md` | ✅ v1.1 — 16 flows (12 + v2 revisions + Flows 13–16: GP referral, schemes, consent, return-visitor) |
 | **WDS v2 source phases (2–10)** | `source/v2/` | 🆕 canonical research inputs |
 | **v2 Integration & Reconciliation** | `review/04-v2-integration.md` | ✅ all 6 owner decisions approved (§8); revisions applied across DS/CL/UXB/IA |
+| **Wireframes (low-fidelity, mobile-first)** | `wireframes/` | 🆕 Phase 5 — Homepage done; rest queued |
 | **Icon/illustration/motion color refs** | `02` §2.6–2.7 | 🔁 color refs corrected; logic unchanged |
 | Personas (§3) | Spec v1.0 §3 | ✅ unchanged |
 | Customer journey (§4) | Spec v1.0 §4 | ✅ unchanged |
