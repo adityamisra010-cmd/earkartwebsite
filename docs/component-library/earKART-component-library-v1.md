@@ -308,11 +308,84 @@
 
 ---
 
-# G. Queued for Batch 3 (portal & future AI)
-Patient-portal shell · Maintenance reminder · AI Hearing Coach widget · Symptom checker · Caregiver dashboard · Audiogram visualization · Empty state · Error state · Tooltip (keyboard-triggerable).
+# G. PORTAL & FUTURE AI (Batch 3)
 
-Each will follow the same template on the same tokens. `[TBD]` data/assets per review/00 §3.
+> These are **returning-user / future** surfaces (Spec §journey: Returning → Advocating, and §AI Features). Scope is partly future — `[TBD: confirm which ship in v1]`. They still inherit all tokens + the §10 accessibility baseline, and the same honesty rules (no chatbot pretending to be human — Spec §11.2).
+
+## G1. Patient-Portal Shell
+**Purpose:** Continuity of care for returning patients — appointments, devices, results, reminders, support.
+**Anatomy:** authenticated header (account, language, sign-out) · side/bottom nav (Dashboard · Appointments · My Devices · Results · Support) · content area · global notification slot.
+**States:** loading (skeleton) · empty (first-time) · populated · error · signed-out.
+**Accessibility:** landmarks + skip links per view; focus management on route change; 200% zoom safe; session-timeout warning ≥60s with save.
+**Psychology:** retention via continuity (Spec §journey Returning). **Usage:** `[TBD: auth model, v1 scope]`.
+
+## G2. Maintenance Reminder
+**Purpose:** Proactive device-care nudges (cleaning, battery, check-up) that build loyalty without nagging.
+**Anatomy:** reminder card — icon · plain message · due date · action ("Book a check-up" / "Mark done" / "Snooze").
+**States:** upcoming · due · overdue (warning tone, **never alarmist**) · done · snoozed.
+**Accessibility:** state via icon+text+color; reminders also reachable in-portal (not push-only).
+**Psychology:** service-relationship + reciprocity; gentle, supportive tone (Spec §Headspace mechanism). **Usage:** ❌ no guilt language ("you forgot…").
+
+## G3. AI Hearing Coach (widget)
+**Purpose:** Conversational guidance/education — answer hearing questions, explain next steps.
+**Anatomy:** launcher (labeled, not icon-only) · chat panel · message list · input · **clear "AI assistant" disclosure** · "talk to a human audiologist" escalation always visible.
+**States:** collapsed · open · thinking (loader) · response · escalation · error/offline.
+**Accessibility:** `aria-live` for incoming messages; full keyboard; not the only path to any critical info; readable contrast.
+**Psychology:** low-friction help; trust depends on transparency. **Usage:** ❌ **never imply it's a human** (Spec §11.2 catastrophic-to-trust); ✅ always offer human handoff; medical answers carry the screening-not-diagnosis caveat.
+
+## G4. Symptom Checker (conversational)
+**Purpose:** Guide users through structured questions toward a calm, non-diagnostic recommendation.
+**Anatomy:** stepped Q&A (reuse A4 choice controls + E6 progress) · plain-language items · result hand-off to Result Card (E2).
+**States:** intro · in-progress · result · restart · error.
+**Accessibility:** one question per step; keyboard-first; no audio-only steps (non-audio alternative).
+**Psychology:** reassurance over alarm; empowerment framing (Spec §6.2.3). **Usage:** ❌ never output a "diagnosis"; always "a starting point" + book CTA.
+
+## G5. Caregiver Dashboard
+**Purpose:** Let a family member (e.g., Priya/Rohan personas) help manage a parent's hearing care with consent.
+**Anatomy:** linked-patient summary · upcoming appointments · reminders · shared results `[TBD: consent + privacy model]` · "book on their behalf" · conversation-help resources.
+**States:** no linked patient · pending consent · linked/active · access revoked.
+**Accessibility:** clear whose data is shown; consent state explicit; standard landmarks/focus.
+**Psychology:** family-mediated decision support (Spec personas P2/P6; §1.7 collective decisions). **Usage:** ❌ no access without explicit patient consent (PDPB/privacy — Spec §11 L5).
+
+## G6. Audiogram Visualization
+**Purpose:** Show hearing-test results in plain, non-frightening terms.
+**Anatomy:** frequency×level chart · per-ear series · plain-language banding ("mild/moderate…") · plain-text summary beside the graphic.
+**States:** loading · rendered · no-data · interactive hover/focus point.
+**Accessibility:** **never graphic-only** — provide a text/table equivalent of every data point; color + shape for L/R (not color alone); keyboard-explorable points.
+**Psychology:** comprehension reduces anxiety (Stripe clarity; Spec §1.2). **Usage:** ✅ pair with audiologist explanation; `[TBD: data source/format]`.
+
+## G7. Empty State
+**Purpose:** Turn "nothing here" into a guided next step, not a dead end.
+**Anatomy:** calm illustration (navy/cyan line) · plain message · one primary action.
+**Variants:** first-use · no-results (search/filter) · cleared/done.
+**Accessibility:** meaningful heading + actionable text; illustration decorative (`alt=""`).
+**Psychology:** maintains momentum; avoids the trapped feeling (Spec §Headspace exit-ramps).
+
+## G8. Error State
+**Purpose:** Recover gracefully without anxiety or blame.
+**Anatomy:** icon (danger tone, restrained) · what happened (plain) · what to do (retry / call us / go back) · support contact.
+**Variants:** inline (field/section) · full-page (404/500) · offline.
+**Accessibility:** `role="alert"` where appropriate; names the problem + fix (Spec §8 cognitive); never color-only; keyboard-focusable recovery action.
+**Usage:** ❌ no jargon/error codes as the primary message; ✅ always a human fallback (phone/WhatsApp).
+
+## G9. Tooltip
+**Purpose:** On-demand definition of a term (audiogram, tinnitus) without leaving context.
+**Anatomy:** trigger (term with subtle cue) · small popover (`--elev-2`) · plain-language definition.
+**States:** hidden · shown (hover **and** focus) · dismiss (Esc).
+**Accessibility:** **keyboard-triggerable** (focus, not hover-only — Spec §8); `aria-describedby`; never the only place critical info lives; not used for essential interactive content.
+**Psychology:** inline term-explanation supports the plain-language-first principle (Spec §1.2, §8 cognitive).
 
 ---
 
-*Next: say "continue" for Batch 3. No code until Phase 8.*
+## Component Library — coverage summary
+| Batch | Family | Status |
+|-------|--------|--------|
+| 1 | Foundations · Navigation & shell · Core page · Entity cards · Feedback & system | ✅ |
+| 2 | Forms & data | ✅ |
+| 3 | Portal & future AI | ✅ |
+
+**~50 components specced** across the inventory. Per-component visual design (high-fidelity) happens in Phase 6 on these specs; build in Phase 8. Open `[TBD]`s (assets, data, auth/consent/AI scope) tracked in `review/00 §3` and per-component notes.
+
+---
+
+*Component Library v1.0 complete. Next phase: Phase 4 — UX Blueprint (task flows, user flows, states, edge cases, analytics events). No code until Phase 8.*
