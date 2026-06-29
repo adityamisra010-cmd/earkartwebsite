@@ -297,4 +297,36 @@ All flows: state-complete, analytics-tagged, accessibility-noted, no dead-ends, 
 
 ---
 
-*UX Blueprint v1.0 complete. Next phase: Phase 5 — Low-Fidelity Wireframes (assemble components per flow into screen layouts). No code until Phase 8.*
+## v2 REVISIONS (from `review/04 §9`, owner-approved)
+
+### Revisions to existing flows
+- **Flow 1 (Book):** add **"who is this for?"** branch (H2) at form top; **trust-in-form** (named audiologist photo + credentials + cancellation policy inline — fixes density §9 under-indexing); **save-and-continue** (H11); **WhatsApp entry** (H5, go-live gated); **56px** controls; pre-select service from journey context. Confirmation screen mandatory: summary + audiologist + address + what-to-bring + cancellation.
+- **Flow 2 (Hearing Check):** add **share-with-family** (H3) and **audiologist callback** (H4) on results; **56px** targets; **outcome-specific** next steps (Outcome 3 gets highest-specificity CTA); stronger "screening ≠ diagnosis, even a typical result" language (audiologist note); **decision-pause reassurance** ("Not sure? Save your results"); WhatsApp/family-email contact option (Cohort A/G).
+- **Flow 4 (Homepage):** **reduce decision density 4.5→3.0** — remove the services-overview zone; cap homepage at ~2 primary interactive paths; add **return-visitor** personalized CTA (H6, v2-gated) and **"For Families"** signal (H7).
+- **Flow 6 (Hearing-Aid Selection):** **FILTER-FIRST MANDATE** — never render the full grid; ask 1–2 situation questions → reveal **1–2** cards (fixes density 5.0/critical). Add **"I'm not sure"** helper (H1), **"most popular for your situation"** default marker (H9), **audiologist match** (H13). Insert the **Future Hearing Simulator (I1)** as the key "see what's possible" moment before the booking CTA.
+- **All form flows:** every field gets **inline validation + error state + `autocomplete`** (Baymard/NNG). **Mobile-first** authoring for all flows in Phase 5.
+
+### FLOW 13 — GP / ENT Referral (professional channel)  *(P1)*
+**Goal:** Make it effortless for a doctor to refer a patient to earKART (potentially the highest-conversion acquisition channel).
+**Audience:** GPs, ENT specialists. **Entry:** "For Professionals" nav + footer + outreach.
+**Happy path:** referral page (value + how it works) → digital referral form (patient + referrer details, consent) → confirmation + dedicated line `[TBD: process/SLA]`.
+**States:** validation/empty/success/error; co-branded patient education materials `[TBD]`. **Analytics:** `gp_referral_started` · `gp_referral_submitted`. **Dependency:** referral process/staffing (gated).
+
+### FLOW 14 — Government Schemes & Subsidies access  *(P1)*
+**Goal:** Serve low-income users (design justice); surface eligibility for schemes/subsidies.
+**Happy path:** schemes page (plain-language eligibility) → "check if you qualify" helper `[TBD: scheme data]` → relevant next step (book / call / required docs).
+**States:** eligible / unclear / not-listed (no dead-end → human contact). **Analytics:** `scheme_eligibility_checked`. **A11y:** Grade-8 language, Hindi-first.
+
+### FLOW 15 — Consent / Privacy (PDPB foundation)  *(v1 foundation)*
+**Goal:** Compliant capture of hearing-check (health-adjacent) data + future personalization consent.
+**Happy path:** value shown → explicit, granular consent (purpose-specific, not pre-ticked) → stored with audit → easy withdrawal anytime.
+**States:** consent given/declined/partial/withdrawn. **Guard:** PDPB health-data rules `[TBD: legal classification]`; no dark patterns; withdrawal as easy as granting. **Note:** foundation built in v1; powers personalization in v2.
+
+### FLOW 16 — Return-Visitor advance  *(v2, consent-gated)*
+**Goal:** Convert earKART's highest-value unconverted segment (Cohort K).
+**Happy path:** detect returning (consented) → personalized CTA (H6) based on prior behavior → advance (book / matched audiologist) → optional proactive WhatsApp/email after 3rd visit `[TBD: CRM]`.
+**Guard:** requires Flow 15 consent; default experience works without it.
+
+---
+
+*UX Blueprint v1.1 complete (incl. v2 revisions + Flows 13–16). Next phase: Phase 5 — Low-Fidelity Wireframes, mobile-first, every state designed. No code until Phase 8.*

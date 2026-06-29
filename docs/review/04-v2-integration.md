@@ -108,13 +108,13 @@ These are **not** website-design decisions but the website makes promises that d
 
 ---
 
-## 8. Open decisions for owner (gate further work)
-1. **Visual signature:** approve the "cyan soundwave underline + ear-curl" motif, or propose another ownable element?
-2. **Innovation scope for v1 launch:** confirm **Future Hearing Simulator** as the flagship P1 build (recommended), and which P2 set (Asha / Family Dashboard / Digital Audiologist).
-3. **Consent/personalization:** is behavioral personalization (return-visitor, AI) in v1 scope, or v2? (drives the consent-architecture work).
-4. **WhatsApp + GP referral:** in scope for launch? Both are high-impact but need staffing/process (Phase 7).
-5. **Hindi:** confirm **Hindi-first native** experience for core flows at launch (Phase 8 Cohort G shows ~5%→25% conversion swing) — not a translation.
-6. New pages priority (esp. P1: GP Referrals, Govt Schemes, Sitemap, 404) — approve for inclusion in the IA now.
+## 8. Owner decisions — ✅ ALL APPROVED
+1. **Visual signature:** ✅ **Cyan "soundwave underline" + ear-curl mark.** Emphasis underline on key headline words + logo ear-curl. Ownable, strict-5-safe. → Design System §13.
+2. **v1 innovations:** ✅ **Future Hearing Simulator (flagship) + Digital Audiologist** ship in v1. **Asha (AI Coach)** and **Family Decision Dashboard** → v2 (need clinical-governance/consent first).
+3. **Consent/personalization:** ✅ Behavioral personalization (return-visitor CTAs, AI) → **v2**. v1 builds only the **consent-architecture foundation** (PDPB-compliant) so it can switch on later without retrofit.
+4. **Channels:** ✅ **WhatsApp booking + GP/ENT referral both in scope**, *gated on staffing/SLA* (design now, go-live when ops ready).
+5. **Hindi:** ✅ **Hindi-first native** for core flows (home, hearing check, booking, find-a-clinic) at launch — not a translation.
+6. **New pages:** ✅ Approved into IA now (GP/ENT Referrals, Govt Schemes, Sitemap, 404 = P1; Quality Charter, Maintenance, Press = P2). Applied in `review/01 §3`.
 
 ---
 

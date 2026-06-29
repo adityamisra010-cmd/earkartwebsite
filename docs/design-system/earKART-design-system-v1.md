@@ -151,4 +151,32 @@ Dark-mode scope · logo clear-space & min-size (from brand PDF image) · icon li
 
 ---
 
-*Next (Phase 3): expand §11 into full per-component specs on these tokens. No code until Phase 8.*
+## 13. v2 Addenda (approved — from `review/04`)
+
+### 13.1 Visual signature (the ownable element)
+**The "soundwave underline" + ear-curl.** A short **cyan** soundwave-shaped underline sits beneath the 1–3 emphasized words of key headlines (hero H1, section openers, pull quotes), echoing the logo's ear-curl. This is earKART's signature mark of emphasis.
+- Token: `--signature-underline` (cyan `#00c7f1`, ~3–4px, soundwave path).
+- **Rules:** at most **one** signature underline per viewport; emphasis only (never decoration); pairs with navy text (underline is the only cyan); honors reduced-motion (static path, no animated draw unless motion allowed). Optional v1+ micro-animation: underline "draws" once on first reveal (`--dur-reveal`, ease-out).
+
+### 13.2 Strict typography thresholds (Apple-panel fix)
+Commit hard rules so the pairing reads intentional, not loose:
+- **Poppins is reserved** for emotional-peak moments only: hero H1, pull quotes, patient-story headlines. Nowhere else.
+- **Montserrat carries all structure:** every H2/H3/H4, body, UI, labels.
+- Display sizes (H1/H2) never drop below their min in the scale; do not use Poppins below 26px.
+- Verify Montserrat + Poppins meet **AAA on white at every size** (navy text passes; confirm at small sizes during build).
+
+### 13.3 Touch-target override for elder flows
+Primary interactive controls in the **hearing-check and booking flows** use a **56×56px** minimum (up from the 44px global floor) — addresses arthritis/low-dexterity in the elder cohort (v2 Phase 8 Cohort A). 44px remains the floor everywhere else.
+
+### 13.4 Motion dictionary (commitment)
+Replace motion *philosophy* with a per-interaction **dictionary** (trigger → curve → duration → reduced-motion fallback) before high-fidelity (Phase 6). Table stub to be filled per component; uses the §6 tokens. `[TBD: complete dictionary in Phase 6]`.
+
+### 13.5 Citation integrity (global)
+All on-site copy and internal rationale follow v2's Citation Integrity Protocol: primary source for any stat, no fabricated citations, cite **direction not magnitude** when a figure is unverified, `[Requires India-specific validation]` on Western research.
+
+### 13.6 Other v2 system mandates (tracked here, applied in later phases)
+Mobile-first authoring canvas (Phase 5) · accessibility as a per-component acceptance gate (not a separate section) · error state + inline validation + `autocomplete` on **every** form field · search designed in full · consent-architecture foundation in v1 · EAST + Fogg + explicit **defaults** (appointment duration, follow-up cadence, comms frequency) per conversion action.
+
+---
+
+*Next (Phase 3): expand §11 into full per-component specs on these tokens; add Batch 4 per `review/04 §3`. No code until Phase 8.*

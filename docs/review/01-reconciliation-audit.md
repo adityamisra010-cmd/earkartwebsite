@@ -113,10 +113,12 @@ earKART
 │   ├── Services: Pediatric Audiology
 │   ├── Services: Tinnitus Management
 │   ├── Services: Corporate Hearing Health
-│   └── Services: Home Visit
+│   ├── Services: Home Visit
+│   ├── Government Schemes & Subsidies        ← v2 NEW (P1, design justice)
+│   └── Hearing Aid Maintenance & Care        ← v2 NEW (P2, reduces abandonment)
 │
 ├── TECHNOLOGY                (NEW — from Handoff; reflects real earKART)
-│   ├── OMNI (remote audiology) — dedicated microsite/section
+│   ├── OMNI (remote audiology / teleaudiology) — dedicated microsite/section
 │   ├── Manufacturing (Make-in-India, MD5/MD42)
 │   ├── R&D / Innovation
 │   └── Certifications & Awards (ISO 13485, BIS, patents, milestone timeline)
@@ -132,12 +134,21 @@ earKART
 ├── ABOUT                     (corporate; reflects listed-company status)
 │   ├── Our Story & Milestones
 │   ├── Investor Relations (BSE SME)  ← NEW
+│   ├── Our Quality Standards / Patient Charter  ← v2 NEW (P2)
+│   ├── For Professionals: GP & ENT Referrals    ← v2 NEW (P1; also linked prominently site-wide)
+│   ├── Press / Media Room                        ← v2 NEW (P2)
 │   ├── Community Initiatives          ← NEW (from Handoff)
 │   ├── Careers
 │   └── Contact
 │
+├── [utility] HTML Sitemap                        ← v2 NEW (P1, SEO + a11y)
+├── [utility] 404 / Error page (designed)         ← v2 NEW (P1, trust moment not dead-end)
+│
 └── BOOK A HEARING TEST       (persistent primary CTA)
 ```
+
+### v2 IA additions (approved)
+Added per `review/04 §4`: **Government Schemes & Subsidies** (P1), **GP & ENT Referrals** (P1, distinct professional audience — standalone page, surfaced in footer + relevant content), **HTML Sitemap** + **404** (P1 utility), **Quality Standards/Patient Charter**, **Maintenance & Care**, **Press** (P2). **Corporate Hearing Health** remains a Solutions service now; its full B2B buyer journey (HR/EHS/Medical Officer) is P3. Teleaudiology folds into **OMNI**.
 
 ### Judgment calls — ✅ CONFIRMED by owner ("they are as mentioned")
 - **J1:** ✅ **Hearing Health** stays its own top-level pillar (education is the primary acquisition channel). 6 nav items.

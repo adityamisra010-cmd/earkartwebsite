@@ -388,4 +388,105 @@
 
 ---
 
-*Component Library v1.0 complete. Next phase: Phase 4 — UX Blueprint (task flows, user flows, states, edge cases, analytics events). No code until Phase 8.*
+# H. v2 ADDITIONS (Batch 4 — from `review/04 §3`)
+
+> Inherit all tokens + the §10 a11y baseline + Design System §13 addenda. **56px** min target in hearing-check/booking contexts.
+
+## H1. "I'm not sure which service" helper
+**Purpose:** Rescue users who can't self-select a service (top booking-step-1 friction).
+**Anatomy:** soft prompt under the service list → opens 2–3 plain questions → recommends a service (pre-selects it) with "why."
+**States:** collapsed · open · recommending · result. **A11y:** keyboard-first; recommendation in text. **Psychology:** anxiety accommodation; removes ability barrier (Fogg). **Usage:** never a dead-end; always lands on a concrete next step.
+
+## H2. "Booking for someone else" branch
+**Purpose:** Resolve the caregiver ambiguity (whose details?).
+**Anatomy:** top-of-form toggle "Who is this for? — Myself / A family member" → branches field set (patient vs. caregiver+patient).
+**States:** self · on-behalf (consent-aware, ties to G5). **A11y:** clear whose data each field captures. **Psychology:** family-mediated decision model (Indian context). **Source:** P8 Cohort B, P4.6.
+
+## H3. Share-results-with-family
+**Purpose:** Let hearing-check results travel to the decision-making family.
+**Anatomy:** "Share these results" → WhatsApp/email/link (consented) from the Result Card (E2).
+**A11y:** keyboard-operable share; clear what is shared. **Psychology:** collectivist decision-making (P4.2). **Guard:** explicit consent; no silent data exposure.
+
+## H4. Audiologist callback ("Call me now / Request a callback")
+**Purpose:** Capture high-intent users who want a human immediately (results + service pages).
+**States:** idle · requested (confirmation + expected window) · error. **A11y:** labeled; status via `aria-live`. **Dependency:** staffed callback `[TBD: SLA]`. **Psychology:** ability-barrier removal at the trust peak.
+
+## H5. WhatsApp booking entry
+**Purpose:** Conversational booking for low-digital-literacy / elder cohorts (Cohort G's only viable path).
+**Anatomy:** labeled WhatsApp action at booking entry + mobile bottom bar; deep-links to a pre-filled message.
+**States:** available · unavailable (fallback to form/phone). **Dependency:** **staffed WhatsApp SLA — go-live gated** (owner decision 4). **A11y:** real link, not icon-only. **Guard:** publish the response-time SLA where shown.
+
+## H6. Return-visitor personalized CTA  *(spec now; build in v2 — consent-gated)*
+**Purpose:** Stop showing "Take the hearing check" to someone who already did; advance them.
+**Anatomy:** cookie/consent-aware swap → "Welcome back. Ready to book?" / "Dr. [X] has availability this week."
+**States:** first-visit (default) · returning-known · returning-high-intent. **Dependency:** **consent-architecture foundation** (v1) → personalization (v2). **A11y:** never trap; default content always works without cookies. **Source:** P8 Cohort K.
+
+## H7. "For Families" signal + SEO-landing persona banner
+**Purpose:** Route adult-children researchers correctly, incl. on SEO landings (not just homepage).
+**Anatomy:** nav signal "For Families"; contextual banner on education pages — "Reading this for someone you love? →".
+**A11y:** dismissible, keyboard-focusable. **Psychology:** persona mirroring (P8 Cohort B).
+
+## H8. Current-page indicator
+**Purpose:** Orientation, especially for older users who lose their place.
+**Anatomy:** unmistakable active state in nav (navy weight + signature underline), `aria-current="page"`. **A11y:** not color-only. **Source:** P4.7.
+
+## H9. Default / "Most popular for your situation" marker
+**Purpose:** Use the most powerful behavioral lever — defaults — on solution/comparison cards.
+**Anatomy:** a quiet badge on the most-suitable option ("Recommended by our audiologists for…").
+**Guard:** must be **honest** (real audiologist guidance, not a sales nudge). **Psychology:** default effect + social proof (BIT). **Source:** P4.3.
+
+## H10. Pre-booking FAQ block ("Questions people ask before booking")
+**Purpose:** Pre-empt the final hesitation on service pages.
+**Anatomy:** accordion (F9) of before-booking objections (cost, pain, pressure, duration). **Schema:** `FAQPage`. **Psychology:** objection pre-emption / reactance reduction. **Source:** P4.4.
+
+## H11. Save-and-continue-later
+**Purpose:** Let users who must consult family pause without losing progress (booking + hearing check).
+**States:** save (link/email to resume `[TBD]`) · resume · expired. **A11y:** clear how to return. **Psychology:** autonomy; anxiety accommodation. **Source:** P4.6.
+
+## H12. Pre-commitment device
+**Purpose:** Capture intent that isn't ready to act now.
+**Anatomy:** "Remind me to book next Tuesday" / "Send me info to review first" → consented reminder.
+**Guard:** honors no-pressure (≥7-day, content-led, instant opt-out). **Psychology:** pre-commitment (BIT/Thaler). **Source:** P5.7.
+
+## H13. Audiologist match flow
+**Purpose:** Reduce decision paralysis: "tell us your situation → matched audiologist."
+**Anatomy:** 2–3 questions → matched profile(s) (D1) with "why matched" → book. **A11y:** keyboard-first; results in text. **Psychology:** matching-as-conversion (BetterHelp). **Source:** P3, P8 Cohort C.
+
+## H14. Visual signature (soundwave underline)
+See Design System §13.1. Component-level: an emphasis underline applied to 1–3 words; one per viewport; cyan; reduced-motion safe.
+
+---
+
+# I. INNOVATIONS — v1 BUILD (approved)
+
+## I1. Future Hearing Simulator  *(flagship)*
+**Purpose:** Let users **hear the difference** between their likely current hearing and hearing-aid-assisted — the highest conversion lever (v2 Phase 10 #4).
+**Anatomy:** pick a familiar clip (grandchild's voice, song, conversation) → hear it through 3 "lenses": typical / likely-current (from check results or preset profile) / with-hearing-aids. Prominent "educational, not diagnostic" label.
+**States:** intro · select clip · playing (per lens) · compare · CTA ("see what's possible → book"). **Loading:** audio buffer; reduced-motion irrelevant (audio). 
+**A11y:** **non-audio alternative** (visual/text description of what's gained per frequency); captions; keyboard controls; never audio-only meaning. 56px controls.
+**Clinical gate:** audiologist-reviewed; approximate; **no brand-specific** simulation — simulate the *category* of benefit. `[TBD: clinical calibration sign-off]`.
+**Psychology:** direct experience > statistics; converts Rajan-type users by making the abstract concrete.
+
+## I2. Digital Audiologist (audiogram explainer)  *(extends G6)*
+**Purpose:** Demystify the audiogram — the most important, least understood document in the journey (v2 Phase 10 #9).
+**Anatomy:** enter/upload audiogram → visual across frequencies with **speech-banana** overlay → plain-language per-band explanation ("at this pitch you likely miss the letter S, birdsong…") → general device-category suitability (with audiologist caveat).
+**A11y:** **text/table equivalent** of every data point (never graphic-only); keyboard-explorable; color+shape for L/R.
+**Clinical gate:** educational not diagnostic; audiologist-reviewed; no specific-device recommendation. **Psychology:** comprehension reduces anxiety; demystification builds trust.
+
+> **Deferred to v2:** AI Hearing Coach "Asha" (G3, needs clinical-governance board), Family Decision Dashboard (G5, needs consent/privacy architecture), plus Phase-10 P2/P3 modules.
+
+---
+
+## Component Library — coverage summary (updated)
+| Batch | Family | Status |
+|-------|--------|--------|
+| 1 | Foundations · Nav/shell · Core page · Entity cards · Feedback | ✅ |
+| 2 | Forms & data | ✅ |
+| 3 | Portal & future AI | ✅ |
+| 4 | v2 additions (H1–H14) + v1 innovations (I1–I2) | ✅ |
+
+**~66 components specced.** v2-deferred AI modules noted. Per-component visual design happens in Phase 6; build in Phase 8.
+
+---
+
+*Component Library v1.1 complete (incl. v2 Batch 4). Next: revise UX Blueprint flows per `review/04 §9`, then Phase 5 wireframes. No code until Phase 8.*

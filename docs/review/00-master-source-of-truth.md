@@ -27,11 +27,11 @@
 | **Color system** | `02-brand-identity-corrected.md` §2.3 | 🔁 **replaced** (navy/cyan, not teal/amber) |
 | **Typography** | `02-brand-identity-corrected.md` §2.4 | 🔁 **replaced** (Montserrat/Poppins) |
 | Spacing & grid (§2.5) | Spec v1.0 §2.5 | ✅ unchanged (brand-independent) |
-| **Design System (tokens, principles, component inventory)** | `design-system/earKART-design-system-v1.md` | 🆕 Phase 2 deliverable |
-| **Component Library (per-component specs)** | `component-library/earKART-component-library-v1.md` | ✅ Phase 3 complete — Batches 1–3 (~50 components) |
-| **UX Blueprint (journey flows + states)** | `ux-blueprint/earKART-ux-blueprint-v1.md` | ✅ Phase 4 complete — 12 flows, state-complete (v2 revisions pending per review/04 §9) |
+| **Design System (tokens, principles, component inventory)** | `design-system/earKART-design-system-v1.md` | ✅ Phase 2 + v2 addenda (§13: visual signature, type thresholds, 56px, motion dictionary) |
+| **Component Library (per-component specs)** | `component-library/earKART-component-library-v1.md` | ✅ v1.1 — Batches 1–4 (~66 components incl. v2 additions + Future Hearing Simulator, Digital Audiologist) |
+| **UX Blueprint (journey flows + states)** | `ux-blueprint/earKART-ux-blueprint-v1.md` | ✅ v1.1 — 16 flows (12 + v2 revisions + Flows 13–16: GP referral, schemes, consent, return-visitor) |
 | **WDS v2 source phases (2–10)** | `source/v2/` | 🆕 canonical research inputs |
-| **v2 Integration & Reconciliation** | `review/04-v2-integration.md` | 🆕 converts v2 findings into concrete add/change/resolve/decide actions |
+| **v2 Integration & Reconciliation** | `review/04-v2-integration.md` | ✅ all 6 owner decisions approved (§8); revisions applied across DS/CL/UXB/IA |
 | **Icon/illustration/motion color refs** | `02` §2.6–2.7 | 🔁 color refs corrected; logic unchanged |
 | Personas (§3) | Spec v1.0 §3 | ✅ unchanged |
 | Customer journey (§4) | Spec v1.0 §4 | ✅ unchanged |
