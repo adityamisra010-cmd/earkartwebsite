@@ -56,10 +56,10 @@ Verified facts that SHOULD now appear on the site (from official sources): 1400+
 
 ---
 
-## 4. Open sign-off items before Design System phase
-- **Point 3:** Approve the proposed extended web palette + semantic `success/warning/danger` hues (`02` §2.3).
-- Confirm dark-mode in/out of scope.
-- Confirm logo clear-space/min-size from brand PDF (not fully captured in text extract).
+## 4. Sign-off status before Design System phase
+- **Point 3 — ✅ RESOLVED:** Palette stays **strictly the 5 official colors** (navy/cyan/gray/white/black); hierarchy via type weight/size, navy = single text color, gray = non-text, cyan = accent. **Functional** state colors green/amber/red admitted *sparingly* (deep, <3% footprint, signaling only), per `02` §2.3.
+- `[TBD]` Confirm dark-mode in/out of scope.
+- `[TBD]` Confirm logo clear-space/min-size from brand PDF (not fully captured in text extract).
 
 ---
 

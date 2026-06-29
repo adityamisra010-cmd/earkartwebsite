@@ -23,36 +23,43 @@ Contrast vs. white background (WCAG 2.1):
 - **`brand-cyan` on white ≈ 1.8:1** → ❌ fails for any text. Cyan is **decorative/accent only**, or a fill with **navy/black text on top** (cyan+black ≈ 12:1 ✅). **Never white-on-cyan for text.**
 - **`brand-gray #999999` on white ≈ 2.8:1** → ❌ fails normal text; OK only for ≥24px/decorative. **Do not set body or secondary copy in #999999.**
 
-Because earKART's audience skews 55+ (contrast-sensitivity loss of 25–40%), the spec's WCAG **AAA** body-text target still stands — which means the core 5 colors are **not sufficient** for a real interface. The extension below supplies accessible text neutrals and semantic states.
+Because earKART's audience skews 55+ (contrast-sensitivity loss of 25–40%), the spec's WCAG **AAA** body-text target still stands. **Owner decision: stay strictly to the 5 official colors** — no derived neutrals or surface tints. The accessibility facts above are therefore not solved by adding colors but by **rules of use**: navy does all text-carrying work; gray and cyan never carry text.
 
-### Proposed extended web palette — *for Design System approval*
-Anchored on navy + cyan; adds only what an interface needs (no new brand hues).
+### Strict 5-color system — how each role is filled (no new brand hues)
+| Need | Solution within the 5 colors | Why |
+|------|------------------------------|-----|
+| Headings | `brand-navy #171050` (700/600) | ~15:1 ✅ AAA |
+| Body text | `brand-navy #171050` (400) | ~15:1 ✅ AAA — navy is the single text color |
+| Secondary / muted text | `brand-navy` at **smaller size + 500 weight** (hierarchy by type, not color) | keeps AAA; avoids the unreadable gray |
+| Max-contrast text (rare) | `black #000000` | when navy-on-imagery needs more punch |
+| Primary CTA | `navy` fill + **white** label | ✅ AAA; never white-on-cyan |
+| Accent / highlight / focus / icons-on-navy | `cyan #00c7f1` | accent only — **never** as text on white, never white text on cyan |
+| Dividers, borders, disabled, ≥24px captions | `gray #999999` | non-text only |
+| Background / surface | `white #ffffff` | the brand background |
 
-| Token | Hex | Derivation | Role | Contrast on white |
-|-------|-----|-----------|------|-------------------|
-| `navy-900` | `#171050` | brand-navy | Headings, primary text | ~15:1 ✅ AAA |
-| `navy-700` | `#2B2270` | navy lightened | Hover for navy CTAs | ✅ AAA |
-| `ink-700` | `#2E2E3A` | neutral, navy-tinted | **Body text** (warmer than pure black) | ~12:1 ✅ AAA |
-| `ink-500` | `#55576A` | neutral | **Secondary text** (replaces the unusable #999999 for copy) | ~7:1 ✅ AAA |
-| `gray-400` | `#999999` | brand-gray | Borders, dividers, disabled, large captions only | non-text |
-| `gray-200` | `#E6E8EF` | tint | Hairlines, input borders | non-text |
-| `surface-50` | `#F5F8FB` | cyan-tinted near-white | Section background tint (the "calm" surface, replacing spec's cream) | non-text |
-| `cyan-500` | `#00c7f1` | brand-cyan | Accent, highlight, focus glow, icons-on-navy | accent only |
-| `cyan-600` | `#0090B4` | cyan darkened | **Cyan that needs to be text/links on white** (~4.6:1 ✅ AA) | links/large text |
-| `success` | `[TBD: confirm or use #1E8E5A]` | green | "All clear" results, positive states | AAA target |
-| `warning` | `[TBD: confirm or use #B26A00]` | amber | "Worth exploring" results, gentle alerts | AAA target |
-| `danger` | `[TBD: confirm or use #B3261E]` | red | Errors, destructive only (never urgency-marketing per §9) | AAA target |
+**Hierarchy is built from type weight, size, and spacing — not from extra colors.** This is more disciplined and, done well, reads as premium (cf. high-end editorial systems that use one ink color).
 
-> Semantic state colors are marked `[TBD]` because they are not in the brand guidelines — owner to confirm exact hues in the Design System phase. Suggested values meet AAA on white.
+> **Honest trade-off:** the spec argued pure white reads "clinical." With strict-white now mandated, warmth must come from **photography, generous whitespace, soft/rounded components, and alternating navy sections** — not a cream tint. Flagged so the Design System phase compensates deliberately.
 
-### Usage proportions (proposed)
-- ~70% white / `surface-50` (calm, clinical-warm)
-- ~20% navy (structure, headings, primary actions)
-- ~7% cyan accents
-- ~3% semantic state colors
+### Functional state colors — admitted sparingly (owner: green/amber/red OK, but stay close to brand)
+Used **only** for semantic signaling (hearing-check results, form validation, confirmations) — never as brand/marketing color. Kept deep and slightly desaturated so they sit quietly beside navy/cyan rather than competing.
+
+| State | Proposed hex | Role | Contrast on white |
+|-------|--------------|------|-------------------|
+| `success` | `#0F6B45` (deep green) | "All clear" result, positive confirmation | ~7:1 ✅ AAA |
+| `warning` | `#8A5300` (deep amber) | "Worth exploring" result, gentle alert | ~7:1 ✅ AAA |
+| `danger` | `#9A1C1C` (deep red) | Form errors, destructive actions only — **never** false urgency (Spec §9) | ~7:1 ✅ AAA |
+
+> These three are functional UI tokens, not additions to the brand palette. Footprint target **< 3%** of any screen, on small elements (icons, text, thin borders) — never large flat fills that read as a new brand color. Final hexes confirmable against swatches in the Design System phase; values above are tuned to ≥7:1 on white.
+
+### Usage proportions
+- ~70% white (background/surface)
+- ~22% navy (text, structure, primary actions)
+- ~5% cyan accents
+- ~3% gray (non-text) + functional state colors
 
 ### Dark mode
-`[TBD: confirm dark mode is in scope]`. If yes: navy becomes surface, cyan becomes the accessible accent (cyan-on-navy ≈ ✅), text inverts to `surface-50`/white. Derive in Design System phase.
+`[TBD: confirm dark mode is in scope]`. If yes within strict-5: navy becomes the surface, white/cyan carry text and accent (cyan-on-navy passes), gray for dividers. Derive in Design System phase.
 
 ---
 
@@ -108,8 +115,8 @@ Motion philosophy, easing curves, durations, and `prefers-reduced-motion` rules 
 |---------|-------------------|------------------------|
 | Primary | Teal `#1A6B72` | Navy `#171050` |
 | Accent | Amber `#D4831A` | Cyan `#00c7f1` |
-| Background | Cream `#F7F3EE` | White + `surface-50` `#F5F8FB` |
-| Text | Charcoal `#2C3340` | `ink-700 #2E2E3A` / navy |
+| Background | Cream `#F7F3EE` | White `#ffffff` (strict 5-color) |
+| Text | Charcoal `#2C3340` | Navy `#171050` (single text color) |
 | Display font | Playfair Display | Montserrat (+ Poppins secondary) |
 | Body font | DM Sans | Montserrat |
 | Mono | DM Mono | Montserrat tabular figures |
