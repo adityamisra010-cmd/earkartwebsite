@@ -26,6 +26,7 @@
 | **Color system** | `02-brand-identity-corrected.md` §2.3 | 🔁 **replaced** (navy/cyan, not teal/amber) |
 | **Typography** | `02-brand-identity-corrected.md` §2.4 | 🔁 **replaced** (Montserrat/Poppins) |
 | Spacing & grid (§2.5) | Spec v1.0 §2.5 | ✅ unchanged (brand-independent) |
+| **Design System (tokens, principles, component inventory)** | `design-system/earKART-design-system-v1.md` | 🆕 Phase 2 deliverable |
 | **Icon/illustration/motion color refs** | `02` §2.6–2.7 | 🔁 color refs corrected; logic unchanged |
 | Personas (§3) | Spec v1.0 §3 | ✅ unchanged |
 | Customer journey (§4) | Spec v1.0 §4 | ✅ unchanged |
