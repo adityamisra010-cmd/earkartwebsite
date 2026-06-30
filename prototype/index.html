@@ -34,6 +34,34 @@
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
   .progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:70;background:linear-gradient(90deg,var(--cyan),#7be8ff);box-shadow:0 0 14px rgba(0,199,241,.6)}
 
+  /* intro loader */
+  .loader{position:fixed;inset:0;z-index:100;background:#0b0730;display:grid;place-items:center;transition:opacity .9s var(--ease),visibility .9s}
+  .loader.done{opacity:0;visibility:hidden}
+  .loader .lw{font-family:'Poppins';font-weight:700;font-size:clamp(2rem,6vw,3.2rem);color:#fff;position:relative;opacity:0;animation:rise .9s var(--ease) .15s forwards}
+  .loader .lw span{color:var(--cyan)}
+  .loader .lw svg{position:absolute;left:0;right:0;bottom:-.22em;width:100%;height:.34em;overflow:visible}
+  .loader .lw svg path{fill:none;stroke:var(--cyan);stroke-width:8;stroke-linecap:round;stroke-dasharray:760;stroke-dashoffset:760;animation:draw 1.2s var(--ease) .5s forwards}
+
+  /* custom cursor */
+  .cur,.cur-r{position:fixed;top:0;left:0;z-index:90;pointer-events:none;border-radius:50%;mix-blend-mode:difference}
+  .cur{width:7px;height:7px;background:#fff;transform:translate(-50%,-50%)}
+  .cur-r{width:38px;height:38px;border:1.5px solid #fff;transform:translate(-50%,-50%);transition:width .3s var(--ease),height .3s var(--ease),opacity .3s,background .3s}
+  .cur-r.grow{width:64px;height:64px;background:rgba(255,255,255,.08)}
+  body.cursor-on{cursor:none}
+  body.cursor-on a,body.cursor-on button,body.cursor-on input{cursor:none}
+
+  /* hero click ripple */
+  .ripple{position:absolute;z-index:3;border:1.5px solid var(--cyan);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);animation:rip .9s var(--ease) forwards}
+  @keyframes rip{from{width:0;height:0;opacity:.7}to{width:340px;height:340px;opacity:0}}
+
+  /* credentials marquee */
+  .marquee{overflow:hidden;border-block:1px solid var(--ink-08);padding:20px 0}
+  .marquee .track{display:flex;gap:54px;white-space:nowrap;width:max-content;animation:scrollx 30s linear infinite}
+  .marquee:hover .track{animation-play-state:paused}
+  .marquee b{font-family:'Poppins';font-weight:600;color:var(--ink-70);font-size:1.05rem;letter-spacing:.01em;display:inline-flex;align-items:center;gap:54px}
+  .marquee b::after{content:"◆";color:var(--cyan);font-size:.6rem}
+  @keyframes scrollx{to{transform:translateX(-50%)}}
+
   /* ===== NAV (light over hero, dark when solid) ===== */
   header{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .5s var(--ease),box-shadow .5s var(--ease),transform .5s var(--ease)}
   header.solid{background:rgba(255,255,255,.8);backdrop-filter:saturate(180%) blur(20px);box-shadow:0 1px 0 var(--ink-08)}
@@ -224,6 +252,8 @@
 </style>
 </head>
 <body>
+<div class="loader" id="loader" aria-hidden="true"><div class="lw"><b>ear</b><span>KART</span><svg viewBox="0 0 300 24" preserveAspectRatio="none"><path d="M2 12 Q 20 2, 40 12 T 80 12 T 120 12 T 160 12 T 200 12 T 240 12 T 298 12"/></svg></div></div>
+<div class="cur" id="cur" aria-hidden="true"></div><div class="cur-r" id="curr" aria-hidden="true"></div>
 <div class="grain" aria-hidden="true"></div>
 <div class="progress" id="bar" aria-hidden="true"></div>
 
@@ -278,6 +308,14 @@
     <h2>It starts with the <span class="u">small things</span>.</h2>
     <p class="lead">Asking people to repeat themselves. Turning the TV up a little. Missing words in a noisy room. These moments are common — and they don’t make you less. earKART is here for exactly that.</p>
   </div></section>
+
+  <!-- CREDENTIALS MARQUEE -->
+  <div class="marquee" aria-label="Credentials">
+    <div class="track">
+      <b>ISO 13485:2016</b><b>BIS Licensed</b><b>Make in India</b><b>1400+ Partner Clinics</b><b>In-house R&amp;D</b><b>OMNI Remote Audiology</b><b>BSE SME Listed</b>
+      <b>ISO 13485:2016</b><b>BIS Licensed</b><b>Make in India</b><b>1400+ Partner Clinics</b><b>In-house R&amp;D</b><b>OMNI Remote Audiology</b><b>BSE SME Listed</b>
+    </div>
+  </div>
 
   <!-- PATHWAYS -->
   <section style="padding-top:0"><div class="wrap">
@@ -389,6 +427,35 @@
       b.addEventListener('pointerleave',()=>b.style.transform='');
     });
   }
+  // intro loader
+  const loader=document.getElementById('loader');
+  function dismiss(){loader.classList.add('done');}
+  if(reduce){dismiss();}else{addEventListener('load',()=>setTimeout(dismiss,1500));setTimeout(dismiss,2600);}
+
+  if(!reduce && matchMedia('(pointer:fine)').matches){
+    // custom cursor (augments; native hidden)
+    document.body.classList.add('cursor-on');
+    const cur=document.getElementById('cur'),curr=document.getElementById('curr');
+    let cx=innerWidth/2,cy=innerHeight/2,rx=cx,ry=cy;
+    addEventListener('pointermove',e=>{cx=e.clientX;cy=e.clientY;cur.style.left=cx+'px';cur.style.top=cy+'px';});
+    (function loop(){rx+=(cx-rx)*.18;ry+=(cy-ry)*.18;curr.style.left=rx+'px';curr.style.top=ry+'px';requestAnimationFrame(loop);})();
+    document.querySelectorAll('a,button,input,.card').forEach(el=>{el.addEventListener('pointerenter',()=>curr.classList.add('grow'));el.addEventListener('pointerleave',()=>curr.classList.remove('grow'));});
+
+    // hero parallax + click ripple
+    const hero=document.querySelector('.hero'),waves=document.querySelector('.hero-media .waves'),inner=document.querySelector('.hero-inner'),cue=document.querySelector('.scrollcue');
+    let ty=0;function par(){const y=scrollY;if(waves)waves.style.transform=`translateY(${y*.25}px)`;if(inner)inner.style.transform=`translateY(${y*.12}px)`;if(cue)cue.style.opacity=Math.max(0,1-y/300);
+      const st=document.querySelector('.stage');if(st){const r=st.getBoundingClientRect();const p=(innerHeight-r.top)/(innerHeight+r.height);const d=st.querySelector('.device');if(d)d.style.transform=`translateY(${(p-.5)*-30}px) rotate(${(p-.5)*16}deg)`;}
+      ticking=false;}
+    let ticking=false;addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(par);}},{passive:true});
+    hero.addEventListener('click',e=>{const r=hero.getBoundingClientRect();const d=document.createElement('span');d.className='ripple';d.style.left=(e.clientX-r.left)+'px';d.style.top=(e.clientY-r.top)+'px';hero.appendChild(d);setTimeout(()=>d.remove(),900);});
+
+    // 3D tilt on cards
+    document.querySelectorAll('.card').forEach(c=>{
+      c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();const px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;c.style.transform=`translateY(-8px) perspective(800px) rotateX(${py*-6}deg) rotateY(${px*8}deg)`;});
+      c.addEventListener('pointerleave',()=>c.style.transform='');
+    });
+  }
+
   document.getElementById('yr').textContent=new Date().getFullYear();
 </script>
 </body>
