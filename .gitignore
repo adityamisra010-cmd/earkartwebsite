@@ -1,0 +1,13 @@
+# Dependencies (only needed for optional local screenshot tooling)
+node_modules/
+package-lock.json
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/
+
+# Scratch
+_shot.mjs

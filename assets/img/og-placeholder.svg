@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="Earkart — hearing care">
+  <defs>
+    <radialGradient id="bg" cx="80%" cy="0%" r="120%">
+      <stop offset="0%" stop-color="#10365f"/>
+      <stop offset="60%" stop-color="#0a2440"/>
+      <stop offset="100%" stop-color="#071a30"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <g fill="none" stroke="#0f6e7e" stroke-width="2" opacity="0.5">
+    <path d="M0 430 Q150 340 300 430 T600 430 T900 430 T1200 430"/>
+    <path d="M0 460 Q150 380 300 460 T600 460 T900 460 T1200 460" stroke="#c69a45" opacity="0.5"/>
+  </g>
+  <g transform="translate(90,150)">
+    <circle cx="30" cy="30" r="29" fill="none" stroke="#c69a45" stroke-width="3" opacity="0.7"/>
+    <path d="M14 44a18 18 0 1 1 32 -11" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+    <path d="M22 40a9 9 0 0 1 14 -6" fill="none" stroke="#0f6e7e" stroke-width="5" stroke-linecap="round"/>
+  </g>
+  <text x="90" y="330" font-family="Georgia, serif" font-size="72" fill="#ffffff" font-weight="600">Earkart</text>
+  <text x="90" y="392" font-family="Arial, sans-serif" font-size="30" fill="#c4d3e1">Technology-led hearing care, with expert guidance.</text>
+  <text x="90" y="560" font-family="Arial, sans-serif" font-size="22" fill="#c69a45" letter-spacing="2">EXPERT AUDIOLOGY · MODERN HEARING AIDS · OMNI REMOTE AUDIOMETRY</text>
+</svg>
