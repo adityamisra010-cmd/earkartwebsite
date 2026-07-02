@@ -1,7 +1,7 @@
 // ============================================================================
 // Earkart — Reusable component render functions (return HTML strings)
 // ============================================================================
-import { site, contact, cta, social } from "../data/site.mjs";
+import { site, contact, cta, social, integrations } from "../data/site.mjs";
 import { primaryNav, megaMenus, footerNav } from "../data/nav.mjs";
 import { icons, brandWave, equalizer, logo } from "./icons.mjs";
 
@@ -54,13 +54,15 @@ export function sectionHeader({ eyebrow: eb, title, text, align = "left", tone =
 function megaPanel(key) {
   const m = megaMenus[key];
   if (!m) return "";
-  const cols = m.columns.map((col) => `
-    <div class="mega__col">
-      <p class="mega__heading">${esc(col.heading)}</p>
+  const renderGroup = (g) => `
+    <div class="mega__group">
+      <p class="mega__heading">${esc(g.heading)}</p>
       <ul class="mega__links">
-        ${col.links.map((l) => `<li><a href="${esc(l.href)}"${relAttr(l.href)}>${esc(l.label)}${l.note ? `<span class="mega__note">${esc(l.note)}</span>` : ""}</a></li>`).join("")}
+        ${g.links.map((l) => `<li><a href="${esc(l.href)}"${relAttr(l.href)}>${esc(l.label)}${l.note ? `<span class="mega__note">${esc(l.note)}</span>` : ""}</a></li>`).join("")}
       </ul>
-    </div>`).join("");
+    </div>`;
+  const cols = m.columns.map((col) => `
+    <div class="mega__col">${col.groups.map(renderGroup).join("")}</div>`).join("");
   return `<div class="mega" id="mega-${key}" role="region" aria-label="${esc(m.intro.title)}">
     <div class="mega__inner container">
       <div class="mega__intro">
@@ -117,12 +119,14 @@ export function mobileNav() {
   const items = primaryNav.map((item) => {
     if (item.mega) {
       const m = megaMenus[item.mega];
-      const links = m.columns.flatMap((c) => c.links);
+      const groups = m.columns.flatMap((c) => c.groups);
       return `<div class="m-acc">
         <button class="m-acc__trigger" aria-expanded="false">${esc(item.label)}<span class="m-acc__icon" aria-hidden="true">${icons.plus}</span></button>
         <div class="m-acc__panel">
           <a class="m-acc__all" href="${esc(item.href)}">${esc(m.intro.cta.label)}</a>
-          ${links.map((l) => `<a class="m-acc__link" href="${esc(l.href)}"${relAttr(l.href)}>${esc(l.label)}</a>`).join("")}
+          ${groups.map((g) => `
+            <p class="m-acc__heading">${esc(g.heading)}</p>
+            ${g.links.map((l) => `<a class="m-acc__link" href="${esc(l.href)}"${relAttr(l.href)}>${esc(l.label)}</a>`).join("")}`).join("")}
         </div>
       </div>`;
     }
@@ -232,8 +236,15 @@ export function pageHero({ eyebrow: eb, title, subtitle, ctas = [], badges = [],
   </section>`;
 }
 
-// image placeholder block
-export function imagePlaceholder(label, ratio = "4x3", tone = "") {
+// Image slot: renders a branded placeholder until a real asset path is
+// supplied via `src` — then it becomes a lazy-loaded <img> with the label as
+// alt text. Swap photos in without touching any call-site markup.
+export function imagePlaceholder(label, ratio = "4x3", tone = "", src = null) {
+  if (src) {
+    return `<div class="img-ph img-ph--${ratio} img-ph--photo ${tone}">
+      <img src="${esc(src)}" alt="${esc(label)}" loading="lazy" decoding="async">
+    </div>`;
+  }
   return `<div class="img-ph img-ph--${ratio} ${tone}" role="img" aria-label="${esc(label)}">
     <span class="img-ph__wave">${brandWave()}</span>
     <span class="img-ph__label">${icons.sparkle}<span>${esc(label)}</span></span>
@@ -346,12 +357,13 @@ export function reviewCard(r) {
 
 // --- Blog & press ----------------------------------------------------------
 export function blogCard(p, { featured = false } = {}) {
+  const langAttr = p.lang ? ` lang="${esc(p.lang)}"` : "";
   return `<article class="card post-card ${featured ? "post-card--featured" : ""} reveal">
     <a class="post-card__media" href="blog-${p.slug}.html">${imagePlaceholder(`${p.title} — article image`, featured ? "16x9" : "4x3")}</a>
     <div class="post-card__body">
       <span class="chip chip--soft">${esc(p.category)}</span>
-      <h3 class="post-card__title"><a href="blog-${p.slug}.html">${esc(p.title)}</a></h3>
-      <p class="post-card__excerpt">${esc(p.excerpt)}</p>
+      <h3 class="post-card__title"${langAttr}><a href="blog-${p.slug}.html">${esc(p.title)}</a></h3>
+      <p class="post-card__excerpt"${langAttr}>${esc(p.excerpt)}</p>
       <div class="post-card__meta"><span>${esc(p.author)}</span><span aria-hidden="true">·</span><span>${esc(p.date)}</span></div>
       <a class="post-card__read" href="blog-${p.slug}.html" aria-label="Read: ${esc(p.title)}">Read article ${icons.arrowRight}</a>
     </div>
@@ -372,10 +384,18 @@ export function pressReleaseCard(pr) {
 }
 
 // --- Investor document grid ------------------------------------------------
+// Extracts a 4-digit year from a date string ("04 Dec 2025" → "2025");
+// placeholder dates yield "pending".
+export const docYear = (date = "") => {
+  const m = String(date).match(/\b(19|20)\d{2}\b/);
+  return m ? m[0] : "pending";
+};
+
 export function investorDocCard(doc) {
   const disabled = !doc.href || doc.href === "#";
   const hrefAttr = disabled ? "" : ` href="${esc(doc.href)}"${relAttr(doc.href)}`;
-  return `<${disabled ? "div" : "a"} class="doc ${disabled ? "doc--pending" : ""}"${hrefAttr}>
+  const dataAttrs = ` data-doc-year="${esc(docYear(doc.date))}" data-doc-type="${esc(doc.type || "PDF")}"`;
+  return `<${disabled ? "div" : "a"} class="doc ${disabled ? "doc--pending" : ""}"${hrefAttr}${dataAttrs}>
     <span class="doc__icon">${icons.document}</span>
     <span class="doc__body">
       <span class="doc__title">${esc(doc.title)}</span>
@@ -504,13 +524,31 @@ export function irCtaSection() {
 }
 
 // --- Forms -----------------------------------------------------------------
+// Shared plumbing: honeypot anti-spam field, endpoint config (demo mode while
+// empty), per-field inline errors, and polite live regions for success/error.
+const endpointAttr = integrations.formEndpoint ? ` data-endpoint="${esc(integrations.formEndpoint)}"` : "";
+
+const honeypot = `<div class="hp-wrap" aria-hidden="true"><label for="hp-{id}">Leave this field empty</label><input class="hp-field" id="hp-{id}" type="text" name="company_website" tabindex="-1" autocomplete="off"></div>`;
+
+const formFoot = (demoLabel) => `
+    ${integrations.formEndpoint
+      ? `<p class="form-note">${icons.shield}<span>Your details are sent securely to our team. We respect your privacy.</span></p>`
+      : `<p class="form-note">${icons.shield}<span>This form is currently a front-end demo — ${demoLabel} [Set integrations.formEndpoint in src/data/site.mjs to activate.]</span></p>`}
+    <div class="form__success" role="status" aria-live="polite" hidden>${integrations.formEndpoint
+      ? "Thank you — we've received your details and will be in touch shortly."
+      : "Thank you — your request has been captured in this demo. <em>[Connect a backend to receive submissions.]</em>"}</div>
+    <div class="form__error" role="alert" hidden>Sorry — something went wrong sending your details. Please try again, or reach us directly on <a href="tel:${esc(contact.phoneRaw)}">${esc(contact.phoneDisplay)}</a> / <a href="${esc(contact.whatsappUrl)}" target="_blank" rel="noopener">WhatsApp</a>.</div>`;
+
+const fieldError = (id, msg) => `<span class="field__error" id="${id}-error" hidden>${esc(msg)}</span>`;
+
 export function appointmentForm() {
-  return `<form class="form card form--appointment" id="appointment-form" data-form="appointment" novalidate>
+  return `<form class="form card form--appointment" id="appointment-form" data-form="appointment"${endpointAttr} novalidate>
     <h3 class="form__title">Book an appointment</h3>
     <p class="form__intro">Share a few details and our team will help you find a convenient time and nearby center.</p>
+    ${honeypot.replaceAll("{id}", "ap")}
     <div class="form__grid">
-      <div class="field"><label class="label" for="ap-name">Full name</label><input class="input" id="ap-name" name="name" required placeholder="Your name"></div>
-      <div class="field"><label class="label" for="ap-phone">Phone number</label><input class="input" id="ap-phone" name="phone" type="tel" required placeholder="10-digit mobile number"></div>
+      <div class="field"><label class="label" for="ap-name">Full name</label><input class="input" id="ap-name" name="name" required aria-describedby="ap-name-error" placeholder="Your name">${fieldError("ap-name", "Please enter your name.")}</div>
+      <div class="field"><label class="label" for="ap-phone">Phone number</label><input class="input" id="ap-phone" name="phone" type="tel" required aria-describedby="ap-phone-error" placeholder="10-digit mobile number">${fieldError("ap-phone", "Please enter a valid phone number.")}</div>
       <div class="field"><label class="label" for="ap-city">City</label><input class="input" id="ap-city" name="city" placeholder="Your city"></div>
       <div class="field"><label class="label" for="ap-for">Appointment for</label>
         <select class="input select" id="ap-for" name="for">
@@ -520,18 +558,18 @@ export function appointmentForm() {
       </div>
     </div>
     <div class="field"><label class="label" for="ap-msg">Anything we should know? (optional)</label><textarea class="input textarea" id="ap-msg" name="message" rows="3" placeholder="e.g. preferred time, concerns"></textarea></div>
-    <button class="btn btn--primary btn--lg btn--block" type="submit">Request appointment</button>
-    <p class="form-note">${icons.shield}<span>This form is currently a front-end demo. [Connect to booking / CRM before go-live.] We respect your privacy.</span></p>
-    <div class="form__success" role="status" hidden>Thank you — your request has been captured in this demo. We'll be in touch. <em>[Connect backend to receive submissions.]</em></div>
+    <button class="btn btn--primary btn--lg btn--block" type="submit" data-submit-label="Request appointment">Request appointment</button>
+    ${formFoot("submissions are not yet delivered anywhere.")}
   </form>`;
 }
 
 export function contactForm() {
-  return `<form class="form card form--contact" id="enquiry" data-form="contact" novalidate>
+  return `<form class="form card form--contact" id="enquiry" data-form="contact"${endpointAttr} novalidate>
     <h3 class="form__title">Send us a message</h3>
+    ${honeypot.replaceAll("{id}", "c")}
     <div class="form__grid">
-      <div class="field"><label class="label" for="c-name">Full name</label><input class="input" id="c-name" name="name" required placeholder="Your name"></div>
-      <div class="field"><label class="label" for="c-phone">Phone</label><input class="input" id="c-phone" name="phone" type="tel" required placeholder="Mobile number"></div>
+      <div class="field"><label class="label" for="c-name">Full name</label><input class="input" id="c-name" name="name" required aria-describedby="c-name-error" placeholder="Your name">${fieldError("c-name", "Please enter your name.")}</div>
+      <div class="field"><label class="label" for="c-phone">Phone</label><input class="input" id="c-phone" name="phone" type="tel" required aria-describedby="c-phone-error" placeholder="Mobile number">${fieldError("c-phone", "Please enter a valid phone number.")}</div>
       <div class="field"><label class="label" for="c-email">Email</label><input class="input" id="c-email" name="email" type="email" placeholder="you@example.com"></div>
       <div class="field"><label class="label" for="c-city">City</label><input class="input" id="c-city" name="city" placeholder="Your city"></div>
     </div>
@@ -547,8 +585,7 @@ export function contactForm() {
       </select>
     </div>
     <div class="field"><label class="label" for="c-msg">Message</label><textarea class="input textarea" id="c-msg" name="message" rows="4" placeholder="How can we help?"></textarea></div>
-    <button class="btn btn--primary btn--lg btn--block" type="submit">Submit enquiry</button>
-    <p class="form-note">${icons.shield}<span>This form is currently a front-end demo. [Connect to email / CRM before go-live.]</span></p>
-    <div class="form__success" role="status" hidden>Thank you for reaching out — your message has been captured in this demo. <em>[Connect backend to receive submissions.]</em></div>
+    <button class="btn btn--primary btn--lg btn--block" type="submit" data-submit-label="Submit enquiry">Submit enquiry</button>
+    ${formFoot("messages are not yet delivered anywhere.")}
   </form>`;
 }

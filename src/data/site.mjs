@@ -52,6 +52,17 @@ export const cta = {
   learnLoss: { label: "Learn About Hearing Loss", href: "hearing-loss.html" },
 };
 
+// --- Integrations ------------------------------------------------------------
+export const integrations = {
+  // Set to your form-handling endpoint (CRM webhook, serverless function,
+  // Formspree-style URL, …). Forms POST JSON: { form, name, phone, ... }.
+  // While empty, forms run in a clearly-labelled front-end demo mode.
+  formEndpoint: "",
+  // Paste your analytics snippet here (e.g. GA4/GTM/Plausible <script> tags).
+  // Injected verbatim into <head> on every page when non-empty.
+  analyticsHeadSnippet: "",
+};
+
 // --- Social links (placeholders) -------------------------------------------
 export const social = [
   { label: "LinkedIn", href: "#", icon: "linkedin" }, // [CONFIRM]

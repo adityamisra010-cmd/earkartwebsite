@@ -1,7 +1,7 @@
 // ============================================================================
 // Earkart — Document layout / page shell
 // ============================================================================
-import { site, contact, social } from "../data/site.mjs";
+import { site, contact, social, integrations } from "../data/site.mjs";
 import { header, mobileNav, footer, stickyMobileCTA, breadcrumbs } from "./components.mjs";
 import { esc } from "./components.mjs";
 
@@ -59,6 +59,7 @@ export function layout({
   head = "",
   content = "",
   canonical: canonicalPath = null, // override for duplicate-content pages (e.g. geo4 → centers)
+  noindex = false, // true for 404 and other non-indexable pages
 } = {}) {
   const fullTitle = path === "index.html"
     ? `${title} | Earkart`
@@ -76,6 +77,7 @@ export function layout({
 <script>document.documentElement.classList.add('js')</script>
 <title>${esc(fullTitle)}</title>
 <meta name="description" content="${esc(description)}">
+${noindex ? '<meta name="robots" content="noindex, follow">' : ""}
 <link rel="canonical" href="${esc(canonical)}">
 <meta name="theme-color" content="#0A2440">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
@@ -90,11 +92,12 @@ export function layout({
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="${esc(ogImage)}">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" href="assets/fonts/figtree-v9-_Xms-HUzqDCFdgfMm4S9DQ.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/fraunces-v38-6NU78FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0KxC9TeA.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/fonts.css">
 <link rel="stylesheet" href="assets/css/styles.css">
 ${schemas}
+${integrations.analyticsHeadSnippet || ""}
 ${head}
 </head>
 <body class="${bodyClass}">

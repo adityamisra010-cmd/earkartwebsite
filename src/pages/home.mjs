@@ -28,6 +28,7 @@ export default function home() {
       "Expert audiologist guidance",
       "OMNI-powered remote audiometry",
       "Modern hearing aids & accessories",
+      "Publicly listed Indian company",
     ],
     media: `<div class="hero__figure">
       ${imagePlaceholder("Audiologist consultation — premium healthcare imagery", "4x5", "img-ph--hero")}

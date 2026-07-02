@@ -5,12 +5,20 @@ import { hearingAidFamilies, hearingAidModels, otherProducts } from "./products.
 import { investorSections } from "./investor.mjs";
 
 const productHref = (slug) => `product-${slug}.html`;
+const toLink = (m) => ({ label: m.name, href: productHref(m.slug) });
 
-// Group hearing aid models by family for the mega menu columns
-const modelsByFamily = (familySlug) =>
-  hearingAidModels
-    .filter((m) => m.family === familySlug)
-    .map((m) => ({ label: m.name, href: productHref(m.slug) }));
+// Family overview pages (product-radius.html etc.) live in the "Families"
+// column, so model columns exclude them — no duplicate links in the menu.
+const isFamilyOverview = (m) => hearingAidFamilies.some((f) => f.slug === m.slug);
+const radiusRicModels = hearingAidModels
+  .filter((m) => m.family === "radius" && !isFamilyOverview(m) && !m.type.includes("BTE"))
+  .map(toLink);
+const radiusBteModels = hearingAidModels
+  .filter((m) => m.family === "radius" && !isFamilyOverview(m) && m.type.includes("BTE"))
+  .map(toLink);
+const fameVariants = hearingAidModels
+  .filter((m) => m.family === "fame" && !isFamilyOverview(m))
+  .map(toLink);
 
 // --- Primary header navigation ---------------------------------------------
 export const primaryNav = [
@@ -37,6 +45,7 @@ export const primaryNav = [
 ];
 
 // --- Mega menu definitions --------------------------------------------------
+// Each column holds one or more heading+links groups (rendered stacked).
 export const megaMenus = {
   "hearing-aids": {
     intro: {
@@ -46,33 +55,35 @@ export const megaMenus = {
     },
     columns: [
       {
-        heading: "Hearing Aid Families",
-        links: hearingAidFamilies.map((f) => ({
-          label: f.name,
-          href: productHref(f.slug),
-          note: f.style,
-        })),
+        groups: [{
+          heading: "Hearing Aid Families",
+          links: hearingAidFamilies.map((f) => ({
+            label: f.name,
+            href: productHref(f.slug),
+            note: f.style,
+          })),
+        }],
       },
       {
-        heading: "Radius Range",
-        links: modelsByFamily("radius").slice(0, 12),
+        groups: [{ heading: "Radius — RIC Models", links: radiusRicModels }],
       },
       {
-        heading: "More Radius & Fame",
-        links: [
-          ...modelsByFamily("radius").slice(12),
-          ...modelsByFamily("fame"),
+        groups: [
+          { heading: "Radius — BTE Models", links: radiusBteModels },
+          { heading: "Fame Variants", links: fameVariants },
         ],
       },
       {
-        heading: "By Style",
-        links: [
-          { label: "RIC — Receiver in Canal", href: "hearing-aids.html#types" },
-          { label: "BTE — Behind the Ear", href: "hearing-aids.html#types" },
-          { label: "ITE / ITC — In the Ear", href: "hearing-aids.html#types" },
-          { label: "CIC / IIC — In the Canal", href: "hearing-aids.html#types" },
-          { label: "Download spec sheets", href: "hearing-aids.html#specs" },
-        ],
+        groups: [{
+          heading: "By Style",
+          links: [
+            { label: "RIC — Receiver in Canal", href: "hearing-aids.html#types" },
+            { label: "BTE — Behind the Ear", href: "hearing-aids.html#types" },
+            { label: "ITE / ITC — In the Ear", href: "hearing-aids.html#types" },
+            { label: "CIC / IIC — In the Canal", href: "hearing-aids.html#types" },
+            { label: "Download spec sheets", href: "hearing-aids.html#specs" },
+          ],
+        }],
       },
     ],
   },
@@ -84,22 +95,28 @@ export const megaMenus = {
     },
     columns: [
       {
-        heading: "Kits & Clinical",
-        links: otherProducts
-          .filter((p) => ["Educational / Development Kit", "Clinical Equipment"].includes(p.category))
-          .map((p) => ({ label: p.name, href: productHref(p.slug) })),
+        groups: [{
+          heading: "Kits & Clinical",
+          links: otherProducts
+            .filter((p) => ["Educational / Development Kit", "Clinical Equipment"].includes(p.category))
+            .map((p) => ({ label: p.name, href: productHref(p.slug) })),
+        }],
       },
       {
-        heading: "Components & Docs",
-        links: otherProducts
-          .filter((p) => ["Component Kit", "Documentation"].includes(p.category))
-          .map((p) => ({ label: p.name, href: productHref(p.slug) })),
+        groups: [{
+          heading: "Components & Docs",
+          links: otherProducts
+            .filter((p) => ["Component Kit", "Documentation"].includes(p.category))
+            .map((p) => ({ label: p.name, href: productHref(p.slug) })),
+        }],
       },
       {
-        heading: "Mobility & Accessories",
-        links: otherProducts
-          .filter((p) => ["Mobility Aid", "Accessory"].includes(p.category))
-          .map((p) => ({ label: p.name, href: productHref(p.slug) })),
+        groups: [{
+          heading: "Mobility & Accessories",
+          links: otherProducts
+            .filter((p) => ["Mobility Aid", "Accessory"].includes(p.category))
+            .map((p) => ({ label: p.name, href: productHref(p.slug) })),
+        }],
       },
     ],
   },
@@ -111,31 +128,37 @@ export const megaMenus = {
     },
     columns: [
       {
-        heading: "Governance",
-        links: [
-          { label: "Board of Directors", href: "board-details.html" },
-          { label: "Corporate Governance", href: "investor-governance.html" },
-          { label: "Board Policies", href: "investor-board-policies.html" },
-          { label: "Grievance Redressal", href: "investor-grievance.html" },
-        ],
+        groups: [{
+          heading: "Governance",
+          links: [
+            { label: "Board of Directors", href: "board-details.html" },
+            { label: "Corporate Governance", href: "investor-governance.html" },
+            { label: "Board Policies", href: "investor-board-policies.html" },
+            { label: "Grievance Redressal", href: "investor-grievance.html" },
+          ],
+        }],
       },
       {
-        heading: "Financial & Filings",
-        links: [
-          { label: "Financial Information", href: "investor-financials.html" },
-          { label: "Shareholding Pattern", href: "investor-shareholding.html" },
-          { label: "SEBI LODR Compliance", href: "investor-sebi-lodr.html" },
-          { label: "Meetings", href: "investor-meetings.html" },
-        ],
+        groups: [{
+          heading: "Financial & Filings",
+          links: [
+            { label: "Financial Information", href: "investor-financials.html" },
+            { label: "Shareholding Pattern", href: "investor-shareholding.html" },
+            { label: "SEBI LODR Compliance", href: "investor-sebi-lodr.html" },
+            { label: "Meetings", href: "investor-meetings.html" },
+          ],
+        }],
       },
       {
-        heading: "IPO & More",
-        links: [
-          { label: "IPO Documents", href: "investor-ipo.html" },
-          { label: "Material Documents (IPO)", href: "material.html" },
-          { label: "Investor Information", href: "investor-information.html" },
-          { label: "Other Documents", href: "investor-other-documents.html" },
-        ],
+        groups: [{
+          heading: "IPO & More",
+          links: [
+            { label: "IPO Documents", href: "investor-ipo.html" },
+            { label: "Material Documents (IPO)", href: "material.html" },
+            { label: "Investor Information", href: "investor-information.html" },
+            { label: "Other Documents", href: "investor-other-documents.html" },
+          ],
+        }],
       },
     ],
   },

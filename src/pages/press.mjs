@@ -8,24 +8,24 @@ import { contact } from "../data/site.mjs";
 const releases = [
   {
     date: "Dec 2025",
-    title: "Earkart reports strong first-half performance for FY26",
+    title: "Earkart shares H1 FY26 results and hosts earnings call",
     summary:
-      "Earkart shared its H1 FY26 results and hosted an earnings call for investors and analysts. [Confirm details and attach release.]",
+      "Earkart Limited published its half-yearly results for FY26 and hosted an earnings call for investors and analysts on 4 December 2025. [Confirm details and attach release.]",
     href: "https://earkart.in/investor/Earkart-transcript.pdf",
     cta: "Read transcript",
   },
   {
     date: "2025",
-    title: "OMNI platform earns recognition at a leading otolaryngology conference",
+    title: "OMNI platform presented at an international otolaryngology conference",
     summary:
-      "Earkart's OMNI remote-audiometry platform was showcased to a global ENT audience. [Confirm details and attach release.]",
+      "Earkart's OMNI remote-audiometry platform was presented to an international ENT audience. [Confirm event details and attach release.]",
     href: "#",
   },
   {
     date: "Sep 2025",
     title: "Earkart Limited opens its Initial Public Offering",
     summary:
-      "Earkart Limited announced the opening of its IPO. [Confirm details and attach release.]",
+      "Earkart Limited announced the opening of its IPO of equity shares at ₹135 per share. [Confirm details and attach release.]",
     href: "#",
   },
   {

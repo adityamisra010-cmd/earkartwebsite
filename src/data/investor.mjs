@@ -185,10 +185,10 @@ export const investorPages = {
   },
 };
 
-// Investor confidence snapshot for the homepage (placeholder-safe)
+// Investor confidence snapshot (confirmed facts lead; placeholder last)
 export const investorSnapshot = [
-  { label: "Listing", value: "[Confirm] NSE / BSE" },
   { label: "IPO Price", value: "₹135 per share" },
   { label: "IPO Opened", value: "Sep 2025" },
-  { label: "Financial Year", value: "FY 2024–25" },
+  { label: "Latest Financial Year", value: "FY 2024–25" },
+  { label: "Listing", value: "[Confirm] NSE / BSE" },
 ];

@@ -30,16 +30,19 @@ This writes all `.html` pages to the repo root.
 ## Project structure
 
 ```
-build.mjs                 # generator — assembles pages, guards against dup routes
+build.mjs                 # generator — pages + sitemap.xml + robots.txt
+DEPLOY-NOTES.md           # go-live checklist, redirects, server config
+ASSETS-SHOT-LIST.md       # photography/art-direction brief for every image slot
 src/
   data/                   # ← EDIT CONTENT HERE (single source of truth)
-    site.mjs              #   brand, contact details, CTAs, social, impact stats
+    site.mjs              #   brand, contact, CTAs, social, stats, integrations
     nav.mjs               #   header mega-menus + footer link groups
     products.mjs          #   hearing aid families, all models, types, other products
     investor.mjs          #   investor sections + document lists (with live PDF links)
+    centers.mjs           #   partner-center directory (drives search + schema)
     board.mjs             #   directors + committees
-    reviews.mjs           #   customer reviews
-    blog.mjs              #   blog posts + categories
+    reviews.mjs           #   customer reviews (verified flag gates star display)
+    blog.mjs              #   blog posts + categories (lang:"hi" for Hindi posts)
     faqs.mjs              #   FAQ sets (also feed FAQ schema)
   lib/
     layout.mjs            #   HTML document shell, SEO meta, JSON-LD schema
@@ -49,17 +52,21 @@ src/
   pages/                  #   one module per hand-authored page (home, about, …)
 assets/
   css/styles.css          #   design system (tokens, components, responsive)
-  js/main.js              #   progressive enhancement (menus, reveal, forms)
-  img/                    #   og image + place for real photography
-*.html                    #   generated output (committed for zero-tooling preview)
+  css/fonts.css           #   self-hosted @font-face rules
+  fonts/                  #   Fraunces + Figtree woff2 subsets (~280 KB, OFL)
+  js/main.js              #   menus, reveal, filters, center search, lead forms
+  img/                    #   favicon, og image + place for real photography
+*.html + sitemap.xml + robots.txt   # generated output (committed)
 ```
 
 ## Design system
 
 - **Colour:** navy `#0A2440` · deep teal `#0F6E7E` · champagne gold `#C69A45`, on a soft
   blue-grey ground. Tokens live at the top of `assets/css/styles.css`.
-- **Type:** Fraunces (display serif) + Figtree (body sans), loaded from Google Fonts.
-  Large body sizes and line-height for senior-citizen readability.
+- **Type:** Fraunces (display serif) + Figtree (body sans), **self-hosted** in
+  `assets/fonts/` (no third-party font requests). Hindi content uses native
+  Devanagari system fonts. Large body sizes and line-height for senior-citizen
+  readability.
 - **Signature motif:** an audiogram / soundwave line device used across heroes, dividers
   and image placeholders.
 - **Motion:** subtle fade-up reveals, hover elevation, sticky-header transition — all
@@ -80,13 +87,17 @@ are linked as absolute `https://earkart.in/...` URLs so downloads keep working.
 
 ---
 
-## Before go-live — items to replace
+## Before go-live
 
-Search the codebase for these markers:
+See **`DEPLOY-NOTES.md`** for the full checklist (legacy-URL redirect map,
+server config, integrations, content markers) and **`ASSETS-SHOT-LIST.md`**
+for the photography brief. Quick pointers:
 
-- `[CONFIRM]` / `[Confirm ...]` — contact numbers, addresses, CIN, listing details, specs.
-- `[Add ...]` — verified stat numbers, dates, director profiles/photos, document links.
-- Image placeholders — swap `imagePlaceholder(...)` blocks / `assets/img/` for real photos.
-- Forms (`data-form` in `src/lib/components.mjs`) are **front-end only** — connect to a
-  CRM / email / booking backend.
-- Partner CTA and OMNI patent-certificate links are placeholders — point to the real URLs.
+- `[CONFIRM]` / `[Add ...]` markers in `src/` are the pending-content list.
+- Forms: set `integrations.formEndpoint` in `src/data/site.mjs` to activate
+  real submissions (labelled demo mode until then; honeypot spam field included).
+- Analytics: paste your snippet into `integrations.analyticsHeadSnippet`.
+- Centers: add real clinics to `src/data/centers.mjs` (`verified: true`
+  enables LocalBusiness structured data; search UI works automatically).
+- Photos: pass the file path as the 4th argument of `imagePlaceholder(label,
+  ratio, tone, src)` — becomes a lazy-loaded `<img>` with the label as alt text.

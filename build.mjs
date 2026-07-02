@@ -21,6 +21,8 @@ import investor from "./src/pages/investor.mjs";
 import boardPage from "./src/pages/board.mjs";
 import otherProductsPage from "./src/pages/other-products.mjs";
 import { terms, privacy } from "./src/pages/legal.mjs";
+import notFound from "./src/pages/notfound.mjs";
+import { site } from "./src/data/site.mjs";
 
 // Templates + data for generated pages
 import { hearingAidProductPage, otherProductPage, investorSubPage, blogPostPage } from "./src/lib/templates.mjs";
@@ -35,7 +37,7 @@ const familyBySlug = Object.fromEntries(hearingAidFamilies.map((f) => [f.slug, f
 const staticPages = [
   home(), about(), centers(), geo4(), hearingAids(), hearingLoss(),
   blog(), press(), contactPage(), investor(), boardPage(),
-  otherProductsPage(), terms(), privacy(),
+  otherProductsPage(), terms(), privacy(), notFound(),
 ];
 
 const hearingAidPages = hearingAidModels.map((model) => {
@@ -89,6 +91,7 @@ for (const p of allPages) {
     description: p.description,
     path: p.path,
     canonical: p.canonical || null,
+    noindex: p.noindex || false,
     breadcrumbs: p.breadcrumbs || [],
     jsonld: p.jsonld || [],
     head: p.head || "",
@@ -98,5 +101,23 @@ for (const p of allPages) {
   count++;
 }
 
-console.log(`✔ Built ${count} pages:`);
+// --- sitemap.xml + robots.txt ------------------------------------------------
+// Only canonical, indexable pages are listed (geo4 canonicals to the centers
+// page; 404 is noindex).
+const sitemapPages = allPages.filter((p) => !p.canonical && !p.noindex);
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${sitemapPages.map((p) => `  <url><loc>${site.domain}/${p.path}</loc></url>`).join("\n")}
+</urlset>
+`;
+await writeFile(path.join(__dirname, "sitemap.xml"), sitemap, "utf8");
+
+const robots = `User-agent: *
+Allow: /
+
+Sitemap: ${site.domain}/sitemap.xml
+`;
+await writeFile(path.join(__dirname, "robots.txt"), robots, "utf8");
+
+console.log(`✔ Built ${count} pages + sitemap.xml (${sitemapPages.length} URLs) + robots.txt`);
 for (const p of allPages) console.log(`   ${p.path}`);

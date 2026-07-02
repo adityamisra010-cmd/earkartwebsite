@@ -1,11 +1,12 @@
 import {
   pageHero, sectionHeader, processSteps, button, mapPlaceholder,
-  imagePlaceholder, ctaSection, partnerCTA, faqAccordion, eyebrow,
+  imagePlaceholder, ctaSection, partnerCTA, faqAccordion, eyebrow, esc,
 } from "../lib/components.mjs";
 import { faqSchema } from "../lib/layout.mjs";
 import { icons } from "../lib/icons.mjs";
-import { cta } from "../data/site.mjs";
+import { cta, site } from "../data/site.mjs";
 import { faqsCenters } from "../data/faqs.mjs";
+import { centers as centerDirectory, centerStates, serviceTypes, centersSchema } from "../data/centers.mjs";
 
 function centersContent() {
   const hero = pageHero({
@@ -20,35 +21,42 @@ function centersContent() {
     variant: "hero--inner",
   });
 
+  const centerCard = (c) => `<article class="card center-card reveal" data-center
+      data-city="${esc(c.city.toLowerCase())}" data-state="${esc(c.state)}"
+      data-pin="${esc(c.pin)}" data-services="${esc(c.services.join("|"))}">
+    <div class="center-card__head"><h3 class="center-card__name">${esc(c.name)}</h3><span class="chip chip--soft">${esc(c.city)}</span></div>
+    <p class="center-card__addr">${icons.pin}<span>${esc(c.address)}</span></p>
+    <p class="center-card__meta">${icons.clock}<span>${esc(c.timings)}</span></p>
+    <p class="center-card__meta">${icons.check}<span>${esc(c.services.join(" · "))}</span></p>
+    <div class="center-card__actions">
+      ${button(cta.book, "secondary", {})}
+      <a class="btn btn--text" href="${c.phone ? `tel:${esc(c.phone)}` : cta.call.href}">Call ${icons.arrowRight}</a>
+    </div>
+  </article>`;
+
   const finder = `<section class="section">
     <div class="container">
-      ${sectionHeader({ eyebrow: "Center locator", title: "Search partner clinics", text: "Filter by city, state, service type or pin code. [Connect to live center directory.]", align: "center" })}
+      ${sectionHeader({ eyebrow: "Center locator", title: "Search partner clinics", text: "Filter by city, state, service type or pin code.", align: "center" })}
       <form class="card finder" data-form="finder" novalidate>
         <div class="finder__grid">
-          <div class="field"><label class="label" for="f-city">City</label><input class="input" id="f-city" placeholder="e.g. Noida"></div>
+          <div class="field"><label class="label" for="f-city">City</label><input class="input" id="f-city" name="city" placeholder="e.g. Noida"></div>
           <div class="field"><label class="label" for="f-state">State</label>
-            <select class="input select" id="f-state"><option value="">All states</option><option>Uttar Pradesh</option><option>Delhi</option><option>Maharashtra</option><option>[Add states]</option></select>
+            <select class="input select" id="f-state" name="state"><option value="">All states</option>${centerStates.map((s) => `<option>${esc(s)}</option>`).join("")}</select>
           </div>
           <div class="field"><label class="label" for="f-service">Service type</label>
-            <select class="input select" id="f-service"><option value="">All services</option><option>Hearing test</option><option>Hearing aid fitting</option><option>Repair &amp; service</option><option>Remote audiometry</option></select>
+            <select class="input select" id="f-service" name="service"><option value="">All services</option>${serviceTypes.map((s) => `<option>${esc(s)}</option>`).join("")}</select>
           </div>
-          <div class="field"><label class="label" for="f-pin">Pin code</label><input class="input" id="f-pin" placeholder="e.g. 201301"></div>
+          <div class="field"><label class="label" for="f-pin">Pin code</label><input class="input" id="f-pin" name="pin" inputmode="numeric" placeholder="e.g. 201301"></div>
         </div>
         <button class="btn btn--primary" type="submit">${icons.search}<span>Search centers</span></button>
+        <p class="form__notice" data-finder-notice role="status" hidden></p>
       </form>
       <div class="finder__layout">
         <div class="finder__map">${mapPlaceholder("Earkart partner center map")}</div>
-        <div class="finder__results">
-          ${[1,2,3].map((i) => `<article class="card center-card reveal">
-            <div class="center-card__head"><h3 class="center-card__name">Earkart Partner Center ${i}</h3><span class="chip chip--soft">[Add city]</span></div>
-            <p class="center-card__addr">${icons.pin}<span>[Add clinic address, city, pin code]</span></p>
-            <p class="center-card__meta">${icons.clock}<span>[Add timings]</span></p>
-            <div class="center-card__actions">
-              ${button(cta.book, "secondary", {})}
-              <a class="btn btn--text" href="${cta.call.href}">Call ${icons.arrowRight}</a>
-            </div>
-          </article>`).join("")}
-          <p class="fineprint">[Clinic data shown as placeholders — connect to your centers directory.]</p>
+        <div class="finder__results" data-center-results>
+          ${centerDirectory.map(centerCard).join("")}
+          <p class="card center-card center-card--empty" data-center-empty hidden>No partner centers match your search yet — try widening the filters, or <a href="${cta.call.href}">call us</a> and we'll help you find the nearest center.</p>
+          <p class="fineprint">[Clinic entries are placeholders — add real partner centers in src/data/centers.mjs.]</p>
         </div>
       </div>
     </div>
@@ -83,7 +91,7 @@ export default function centers() {
     description:
       "Find an Earkart partner hearing care clinic near you. Search by city, state, service type or pin code and book a hearing assessment with an expert audiologist.",
     breadcrumbs: [{ label: "Earkart Centers", href: "earkart-centers.html" }],
-    jsonld: [faqSchema(faqsCenters)],
+    jsonld: [faqSchema(faqsCenters), ...centersSchema(site.domain)],
     content: centersContent(),
   };
 }

@@ -13,9 +13,9 @@ export default function blog() {
     variant: "hero--inner hero--compact",
   });
 
-  const filters = `<div class="chips-row container" role="tablist" aria-label="Blog categories">
-    <button class="chip chip--filter is-active" data-filter="all">All</button>
-    ${blogCategories.map((c) => `<button class="chip chip--filter" data-filter="${c}">${c}</button>`).join("")}
+  const filters = `<div class="chips-row container" aria-label="Filter articles by category">
+    <button class="chip chip--filter is-active" type="button" data-filter="all" aria-pressed="true">All</button>
+    ${blogCategories.map((c) => `<button class="chip chip--filter" type="button" data-filter="${c}" aria-pressed="false">${c}</button>`).join("")}
   </div>`;
 
   const featured = blogPosts.find((p) => p.featured) || blogPosts[0];

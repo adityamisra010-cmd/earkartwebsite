@@ -3,7 +3,7 @@
 // ============================================================================
 import {
   pageHero, sectionHeader, button, ctaSection, irCtaSection, imagePlaceholder,
-  investorDocCard, documentDownloadGrid, faqAccordion, eyebrow, esc,
+  investorDocCard, documentDownloadGrid, faqAccordion, eyebrow, esc, docYear,
 } from "./components.mjs";
 import { faqSchema } from "./layout.mjs";
 import { icons } from "./icons.mjs";
@@ -117,6 +117,16 @@ export function hearingAidProductPage(model, { family = null, siblings = [], cro
     title: `${name} — Hearing Aid`,
     description: `${name}: ${model.blurb} Suitable for ${model.suitableFor.toLowerCase()}. Book a consultation with an Earkart audiologist and download the spec sheet.`,
     breadcrumbs: [{ label: "Hearing Aids", href: "hearing-aids.html" }, { label: name, href: `product-${model.slug}.html` }],
+    // Minimal Product schema — name/brand/category only. No offers, specs or
+    // ratings until real values are verified.
+    jsonld: [{
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name,
+      description: model.blurb,
+      brand: { "@type": "Brand", name: "Earkart" },
+      category: "Hearing aid",
+    }],
     content: [hero, benefitsSec, specsSec, suitable, related, ctaSection({ title: `Interested in ${name}? Book a consultation.` })].join("\n"),
   };
 }
@@ -179,6 +189,14 @@ export function otherProductPage(product, { related = [] } = {}) {
     title: `${name}`,
     description: `${name}: ${product.blurb} ${product.suitableFor}. Enquire with Earkart.`,
     breadcrumbs: [{ label: "Other Products", href: "other-products.html" }, { label: name, href: `product-${product.slug}.html` }],
+    jsonld: [{
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name,
+      description: product.blurb,
+      brand: { "@type": "Brand", name: "Earkart" },
+      category: product.category,
+    }],
     content: [hero, detail, relatedSec, ctaSection({ title: `Need more information on ${name}?` })].join("\n"),
   };
 }
@@ -194,9 +212,26 @@ export function investorSubPage(key, data) {
     variant: "hero--inner hero--compact",
   });
 
+  // Year / type filter chips — rendered only when they can actually narrow
+  // anything (≥2 distinct real years, or ≥2 distinct document types).
+  const allDocs = data.groups.flatMap((g) => g.docs);
+  const years = [...new Set(allDocs.map((d) => docYear(d.date)).filter((y) => y !== "pending"))].sort().reverse();
+  const types = [...new Set(allDocs.map((d) => d.type || "PDF"))];
+  const chipRow = (group, label, values) => `<div class="doc-filters" data-doc-filters="${group}" aria-label="Filter documents by ${label}">
+    <span class="doc-filters__label">${label}</span>
+    <button class="chip chip--filter is-active" type="button" data-filter="all" aria-pressed="true">All</button>
+    ${values.map((v) => `<button class="chip chip--filter" type="button" data-filter="${esc(v)}" aria-pressed="false">${esc(v)}</button>`).join("")}
+  </div>`;
+  const filters = [
+    years.length >= 2 ? chipRow("year", "Year", years) : "",
+    types.length >= 2 ? chipRow("type", "Type", types) : "",
+  ].join("");
+
   const docs = `<section class="section">
     <div class="container">
+      ${filters}
       ${documentDownloadGrid(data.groups)}
+      <p class="card center-card--empty" data-docs-empty hidden>No documents match the selected filters.</p>
       <p class="fineprint">[Document links marked "Coming soon" are placeholders — attach the correct file to enable download.]</p>
     </div>
   </section>`;
@@ -220,10 +255,13 @@ export function investorSubPage(key, data) {
 // Blog post detail page
 // ---------------------------------------------------------------------------
 export function blogPostPage(post, { related = [] } = {}) {
+  // Optional post.lang (e.g. "hi") marks non-English content for assistive
+  // tech and search engines.
+  const langAttr = post.lang ? ` lang="${esc(post.lang)}"` : "";
   const hero = `<section class="hero hero--inner hero--article">
     <div class="container hero__inner hero__inner--narrow">
-      <div class="hero__content reveal">
-        <span class="chip chip--soft">${esc(post.category)}</span>
+      <div class="hero__content reveal"${langAttr}>
+        <span class="chip chip--soft" lang="en">${esc(post.category)}</span>
         <h1 class="hero__title hero__title--article">${esc(post.title)}</h1>
         <div class="article__meta">
           <span>${esc(post.author)}</span><span aria-hidden="true">·</span><span>${esc(post.date)}</span>
@@ -234,10 +272,10 @@ export function blogPostPage(post, { related = [] } = {}) {
 
   const media = `<div class="container narrow">${imagePlaceholder(`${post.title} — hero image`, "16x9")}</div>`;
 
-  const body = `<article class="section article">
+  const body = `<article class="section article"${langAttr}>
     <div class="container narrow article__body">
       ${post.body.join("\n")}
-      <div class="article__cta card">
+      <div class="article__cta card" lang="en">
         <div>
           <h3>Have a hearing question?</h3>
           <p>Book a no-pressure consultation with an expert Earkart audiologist.</p>
@@ -255,8 +293,8 @@ export function blogPostPage(post, { related = [] } = {}) {
           <a class="post-card__media" href="blog-${p.slug}.html">${imagePlaceholder(p.title, "4x3")}</a>
           <div class="post-card__body">
             <span class="chip chip--soft">${esc(p.category)}</span>
-            <h3 class="post-card__title"><a href="blog-${p.slug}.html">${esc(p.title)}</a></h3>
-            <p class="post-card__excerpt">${esc(p.excerpt)}</p>
+            <h3 class="post-card__title"${p.lang ? ` lang="${esc(p.lang)}"` : ""}><a href="blog-${p.slug}.html">${esc(p.title)}</a></h3>
+            <p class="post-card__excerpt"${p.lang ? ` lang="${esc(p.lang)}"` : ""}>${esc(p.excerpt)}</p>
           </div>
         </article>`).join("")}
       </div>
