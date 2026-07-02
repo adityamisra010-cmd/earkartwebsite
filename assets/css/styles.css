@@ -24,7 +24,7 @@
   --border-strong: #c4d0dc;
   --text: #13273a;
   --muted: #566677;
-  --muted-light: #64748b; /* ≥4.5:1 on white — safe for small text (WCAG AA) */
+  --muted-light: #5b6a7d; /* ≥4.9:1 on white, page bg and tinted sections (WCAG AA small text) */
 
   /* type */
   --font-display: "Fraunces", Georgia, "Times New Roman", serif;
@@ -100,6 +100,8 @@ strong { font-weight: 600; }
 .section__cta { margin-top: 44px; text-align: center; }
 .fineprint { font-size: .82rem; color: var(--muted-light); font-style: italic; }
 .fineprint.center { text-align: center; }
+/* fineprint on dark bands needs a light-on-dark colour (AA small text) */
+.section--navy .fineprint, .on-dark .fineprint { color: #9fb2c4; }
 
 /* ---- Grid --------------------------------------------------------------- */
 .grid { display: grid; gap: 26px; }
@@ -240,6 +242,9 @@ a.card:hover, .investor-tile:hover, .investor-index__card:hover, .related-card:h
   z-index: 90;
 }
 .has-mega:hover > .mega, .mega:hover, .nav__trigger[aria-expanded="true"] + .mega, .mega.is-open { opacity: 1; visibility: visible; transform: translateY(0); }
+/* Escape suppresses hover-opened panels until the pointer next moves (WCAG 1.4.13) */
+body.nav-hover-suppressed .has-mega:hover > .mega:not(.is-open),
+body.nav-hover-suppressed .mega:hover:not(.is-open) { opacity: 0; visibility: hidden; }
 .mega__inner { display: grid; grid-template-columns: .9fr 3fr; gap: 40px; padding: 34px 0 40px; }
 .mega__intro { border-right: 1px solid var(--border); padding-right: 34px; }
 .mega__intro-title { font-family: var(--font-display); font-size: 1.4rem; color: var(--navy); margin: 0 0 10px; }
@@ -255,8 +260,8 @@ a.card:hover, .investor-tile:hover, .investor-index__card:hover, .related-card:h
 .mega__note { font-size: .72rem; color: var(--muted-light); font-weight: 500; }
 
 /* ---- Mobile nav --------------------------------------------------------- */
-.mobile-nav { position: fixed; inset: 0 0 0 auto; width: min(90vw, 400px); background: var(--white); z-index: 130; transform: translateX(100%); transition: transform .3s var(--ease); overflow-y: auto; box-shadow: var(--shadow-lg); }
-.mobile-nav.is-open { transform: translateX(0); }
+.mobile-nav { position: fixed; inset: 0 0 0 auto; width: min(90vw, 400px); background: var(--white); z-index: 130; transform: translateX(100%); visibility: hidden; transition: transform .3s var(--ease), visibility .3s; overflow-y: auto; box-shadow: var(--shadow-lg); }
+.mobile-nav.is-open { transform: translateX(0); visibility: visible; }
 .mobile-nav__scrim { position: fixed; inset: 0; background: rgba(7,26,48,.5); z-index: 120; opacity: 0; transition: opacity .3s; }
 .mobile-nav__scrim.is-open { opacity: 1; }
 .mobile-nav__head { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid var(--border); }
@@ -447,7 +452,10 @@ html.js .brand-wave__line--3 { animation-delay: .5s; }
 .doc-grid--wide { grid-template-columns: repeat(3, 1fr); }
 .doc { display: flex; align-items: center; gap: 14px; background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow-sm); transition: transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s; }
 .doc:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--teal); }
-.doc--pending { opacity: .72; cursor: default; }
+/* Pending doc cards: dim only the icon so the informational meta / "Coming
+   soon" text keeps full AA contrast (no whole-card opacity). */
+.doc--pending { cursor: default; background: #fbfcfd; border-style: dashed; }
+.doc--pending .doc__icon { opacity: .5; }
 .doc--pending:hover { transform: none; box-shadow: var(--shadow-sm); border-color: var(--border); }
 .doc__icon { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 11px; background: var(--teal-050); color: var(--teal-600); flex-shrink: 0; }
 .doc__icon svg { width: 1.35em; height: 1.35em; }

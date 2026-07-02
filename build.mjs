@@ -92,6 +92,7 @@ for (const p of allPages) {
     path: p.path,
     canonical: p.canonical || null,
     noindex: p.noindex || false,
+    baseHref: p.baseHref || null,
     breadcrumbs: p.breadcrumbs || [],
     jsonld: p.jsonld || [],
     head: p.head || "",

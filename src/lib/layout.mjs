@@ -60,6 +60,7 @@ export function layout({
   content = "",
   canonical: canonicalPath = null, // override for duplicate-content pages (e.g. geo4 → centers)
   noindex = false, // true for 404 and other non-indexable pages
+  baseHref = null, // e.g. "/" for 404.html so relative URLs resolve from root on any path
 } = {}) {
   const fullTitle = path === "index.html"
     ? `${title} | Earkart`
@@ -74,6 +75,7 @@ export function layout({
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+${baseHref ? `<base href="${esc(baseHref)}">` : ""}
 <script>document.documentElement.classList.add('js')</script>
 <title>${esc(fullTitle)}</title>
 <meta name="description" content="${esc(description)}">

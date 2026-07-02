@@ -25,12 +25,18 @@ export function hearingAidProductPage(model, { family = null, siblings = [], cro
     ? button({ label, href: model.pdf }, "secondary", { icon: "download" })
     : `<span class="btn btn--secondary btn--disabled">${icons.clock}<span>Spec sheet coming soon</span></span>`;
 
-  const benefits = (family?.features || [
+  // Family overview pages show the family's feature list; individual variant
+  // pages use generic model-safe benefits so range-level claims (e.g.
+  // "8/12/16 channel options") never contradict a single model's spec table.
+  const genericBenefits = [
     "Clear, comfortable everyday listening",
     "Discreet, modern design",
     "Personalised by an expert audiologist",
+    "Precise fitting and fine-tuning",
     "Dependable after-sales support",
-  ]).slice(0, 6);
+    "Guidance without pressure to overspend",
+  ];
+  const benefits = (isFamily && family?.features ? family.features : genericBenefits).slice(0, 6);
 
   const specRows = [
     { label: "Style / Form Factor", value: model.type },
@@ -247,7 +253,7 @@ export function investorSubPage(key, data) {
     title: `${data.title} — Investor`,
     description: `${data.title}: ${data.intro}`,
     breadcrumbs: [{ label: "Investor", href: "investor.html" }, { label: data.title, href: `${key}.html` }],
-    content: [hero, docs, nav, irCtaSection()].join("\n"),
+    content: [hero, docs, nav, irCtaSection(`${key}.html`)].join("\n"),
   };
 }
 

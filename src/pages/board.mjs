@@ -46,6 +46,6 @@ export default function boardPage() {
     description:
       "Meet the Board of Directors of Earkart Limited — executive, non-executive and independent directors — and the board committees governing the company.",
     breadcrumbs: [{ label: "Investor", href: "investor.html" }, { label: "Board of Directors", href: "board-details.html" }],
-    content: [hero, execSec, otherSec, committeeSec, irCtaSection()].join("\n"),
+    content: [hero, execSec, otherSec, committeeSec, irCtaSection("board-details.html")].join("\n"),
   };
 }

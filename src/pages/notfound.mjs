@@ -41,6 +41,9 @@ export default function notFound() {
     title: "Page Not Found",
     description: "The page you were looking for could not be found. Explore Earkart's hearing care resources, products and investor information.",
     noindex: true,
+    // Served by the host for arbitrary unknown paths (incl. nested ones like
+    // /investor/x), so resolve all relative asset/link URLs from the site root.
+    baseHref: "/",
     content,
   };
 }

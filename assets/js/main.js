@@ -38,29 +38,53 @@
   doc.addEventListener("keydown", function (e) {
     if (e.key === "Escape") {
       closeAllMega(null);
+      // Suppress hover-opened panels until the pointer next moves (WCAG 1.4.13)
+      doc.body.classList.add("nav-hover-suppressed");
       closeMobile();
     }
   });
+  doc.addEventListener("mousemove", function () {
+    if (doc.body.classList.contains("nav-hover-suppressed")) {
+      doc.body.classList.remove("nav-hover-suppressed");
+    }
+  }, { passive: true });
 
   /* ---- Mobile navigation ------------------------------------------------ */
   var mobileNav = doc.getElementById("mobileNav");
   var scrim = doc.getElementById("menuScrim");
   var menuToggle = doc.getElementById("menuToggle");
   var menuClose = doc.getElementById("menuClose");
+  var scrimTimer = null;
+
+  // Keep the closed drawer out of the tab order / a11y tree (it is only
+  // hidden via transform in CSS). `inert` covers focus + aria-hidden.
+  function setNavInert(on) {
+    if (!mobileNav) return;
+    if ("inert" in HTMLElement.prototype) mobileNav.inert = on;
+    mobileNav.setAttribute("aria-hidden", on ? "true" : "false");
+  }
+  if (mobileNav) setNavInert(true);
 
   function openMobile() {
     if (!mobileNav) return;
+    if (scrimTimer) { clearTimeout(scrimTimer); scrimTimer = null; }
     mobileNav.classList.add("is-open");
-    mobileNav.setAttribute("aria-hidden", "false");
+    setNavInert(false);
     if (scrim) { scrim.hidden = false; requestAnimationFrame(function () { scrim.classList.add("is-open"); }); }
     if (menuToggle) menuToggle.setAttribute("aria-expanded", "true");
     doc.body.style.overflow = "hidden";
+    if (menuClose) menuClose.focus();
   }
   function closeMobile() {
     if (!mobileNav) return;
+    // Move focus out before hiding, so focus never sits inside an inert region.
+    if (mobileNav.contains(doc.activeElement) && menuToggle) menuToggle.focus();
     mobileNav.classList.remove("is-open");
-    mobileNav.setAttribute("aria-hidden", "true");
-    if (scrim) { scrim.classList.remove("is-open"); setTimeout(function () { scrim.hidden = true; }, 300); }
+    setNavInert(true);
+    if (scrim) {
+      scrim.classList.remove("is-open");
+      scrimTimer = setTimeout(function () { scrim.hidden = true; scrimTimer = null; }, 300);
+    }
     if (menuToggle) menuToggle.setAttribute("aria-expanded", "false");
     doc.body.style.overflow = "";
   }
@@ -95,8 +119,10 @@
   }
 
   /* ---- Blog category filter (toggle buttons, aria-pressed) --------------- */
+  var blogGrid = doc.querySelector("[data-blog-grid]");
   var filterBtns = slice(doc.querySelectorAll(".chip--filter[data-filter]"));
-  var blogItems = slice(doc.querySelectorAll("[data-blog-grid] > [data-category]"));
+  var blogItems = blogGrid ? slice(blogGrid.querySelectorAll(":scope > [data-category]")) : [];
+  var blogEmpty = doc.querySelector("[data-blog-empty]");
   if (filterBtns.length && blogItems.length) {
     filterBtns.forEach(function (btn) {
       btn.setAttribute("aria-pressed", btn.classList.contains("is-active") ? "true" : "false");
@@ -108,10 +134,13 @@
         btn.classList.add("is-active");
         btn.setAttribute("aria-pressed", "true");
         var f = btn.getAttribute("data-filter");
+        var visible = 0;
         blogItems.forEach(function (item) {
           var show = f === "all" || item.getAttribute("data-category") === f;
           item.style.display = show ? "" : "none";
+          if (show) visible++;
         });
+        if (blogEmpty) blogEmpty.hidden = visible !== 0;
       });
     });
   }
@@ -221,7 +250,12 @@
       slice(form.querySelectorAll("[required]")).forEach(function (field) {
         var value = (field.value || "").trim();
         var ok = value.length > 0;
-        if (ok && field.type === "tel") ok = /^[+()\-\s\d]{8,16}$/.test(value);
+        if (ok && field.type === "tel") {
+          // Allow +, spaces, hyphens and brackets, but require 8–15 actual
+          // digits (E.164 max) so punctuation-only input is rejected.
+          var digits = value.replace(/\D/g, "").length;
+          ok = /^[+()\-\s\d]{8,20}$/.test(value) && digits >= 8 && digits <= 15;
+        }
         setFieldState(field, ok);
         if (!ok && !firstInvalid) firstInvalid = field;
         if (!ok) valid = false;

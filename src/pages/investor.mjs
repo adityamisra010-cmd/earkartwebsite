@@ -72,6 +72,6 @@ export default function investor() {
     description:
       "Earkart Limited investor relations — board of directors, financial information, IPO documents, corporate governance, SEBI LODR compliance and shareholder resources.",
     breadcrumbs: [{ label: "Investor", href: "investor.html" }],
-    content: [hero, snapshot, overview, highlights, contactBand, irCtaSection()].join("\n"),
+    content: [hero, snapshot, overview, highlights, contactBand, irCtaSection("investor.html")].join("\n"),
   };
 }

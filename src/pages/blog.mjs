@@ -19,7 +19,6 @@ export default function blog() {
   </div>`;
 
   const featured = blogPosts.find((p) => p.featured) || blogPosts[0];
-  const rest = blogPosts.filter((p) => p !== featured);
 
   const featuredSec = `<section class="section section--tight">
     <div class="container">
@@ -28,12 +27,15 @@ export default function blog() {
     </div>
   </section>`;
 
+  // The grid holds every post (featured included) so category filters always
+  // have a match; the Featured hero above is an editorial highlight.
   const grid = `<section class="section section--tint">
     <div class="container">
-      ${sectionHeader({ eyebrow: "Latest articles", title: "More from the Earkart blog" })}
+      ${sectionHeader({ eyebrow: "All articles", title: "More from the Earkart blog" })}
       <div class="grid grid--3 blog-grid" data-blog-grid>
-        ${rest.map((p) => `<div data-category="${p.category}">${blogCard(p)}</div>`).join("")}
+        ${blogPosts.map((p) => `<div data-category="${p.category}">${blogCard(p)}</div>`).join("")}
       </div>
+      <p class="card center-card--empty" data-blog-empty hidden>No articles in this category yet — check back soon, or browse all articles.</p>
     </div>
   </section>`;
 

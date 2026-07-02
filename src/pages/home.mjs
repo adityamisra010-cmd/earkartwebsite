@@ -161,7 +161,7 @@ export default function home() {
   </section>`;
 
   const featured = blogPosts.find((p) => p.featured) || blogPosts[0];
-  const rest = blogPosts.filter((p) => p !== featured).slice(0, 2);
+  const rest = blogPosts.filter((p) => p !== featured).slice(0, 3);
   const blog = `<section class="section section--tint">
     <div class="container">
       ${sectionHeader({ eyebrow: "Resources", title: "Guides & articles for better hearing.", align: "center" })}

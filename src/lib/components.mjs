@@ -511,15 +511,24 @@ export function ctaSection({
 }
 
 // Investor-relations variant — IR-appropriate actions instead of patient CTAs.
-export function irCtaSection() {
+// Pass the current page path so no button ever links back to the page you're on.
+export function irCtaSection(currentPath = "") {
+  const pool = [
+    { cta: { label: "Investor Overview", href: "investor.html" }, opts: { lg: true, icon: "chart" } },
+    { cta: { label: "Financial Information", href: "investor-financials.html" }, opts: { lg: true, icon: "chart" } },
+    { cta: { label: "IPO Documents", href: "investor-ipo.html" }, opts: { lg: true, icon: "document" } },
+    { cta: { label: "Corporate Governance", href: "investor-governance.html" }, opts: { lg: true, icon: "shield" } },
+  ];
+  const picks = pool.filter((a) => a.cta.href !== currentPath).slice(0, 2);
+  const actions = [
+    { ...picks[0], variant: "gold" },
+    { ...picks[1], variant: "ghost-light" },
+    { cta: { label: "Email Investor Relations", href: `mailto:${contact.investorEmail}` }, variant: "ghost-light", opts: { lg: true, icon: "mail" } },
+  ];
   return ctaSection({
     title: "Shareholder or analyst questions?",
     text: "Reach our investor relations team, or continue exploring the Company's disclosures.",
-    actions: [
-      { cta: { label: "Financial Information", href: "investor-financials.html" }, variant: "gold", opts: { lg: true, icon: "chart" } },
-      { cta: { label: "IPO Documents", href: "investor-ipo.html" }, variant: "ghost-light", opts: { lg: true, icon: "document" } },
-      { cta: { label: "Email Investor Relations", href: `mailto:${contact.investorEmail}` }, variant: "ghost-light", opts: { lg: true, icon: "mail" } },
-    ],
+    actions,
   });
 }
 
