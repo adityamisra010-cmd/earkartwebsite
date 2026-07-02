@@ -88,10 +88,13 @@ export default function centers() {
   };
 }
 
-// Preserve legacy /geo4.html route (Find OMNI Centers) with the same content
+// Preserve legacy /geo4.html route (Find OMNI Centers) with the same content.
+// Canonical points at earkart-centers.html so search engines treat the pair
+// as one page instead of duplicate content.
 export function geo4() {
   return {
     path: "geo4.html",
+    canonical: "earkart-centers.html",
     title: "Find OMNI Centers Near You",
     description:
       "Find OMNI-powered hearing care centers near you. Search Earkart's partner clinic network by city, state, service type or pin code.",

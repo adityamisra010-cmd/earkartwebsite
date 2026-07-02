@@ -181,7 +181,9 @@ export const footerNav = [
     heading: "Quick Links",
     links: [
       { label: "Clinic Locations", href: "earkart-centers.html" },
-      { label: "OMNI Patent Certificate", href: "#omni-patent" }, // [CONFIRM] link
+      // Pending certificate PDF lives as a document card on the page below.
+      // [CONFIRM] swap to the direct PDF URL once available.
+      { label: "OMNI Patent Certificate", href: "investor-other-documents.html" },
       { label: "Hearing Loss", href: "hearing-loss.html" },
       { label: "Hearing Aids", href: "hearing-aids.html" },
       { label: "Press Release", href: "press-release.html" },

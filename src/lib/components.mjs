@@ -90,7 +90,7 @@ export function header(activePath = "") {
   return `<header class="site-header" id="siteHeader" data-header>
     <div class="site-header__utility">
       <div class="container site-header__utility-inner">
-        <p class="site-header__tagline">${esc(site.positioning)}</p>
+        <p class="site-header__tagline">${esc(site.taglineShort)}</p>
         <div class="site-header__utility-actions">
           <a href="${cta.call.href}" class="util-link">${icons.phone}<span>${esc(contact.phoneDisplay)}</span></a>
           <a href="${cta.whatsapp.href}" class="util-link" target="_blank" rel="noopener">${icons.whatsapp}<span>WhatsApp</span></a>
@@ -169,7 +169,9 @@ export function footer() {
     </div>`).join("");
 
   const socialLinks = social.map((sl) =>
-    `<a class="footer__social" href="${esc(sl.href)}" aria-label="${esc(sl.label)}" target="_blank" rel="noopener">${icons[sl.icon] || icons.globe}</a>`).join("");
+    sl.href && sl.href !== "#"
+      ? `<a class="footer__social" href="${esc(sl.href)}" aria-label="${esc(sl.label)}" target="_blank" rel="noopener">${icons[sl.icon] || icons.globe}</a>`
+      : `<span class="footer__social footer__social--pending" title="${esc(sl.label)} — [Add profile URL]" aria-hidden="true">${icons[sl.icon] || icons.globe}</span>`).join("");
 
   return `<footer class="footer">
     <div class="footer__top container">
@@ -183,7 +185,11 @@ export function footer() {
     </div>
 
     <div class="footer__contact container">
-      <div class="footer__contact-item">${icons.phone}<div><span class="footer__contact-label">Call</span><a href="${cta.call.href}">${esc(contact.phoneDisplay)}</a><br><a href="tel:">${esc(contact.tollFreeDisplay)} <em>(toll-free)</em></a></div></div>
+      <div class="footer__contact-item">${icons.phone}<div><span class="footer__contact-label">Call</span><a href="${cta.call.href}">${esc(contact.phoneDisplay)}</a><br>${
+        contact.tollFreeRaw
+          ? `<a href="tel:${esc(contact.tollFreeRaw)}">${esc(contact.tollFreeDisplay)} <em>(toll-free)</em></a>`
+          : `<span class="footer__pending-text">${esc(contact.tollFreeDisplay)} <em>(toll-free)</em></span>`
+      }</div></div>
       <div class="footer__contact-item">${icons.mail}<div><span class="footer__contact-label">Email</span><a href="mailto:${esc(contact.email)}">${esc(contact.email)}</a></div></div>
       <div class="footer__contact-item">${icons.clinic}<div><span class="footer__contact-label">Corporate Office</span><span>${esc(contact.corporateOffice)}</span></div></div>
       <div class="footer__contact-item">${icons.pin}<div><span class="footer__contact-label">Registered Office</span><span>${esc(contact.registeredOffice)}</span></div></div>
@@ -264,6 +270,16 @@ export function processSteps(steps) {
 }
 
 export function statCard(stat) {
+  // While no verified figure is set, render a deliberate pending state
+  // (never "0+" and never a raw editor marker on the page).
+  const pending = stat.value == null || String(stat.value).startsWith("[");
+  if (pending) {
+    return `<div class="stat stat--pending reveal">
+      <span class="stat__value stat__value--pending" aria-hidden="true">—</span>
+      <span class="stat__label">${esc(stat.label)}</span>
+      <span class="stat__note">Verified figure coming soon</span>
+    </div>`;
+  }
   return `<div class="stat reveal">
     <span class="stat__value" data-stat>${esc(stat.value)}</span>
     <span class="stat__label">${esc(stat.label)}</span>
@@ -304,16 +320,25 @@ export function hearingAidTypeCard(t) {
 
 // --- Reviews ---------------------------------------------------------------
 export function reviewCard(r) {
+  // Unverified entries are layout demonstrations only: labelled clearly and
+  // shown without a star rating so no fabricated review reads as real.
+  const placeholderName = !r.name || r.name.startsWith("[");
+  const badge = r.verified
+    ? `<div class="review__stars" aria-label="5 out of 5">${icons.star.repeat(5)}</div>`
+    : `<span class="review__flag">${icons.sparkle}<span>Illustrative example</span></span>`;
+  const avatar = placeholderName
+    ? `<span class="review__avatar" aria-hidden="true">${icons.users}</span>`
+    : `<span class="review__avatar" aria-hidden="true">${esc(r.name.charAt(0))}</span>`;
   return `<article class="card review reveal">
     <span class="review__quote-mark" aria-hidden="true">${icons.quote}</span>
-    <div class="review__stars" aria-label="5 out of 5">${icons.star.repeat(5)}</div>
+    ${badge}
     <p class="review__text">${esc(r.quote)}</p>
     <details class="review__more">
       <summary>Read more</summary>
       <p>${esc(r.more)}</p>
     </details>
     <footer class="review__foot">
-      <span class="review__avatar" aria-hidden="true">${esc(r.name.charAt(0))}</span>
+      ${avatar}
       <span class="review__meta"><strong>${esc(r.name)}</strong><span>${esc(r.tag)} · ${esc(r.location)}</span></span>
     </footer>
   </article>`;
@@ -328,16 +353,21 @@ export function blogCard(p, { featured = false } = {}) {
       <h3 class="post-card__title"><a href="blog-${p.slug}.html">${esc(p.title)}</a></h3>
       <p class="post-card__excerpt">${esc(p.excerpt)}</p>
       <div class="post-card__meta"><span>${esc(p.author)}</span><span aria-hidden="true">·</span><span>${esc(p.date)}</span></div>
+      <a class="post-card__read" href="blog-${p.slug}.html" aria-label="Read: ${esc(p.title)}">Read article ${icons.arrowRight}</a>
     </div>
   </article>`;
 }
 
 export function pressReleaseCard(pr) {
+  const pending = !pr.href || pr.href === "#";
+  const action = pending
+    ? `<span class="btn btn--text btn--disabled">${icons.clock} Release document coming soon</span>`
+    : `<a class="btn btn--text" href="${esc(pr.href)}"${relAttr(pr.href)}>${esc(pr.cta || "Read release")} ${icons.arrowRight}</a>`;
   return `<article class="card press-card reveal">
     <div class="press-card__date">${icons.calendar}<span>${esc(pr.date)}</span></div>
     <h3 class="press-card__title">${esc(pr.title)}</h3>
     <p class="press-card__summary">${esc(pr.summary)}</p>
-    <a class="btn btn--text" href="${esc(pr.href)}"${relAttr(pr.href)}>${esc(pr.cta || "Read release")} ${icons.arrowRight}</a>
+    ${action}
   </article>`;
 }
 
@@ -435,25 +465,47 @@ export function partnerCTA() {
 }
 
 // --- Final CTA section -----------------------------------------------------
-export function ctaSection({ title = "Ready to take the next step toward better hearing?", text = "Speak with our team, find a nearby center, or book a consultation with an expert audiologist." } = {}) {
+// `actions` overrides the default patient CTAs: [{ cta, variant, opts }]
+export function ctaSection({
+  title = "Ready to take the next step toward better hearing?",
+  text = "Speak with our team, find a nearby center, or book a consultation with an expert audiologist.",
+  actions = null,
+} = {}) {
+  const defaultActions = [
+    { cta: cta.book, variant: "gold", opts: { lg: true, icon: "calendar" } },
+    { cta: cta.call, variant: "ghost-light", opts: { lg: true, icon: "phone" } },
+    { cta: cta.findCenter, variant: "ghost-light", opts: { lg: true, icon: "pin" } },
+    { cta: cta.whatsapp, variant: "ghost-light", opts: { lg: true, icon: "whatsapp" } },
+  ];
+  const list = (actions || defaultActions)
+    .map((a) => button(a.cta, a.variant || "ghost-light", a.opts || { lg: true }))
+    .join("");
   return `<section class="section final-cta">
     <div class="container final-cta__inner reveal">
       <span class="final-cta__wave" aria-hidden="true">${brandWave("cta")}</span>
       <h2 class="final-cta__title">${esc(title)}</h2>
       <p class="final-cta__text">${esc(text)}</p>
-      <div class="final-cta__actions">
-        ${button(cta.book, "gold", { lg: true, icon: "calendar" })}
-        ${button(cta.call, "ghost-light", { lg: true, icon: "phone" })}
-        ${button(cta.findCenter, "ghost-light", { lg: true, icon: "pin" })}
-        ${button(cta.whatsapp, "ghost-light", { lg: true, icon: "whatsapp" })}
-      </div>
+      <div class="final-cta__actions">${list}</div>
     </div>
   </section>`;
 }
 
+// Investor-relations variant — IR-appropriate actions instead of patient CTAs.
+export function irCtaSection() {
+  return ctaSection({
+    title: "Shareholder or analyst questions?",
+    text: "Reach our investor relations team, or continue exploring the Company's disclosures.",
+    actions: [
+      { cta: { label: "Financial Information", href: "investor-financials.html" }, variant: "gold", opts: { lg: true, icon: "chart" } },
+      { cta: { label: "IPO Documents", href: "investor-ipo.html" }, variant: "ghost-light", opts: { lg: true, icon: "document" } },
+      { cta: { label: "Email Investor Relations", href: `mailto:${contact.investorEmail}` }, variant: "ghost-light", opts: { lg: true, icon: "mail" } },
+    ],
+  });
+}
+
 // --- Forms -----------------------------------------------------------------
 export function appointmentForm() {
-  return `<form class="form card form--appointment" id="appointment" data-form="appointment" novalidate>
+  return `<form class="form card form--appointment" id="appointment-form" data-form="appointment" novalidate>
     <h3 class="form__title">Book an appointment</h3>
     <p class="form__intro">Share a few details and our team will help you find a convenient time and nearby center.</p>
     <div class="form__grid">

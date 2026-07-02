@@ -67,7 +67,11 @@ a { color: var(--teal-600); text-decoration: none; }
 a:hover { color: var(--teal); }
 h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 500; line-height: 1.14; color: var(--navy); margin: 0 0 .5em; letter-spacing: -.01em; }
 p { margin: 0 0 1em; }
-ul { margin: 0; padding: 0; list-style: none; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+/* restore native lists inside long-form article/legal copy */
+.article__body ul, .article__body ol, .legal ul, .legal ol { padding-left: 1.4em; margin: 0 0 1.1em; }
+.article__body ul, .legal ul { list-style: disc; }
+.article__body ol, .legal ol { list-style: decimal; }
 em { font-style: italic; color: var(--teal); }
 strong { font-weight: 600; }
 :focus-visible { outline: none; box-shadow: var(--ring); border-radius: 6px; }
@@ -164,6 +168,9 @@ strong { font-weight: 600; }
 }
 .hero .btn--text, .section--navy .btn--text { color: var(--gold-soft); }
 .hero .btn--text:hover, .section--navy .btn--text:hover { color: #fff; }
+/* Pending / not-yet-available action (rendered as a <span>, not a link) */
+.btn--disabled { opacity: .62; cursor: not-allowed; pointer-events: none; }
+.btn--disabled svg { width: 1.05em; height: 1.05em; }
 
 /* ---- Chips -------------------------------------------------------------- */
 .chip {
@@ -353,6 +360,10 @@ html.js .brand-wave__line--3 { animation-delay: .5s; }
 .stat { text-align: center; padding: 26px 14px; border-radius: var(--radius-lg); background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); }
 .stat__value { display: block; font-family: var(--font-display); font-size: clamp(1.5rem, 2.4vw, 2.1rem); color: var(--gold-soft); font-weight: 600; }
 .stat__label { display: block; font-size: .88rem; color: #b9c8d6; margin-top: 6px; }
+/* Deliberate pending state until verified figures are supplied */
+.stat--pending { border-style: dashed; }
+.stat__value--pending { color: rgba(236, 217, 171, .5); }
+.stat__note { display: block; font-size: .72rem; font-style: italic; color: #8ca0b3; margin-top: 6px; }
 
 /* ---- Product family card ------------------------------------------------ */
 .pfamily { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
@@ -384,6 +395,10 @@ html.js .brand-wave__line--3 { animation-delay: .5s; }
 .review__quote-mark svg { width: 2.4em; height: 2.4em; }
 .review__stars { display: inline-flex; color: var(--gold); margin-bottom: 12px; }
 .review__stars svg { width: 1.05em; height: 1.05em; }
+/* Unverified sample reviews are labelled, never star-rated */
+.review__flag { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; font-size: .7rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--gold-600); background: #faf3e2; border: 1px solid var(--gold-soft); padding: 4px 11px; border-radius: var(--radius-pill); margin-bottom: 12px; }
+.review__flag svg { width: 1em; height: 1em; }
+.review__avatar svg { width: 1.2em; height: 1.2em; }
 .review__text { color: var(--text); font-weight: 500; }
 .review__more { margin-bottom: 14px; }
 .review__more summary { cursor: pointer; color: var(--teal-600); font-weight: 600; font-size: .9rem; list-style: none; }
@@ -398,6 +413,10 @@ html.js .brand-wave__line--3 { animation-delay: .5s; }
 .post-card { padding: 0; overflow: hidden; display: flex; flex-direction: column; }
 .post-card .img-ph { border-radius: 0; border: none; }
 .post-card__body { padding: 22px; display: flex; flex-direction: column; gap: 10px; }
+.post-card__body .chip { align-self: flex-start; }
+.post-card__read { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; color: var(--teal-600); }
+.post-card__read svg { width: 1em; height: 1em; transition: transform .25s var(--ease); }
+.post-card__read:hover svg { transform: translateX(3px); }
 .post-card__title { font-size: 1.3rem; margin: 0; }
 .post-card__title a { color: var(--navy); }
 .post-card__title a:hover { color: var(--teal-600); }
@@ -634,6 +653,9 @@ html.js .brand-wave__line--3 { animation-delay: .5s; }
 .footer__socials { display: flex; gap: 10px; margin-top: 20px; }
 .footer__social { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 10px; background: rgba(255,255,255,.06); color: #cdd9e5; border: 1px solid rgba(255,255,255,.1); }
 .footer__social:hover { background: var(--teal); color: #fff; }
+.footer__social--pending { opacity: .4; cursor: default; }
+.footer__social--pending:hover { background: rgba(255,255,255,.06); color: #cdd9e5; }
+.footer__pending-text { color: #7e93a5; }
 .footer__cols { display: grid; grid-template-columns: repeat(5, 1fr); gap: 26px; }
 .footer__heading { color: #fff; font-family: var(--font-body); font-weight: 700; font-size: .82rem; letter-spacing: .1em; text-transform: uppercase; margin: 0 0 14px; }
 .footer__links { display: flex; flex-direction: column; gap: 9px; }

@@ -1,43 +1,51 @@
 // ============================================================================
-// Earkart — Customer reviews (placeholder-safe, editable)
-// Keep concise; longer text goes in `more` for the "Read more" expansion.
+// Earkart — Customer reviews
+// IMPORTANT: these are ILLUSTRATIVE sample cards to demonstrate the layout.
+// Replace each entry with a real, verified customer review (set verified: true
+// and use the customer's actual name/quote with their permission) before
+// publishing. While verified is false, cards carry an "Illustrative example"
+// label instead of a star rating so no fabricated review is presented as real.
 // ============================================================================
 
 export const reviews = [
   {
-    name: "Anita R.",
+    name: "[Add customer name]",
     tag: "Daughter / Family member",
     location: "[Add city]",
+    verified: false,
     quote:
-      "The audiologist patiently explained every option for my father. We never felt rushed or pushed toward the most expensive device.",
+      "Sample copy — e.g. how the audiologist patiently explained every option for a parent, with no pressure toward the most expensive device.",
     more:
-      "The follow-up support after fitting made all the difference — small adjustments over a few weeks and now he joins family conversations again.",
+      "Longer sample copy — e.g. follow-up support after fitting, small adjustments over a few weeks, joining family conversations again.",
   },
   {
-    name: "Suresh M.",
+    name: "[Add customer name]",
     tag: "Senior citizen / Patient",
     location: "[Add city]",
+    verified: false,
     quote:
-      "For the first time I could compare hearing aids honestly and choose what suited my budget and comfort.",
+      "Sample copy — e.g. being able to compare hearing aids honestly and choose what suited their budget and comfort.",
     more:
-      "The remote check-in meant I didn't have to travel repeatedly. The whole experience felt professional and caring.",
+      "Longer sample copy — e.g. remote check-ins that avoided repeated travel; a professional, caring experience.",
   },
   {
-    name: "Priya K.",
+    name: "[Add customer name]",
     tag: "Parent",
     location: "[Add city]",
+    verified: false,
     quote:
-      "Clear guidance, no confusing jargon. They helped us understand the hearing test results properly.",
+      "Sample copy — e.g. clear guidance without confusing jargon; understanding the hearing test results properly.",
     more:
-      "We appreciated the transparency about what each device could and couldn't do. It built our trust in the recommendation.",
+      "Longer sample copy — e.g. transparency about what each device could and couldn't do, and how that built trust.",
   },
   {
-    name: "Rajesh T.",
+    name: "[Add customer name]",
     tag: "Patient",
     location: "[Add city]",
+    verified: false,
     quote:
-      "The fitting was precise and the after-sales support has been genuinely responsive.",
+      "Sample copy — e.g. a precise fitting and genuinely responsive after-sales support.",
     more:
-      "Whenever I had a question about cleaning or settings, the team responded quickly over WhatsApp.",
+      "Longer sample copy — e.g. quick answers over WhatsApp about cleaning and settings.",
   },
 ];

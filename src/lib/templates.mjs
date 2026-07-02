@@ -2,7 +2,7 @@
 // Earkart — Templates for data-driven pages
 // ============================================================================
 import {
-  pageHero, sectionHeader, button, ctaSection, imagePlaceholder,
+  pageHero, sectionHeader, button, ctaSection, irCtaSection, imagePlaceholder,
   investorDocCard, documentDownloadGrid, faqAccordion, eyebrow, esc,
 } from "./components.mjs";
 import { faqSchema } from "./layout.mjs";
@@ -13,9 +13,17 @@ import { placeholderSpecRows } from "../data/products.mjs";
 // ---------------------------------------------------------------------------
 // Hearing aid product / family spec page
 // ---------------------------------------------------------------------------
-export function hearingAidProductPage(model, { family = null, siblings = [] } = {}) {
+export function hearingAidProductPage(model, { family = null, siblings = [], crossFamily = false } = {}) {
   const name = model.name;
-  const isFamily = !!family;
+  // "Family overview" page (e.g. product-radius.html) vs a variant page
+  // (e.g. product-radius-p-16.html) — variants still inherit family features.
+  const isFamily = !!family && family.slug === model.slug;
+
+  // Spec download renders as a real button only once a PDF is attached;
+  // otherwise an explicit pending state (never a dead "#" link).
+  const specBtn = (label) => model.pdf
+    ? button({ label, href: model.pdf }, "secondary", { icon: "download" })
+    : `<span class="btn btn--secondary btn--disabled">${icons.clock}<span>Spec sheet coming soon</span></span>`;
 
   const benefits = (family?.features || [
     "Clear, comfortable everyday listening",
@@ -40,7 +48,7 @@ export function hearingAidProductPage(model, { family = null, siblings = [] } = 
         <p class="hero__subtitle">${esc(model.blurb)}</p>
         <div class="hero__ctas">
           ${button(cta.book, "gold", { icon: "calendar" })}
-          ${button({ label: "Download spec sheet", href: model.pdf || "#" }, "secondary", { icon: "download" })}
+          ${specBtn("Download spec sheet")}
         </div>
         <p class="chip chip--soft">${icons.check}<span>Suitable for: ${esc(model.suitableFor)}</span></p>
       </div>
@@ -66,7 +74,7 @@ export function hearingAidProductPage(model, { family = null, siblings = [] } = 
         </tbody>
       </table>
       <p class="fineprint">[Specifications are placeholders — confirm against the official spec sheet / PDF.]</p>
-      <div class="section__cta">${button({ label: "Download full spec sheet", href: model.pdf || "#" }, "secondary", { icon: "download" })}</div>
+      <div class="section__cta">${specBtn("Download full spec sheet")}</div>
     </div>
   </section>`;
 
@@ -86,9 +94,12 @@ export function hearingAidProductPage(model, { family = null, siblings = [] } = 
     </div>
   </section>`;
 
+  const relatedTitle = crossFamily
+    ? "Explore other hearing aid families"
+    : (isFamily ? `${esc(name)} variants` : `More from the ${esc(family?.name || "")} range`);
   const related = siblings.length ? `<section class="section section--tint">
     <div class="container">
-      ${sectionHeader({ eyebrow: "Related products", title: isFamily ? `${esc(name)} variants` : `More from ${esc(family?.name || "this range")}`, align: "center" })}
+      ${sectionHeader({ eyebrow: "Related products", title: relatedTitle, align: "center" })}
       <div class="grid grid--4">
         ${siblings.slice(0, 8).map((s) => `<a class="card related-card reveal" href="product-${s.slug}.html">
           ${imagePlaceholder(`${s.name}`, "4x3", "img-ph--product")}
@@ -124,7 +135,9 @@ export function otherProductPage(product, { related = [] } = {}) {
         <p class="hero__subtitle">${esc(product.blurb)}</p>
         <div class="hero__ctas">
           ${button({ label: "Enquire now", href: "contact-us.html#enquiry" }, "gold", { icon: "mail" })}
-          ${button({ label: "Download spec sheet", href: product.pdf || "#" }, "secondary", { icon: "download" })}
+          ${product.pdf
+            ? button({ label: "Download spec sheet", href: product.pdf }, "secondary", { icon: "download" })
+            : `<span class="btn btn--secondary btn--disabled">${icons.clock}<span>Spec sheet coming soon</span></span>`}
         </div>
       </div>
       <div class="hero__media reveal">${imagePlaceholder(`${name} image`, "4x3", "img-ph--product")}</div>
@@ -199,7 +212,7 @@ export function investorSubPage(key, data) {
     title: `${data.title} — Investor`,
     description: `${data.title}: ${data.intro}`,
     breadcrumbs: [{ label: "Investor", href: "investor.html" }, { label: data.title, href: `${key}.html` }],
-    content: [hero, docs, nav, ctaSection({ title: "Explore more investor resources.", text: "Financials, governance, IPO documents and compliance disclosures." })].join("\n"),
+    content: [hero, docs, nav, irCtaSection()].join("\n"),
   };
 }
 

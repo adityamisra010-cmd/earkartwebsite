@@ -58,11 +58,13 @@ export function layout({
   jsonld = [],
   head = "",
   content = "",
+  canonical: canonicalPath = null, // override for duplicate-content pages (e.g. geo4 → centers)
 } = {}) {
   const fullTitle = path === "index.html"
     ? `${title} | Earkart`
     : `${title} | Earkart — Hearing Care`;
-  const canonical = `${site.domain}/${path}`;
+  const canonical = `${site.domain}/${canonicalPath || path}`;
+  const ogImage = `${site.domain}/assets/img/og-image.png`;
   const schemas = [orgSchema(), breadcrumbSchema(trail, site.domain), ...jsonld]
     .filter(Boolean).map(jsonldTag).join("\n");
 
@@ -76,14 +78,18 @@ export function layout({
 <meta name="description" content="${esc(description)}">
 <link rel="canonical" href="${esc(canonical)}">
 <meta name="theme-color" content="#0A2440">
-<link rel="icon" href="${FAVICON}">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="${FAVICON}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Earkart">
 <meta property="og:title" content="${esc(fullTitle)}">
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:url" content="${esc(canonical)}">
-<meta property="og:image" content="assets/img/og-placeholder.svg">
+<meta property="og:image" content="${esc(ogImage)}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="${esc(ogImage)}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">

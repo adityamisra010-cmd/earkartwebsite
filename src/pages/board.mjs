@@ -1,6 +1,6 @@
 import {
   pageHero, sectionHeader, leadershipCard, featureCard, button,
-  ctaSection, eyebrow,
+  irCtaSection, eyebrow,
 } from "../lib/components.mjs";
 import { icons } from "../lib/icons.mjs";
 import { board, committees } from "../data/board.mjs";
@@ -46,6 +46,6 @@ export default function boardPage() {
     description:
       "Meet the Board of Directors of Earkart Limited — executive, non-executive and independent directors — and the board committees governing the company.",
     breadcrumbs: [{ label: "Investor", href: "investor.html" }, { label: "Board of Directors", href: "board-details.html" }],
-    content: [hero, execSec, otherSec, committeeSec, ctaSection({ title: "Explore Earkart's investor resources.", text: "Financials, governance, IPO documents and compliance disclosures." })].join("\n"),
+    content: [hero, execSec, otherSec, committeeSec, irCtaSection()].join("\n"),
   };
 }

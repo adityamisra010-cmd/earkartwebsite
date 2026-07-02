@@ -163,6 +163,9 @@ export const investorPages = {
     title: "Other Investor Documents",
     intro: "Additional disclosures, intimations and archived investor documents.",
     groups: [
+      { heading: "Company Documents", docs: [
+        { title: "OMNI Patent Certificate", date: "[Add date]", type: "PDF", href: "#" }, // [CONFIRM] certificate PDF URL
+      ]},
       { heading: "Other Disclosures", docs: [
         { title: "Newspaper Publications", date: "[Add date]", type: "PDF", href: "#" },
         { title: "Intimation to Stock Exchange", date: "[Add date]", type: "PDF", href: "#" },

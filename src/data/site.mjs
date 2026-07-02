@@ -11,6 +11,8 @@ export const site = {
   tagline: "Technology-led hearing care, with expert guidance.",
   positioning:
     "India's digital-first hearing care platform — combining expert audiology, modern hearing aids, OMNI-powered remote audiometry and a trusted partner clinic network.",
+  // Short line for the header utility bar (must never truncate)
+  taglineShort: "India's digital-first hearing care platform",
   description:
     "Earkart is a technology-led hearing care platform bringing expert audiology, modern hearing aids and OMNI-powered remote audiometry to families across India through a trusted partner clinic network.",
   footerTrustLine:
@@ -58,12 +60,14 @@ export const social = [
   { label: "YouTube", href: "#", icon: "youtube" }, // [CONFIRM]
 ];
 
-// --- Marketing impact stats (placeholders — confirm before publishing) ------
+// --- Marketing impact stats -------------------------------------------------
+// Set `value` to the verified figure (e.g. "250+") to publish it. While null,
+// the card renders a deliberate "verified figure coming soon" pending state.
 export const impactStats = [
-  { value: "[Add verified number]+", suffix: "", label: "Partner Centers", key: "centers" },
-  { value: "[Add verified number]+", suffix: "", label: "Appointments Booked", key: "appointments" },
-  { value: "[Add verified number]+", suffix: "", label: "Hearing Aid Fittings", key: "fittings" },
-  { value: "[Add verified number]+", suffix: "", label: "Cities Covered", key: "cities" },
-  { value: "[Add verified number]+", suffix: "", label: "Consultations Supported", key: "consultations" },
-  { value: "[Add verified number]+", suffix: "", label: "Products Delivered", key: "products" },
+  { value: null, label: "Partner Centers", key: "centers" },
+  { value: null, label: "Appointments Booked", key: "appointments" },
+  { value: null, label: "Hearing Aid Fittings", key: "fittings" },
+  { value: null, label: "Cities Covered", key: "cities" },
+  { value: null, label: "Consultations Supported", key: "consultations" },
+  { value: null, label: "Products Delivered", key: "products" },
 ];

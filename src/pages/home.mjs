@@ -89,7 +89,7 @@ export default function home() {
         </ul>
         <div class="hero__ctas">
           ${button({ label: "Explore the partner network", href: "contact-us.html#partner" }, "gold", { trailingArrow: true })}
-          <a class="btn btn--text btn--text-light" href="#omni-patent">OMNI patent certificate ${icons.arrowRight}</a>
+          <a class="btn btn--text btn--text-light" href="investor-other-documents.html">OMNI patent certificate ${icons.arrowRight}</a>
         </div>
         <p class="fineprint">[Technical claims to be confirmed. Placeholder copy where exact specifications are pending.]</p>
       </div>
@@ -130,7 +130,7 @@ export default function home() {
 
   const impact = `<section class="section section--navy impact">
     <div class="container">
-      ${sectionHeader({ eyebrow: "Our impact", title: "Growing hearing care access across India.", text: "Placeholder figures shown below — to be confirmed before publishing.", align: "center", tone: "on-dark" })}
+      ${sectionHeader({ eyebrow: "Our impact", title: "Growing hearing care access across India.", text: "Key figures will be published here once independently verified.", align: "center", tone: "on-dark" })}
       <div class="stats stats--6">${impactStats.map(statCard).join("")}</div>
     </div>
   </section>`;
@@ -139,6 +139,7 @@ export default function home() {
     <div class="container">
       ${sectionHeader({ eyebrow: "In their words", title: "Families who found clearer hearing.", align: "center" })}
       <div class="grid grid--4 reviews-grid">${reviews.map(reviewCard).join("")}</div>
+      <p class="fineprint center">[The cards above are illustrative layout examples — replace with verified customer reviews before publishing.]</p>
     </div>
   </section>`;
 

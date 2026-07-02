@@ -39,9 +39,16 @@ const staticPages = [
 ];
 
 const hearingAidPages = hearingAidModels.map((model) => {
-  const family = familyBySlug[model.slug] || null;
-  const siblings = hearingAidModels.filter((m) => m.family === model.family && m.slug !== model.slug);
-  return hearingAidProductPage(model, { family, siblings });
+  // Every model (variants included) inherits its family's features/eyebrow.
+  const family = familyBySlug[model.family] || null;
+  let siblings = hearingAidModels.filter((m) => m.family === model.family && m.slug !== model.slug);
+  let crossFamily = false;
+  // Single-model families (EQFY, TINY) cross-link the other family overview pages.
+  if (!siblings.length) {
+    siblings = hearingAidModels.filter((m) => familyBySlug[m.slug] && m.slug !== model.slug);
+    crossFamily = true;
+  }
+  return hearingAidProductPage(model, { family, siblings, crossFamily });
 });
 
 const otherProductPages = otherProducts.map((p) => {
@@ -81,6 +88,7 @@ for (const p of allPages) {
     title: p.title,
     description: p.description,
     path: p.path,
+    canonical: p.canonical || null,
     breadcrumbs: p.breadcrumbs || [],
     jsonld: p.jsonld || [],
     head: p.head || "",

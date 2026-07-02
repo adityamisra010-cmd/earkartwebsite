@@ -1,5 +1,5 @@
 import {
-  pageHero, sectionHeader, button, ctaSection, investorDocCard, eyebrow,
+  pageHero, sectionHeader, button, irCtaSection, investorDocCard, eyebrow,
 } from "../lib/components.mjs";
 import { icons } from "../lib/icons.mjs";
 import { contact } from "../data/site.mjs";
@@ -72,6 +72,6 @@ export default function investor() {
     description:
       "Earkart Limited investor relations — board of directors, financial information, IPO documents, corporate governance, SEBI LODR compliance and shareholder resources.",
     breadcrumbs: [{ label: "Investor", href: "investor.html" }],
-    content: [hero, snapshot, overview, highlights, contactBand, ctaSection({ title: "Questions from investors or analysts?", text: "Reach our investor relations team or explore our latest disclosures." })].join("\n"),
+    content: [hero, snapshot, overview, highlights, contactBand, irCtaSection()].join("\n"),
   };
 }
