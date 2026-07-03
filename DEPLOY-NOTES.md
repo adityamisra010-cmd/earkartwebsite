@@ -47,6 +47,7 @@ filenames**, so they upgrade in place with zero link breakage:
 | `/geo4.html` | ✅ centers page — now the canonical centers URL the whole site links to |
 | `/blog.html` | ✅ |
 | `/privacy-policy.html` | ✅ |
+| `/contact.html` | ✅ (was `contact-us.html` in an earlier draft — now matches the live URL) |
 
 ### 2b. Existing PDFs & assets the new site LINKS TO — keep them on the server
 
@@ -56,25 +57,32 @@ in this repo; they must remain deployed. (All confirmed present via search.)
 - **Investor docs:** everything under `/investor/` incl. `/investor/ipo/`
   (`Earkart-Prospectus.pdf`, `Earkart_Limited_Draft_Prospectus.pdf`,
   `Earkart_Addendum.pdf`, `Earkart_Addendum2.pdf`, `Approval-Letter-BSE.pdf`,
-  `trading-approval.pdf`), `/investor/bp/` (board policies),
-  `/investor/fi/RFS_March'25.pdf`, `/investor/md/` (e-MOA, e-AOA, BR-IPO,
-  SR-IPO), `/investor/shareholding-pattern.pdf`,
-  `/investor/Investors-Presentation.pdf`, `/investor/Earkart-transcript.pdf`,
-  `/investor/Letter.pdf`.
+  `trading-approval.pdf`), `/investor/bp/` (board policies incl.
+  `CSR-policy.pdf`, `Policy-for-Performance-Evaluation-of-Board-of-Directors.pdf`,
+  `Policy-on-disclosure-of-Material-Events.pdf`), `/investor/fi/RFS_March'25.pdf`,
+  `/investor/md/` (e-MOA, e-AOA, BR-IPO, SR-IPO),
+  `/investor/shareholding-pattern.pdf`, `/investor/Investors-Presentation.pdf`,
+  `/investor/Earkart-transcript.pdf`, `/investor/Letter.pdf`.
 - **Root-level notices:** `/Notice-of-Board-Meeting.pdf`,
   `/Notice-of-Independent-Director-Board-Meeting.pdf`,
-  `/notice-of-the-extra-ordinary-general-meeting.pdf`.
-- **Product spec PDFs:** `/eqfy.pdf`, `/F2TS.pdf`, `/RADIUS16.pdf`,
+  `/notice-of-the-extra-ordinary-general-meeting.pdf`, `/Notice-EGM.pdf`,
+  `/EGM-Notice-3rd-Feb-2025.pdf`.
+- **Product spec PDFs:** `/eqfy.pdf`, `/F2TS.pdf`, `/RADIUS16.pdf`, `/HATS.pdf`,
   `/radius/*.pdf`, `/tlm/*.pdf`, and any other `/*.pdf` product sheets.
+- **Existing content/blog HTML pages** (not reproduced by the rebuild — keep them):
+  `/early-intervention-hearing-loss-tests.html`,
+  `/how-to-convince-family-to-buy-hearing-aid.html`, `/stigma-hearing-aid.html`,
+  and any other article pages.
 
 ### 2c. NEW URLs the rebuild adds (additive — break nothing)
 
 Product HTML pages (`/product-*.html`), investor sub-section pages
-(`/investor-*.html`), extra blog posts (`/blog-*.html`), `/contact-us.html`,
-`/hearing-loss.html`, `/other-products.html`, `/press-release.html`,
-`/investor.html`, `/terms-and-conditions.html`, `/404.html`,
-`/earkart-centers.html` (alias → geo4). These are additions; they cannot
-break anything that was submitted.
+(`/investor-*.html`), extra blog posts (`/blog-*.html`), `/hearing-loss.html`,
+`/other-products.html`, `/press-release.html`, `/investor.html`,
+`/terms-and-conditions.html`, `/404.html`, `/earkart-centers.html`
+(alias → geo4). These are additions; they cannot break anything that was
+submitted. Note: the live investor section is **PDF-driven** (no `investor.html`
+existed), so all `/investor-*.html` pages are brand-new and purely additive.
 
 ### 2d. Action required before cutover — verify nothing is missed
 

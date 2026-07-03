@@ -150,7 +150,7 @@ export function otherProductPage(product, { related = [] } = {}) {
         <h1 class="hero__title">${esc(name)}</h1>
         <p class="hero__subtitle">${esc(product.blurb)}</p>
         <div class="hero__ctas">
-          ${button({ label: "Enquire now", href: "contact-us.html#enquiry" }, "gold", { icon: "mail" })}
+          ${button({ label: "Enquire now", href: "contact.html#enquiry" }, "gold", { icon: "mail" })}
           ${product.pdf
             ? button({ label: "Download spec sheet", href: product.pdf }, "secondary", { icon: "download" })
             : `<span class="btn btn--secondary btn--disabled">${icons.clock}<span>Spec sheet coming soon</span></span>`}
@@ -173,7 +173,7 @@ export function otherProductPage(product, { related = [] } = {}) {
         </tbody>
       </table>
       <p class="fineprint">[Details are placeholders — confirm against official documentation.]</p>
-      <div class="section__cta">${button({ label: "Enquire about this product", href: "contact-us.html#enquiry" }, "primary", { icon: "mail" })}</div>
+      <div class="section__cta">${button({ label: "Enquire about this product", href: "contact.html#enquiry" }, "primary", { icon: "mail" })}</div>
     </div>
   </section>`;
 

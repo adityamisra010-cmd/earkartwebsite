@@ -311,7 +311,7 @@ export function productFamilyCard(f) {
       <ul class="pfamily__features">${f.features.slice(0, 3).map((x) => `<li>${icons.check}<span>${esc(x)}</span></li>`).join("")}</ul>
       <div class="pfamily__actions">
         <a class="btn btn--secondary" href="product-${f.slug}.html">View details</a>
-        <a class="btn btn--text" href="contact-us.html#appointment">Book consultation ${icons.arrowRight}</a>
+        <a class="btn btn--text" href="contact.html#appointment">Book consultation ${icons.arrowRight}</a>
       </div>
     </div>
   </article>`;

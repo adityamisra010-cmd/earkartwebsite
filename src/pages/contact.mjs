@@ -82,11 +82,11 @@ export default function contactPage() {
   </section>`;
 
   return {
-    path: "contact-us.html",
+    path: "contact.html",
     title: "Contact Us — Book an Appointment",
     description:
       "Contact Earkart to book a hearing appointment, ask a question, or reach us about partnership or investor matters. Call, WhatsApp, email or use our enquiry form.",
-    breadcrumbs: [{ label: "Contact Us", href: "contact-us.html" }],
+    breadcrumbs: [{ label: "Contact Us", href: "contact.html" }],
     jsonld: [faqSchema(faqsContact)],
     content: [hero, cards, appointment, enquiry, map, faq].join("\n"),
   };

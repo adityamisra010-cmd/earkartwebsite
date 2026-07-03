@@ -16,7 +16,7 @@ function otherProductCard(p) {
       <p class="oproduct__meta">${icons.check}<span>${p.suitableFor}</span></p>
       <div class="oproduct__actions">
         <a class="btn btn--secondary" href="product-${p.slug}.html">View details</a>
-        <a class="btn btn--text" href="contact-us.html#enquiry">Enquire ${icons.arrowRight}</a>
+        <a class="btn btn--text" href="contact.html#enquiry">Enquire ${icons.arrowRight}</a>
       </div>
     </div>
   </article>`;
@@ -29,7 +29,7 @@ export default function otherProductsPage() {
     subtitle:
       "Beyond hearing aids, Earkart offers educational development kits, clinical equipment, component kits, mobility aids and accessories.",
     ctas: [
-      { cta: { label: "Enquire now", href: "contact-us.html#enquiry" }, variant: "gold", opts: { icon: "mail" } },
+      { cta: { label: "Enquire now", href: "contact.html#enquiry" }, variant: "gold", opts: { icon: "mail" } },
     ],
     variant: "hero--inner hero--compact",
   });

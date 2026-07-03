@@ -89,7 +89,7 @@ export default function home() {
           <li>${icons.chart}<div><strong>Faster patient screening</strong><span>Scalable hearing care infrastructure.</span></div></li>
         </ul>
         <div class="hero__ctas">
-          ${button({ label: "Explore the partner network", href: "contact-us.html#partner" }, "gold", { trailingArrow: true })}
+          ${button({ label: "Explore the partner network", href: "contact.html#partner" }, "gold", { trailingArrow: true })}
           <a class="btn btn--text btn--text-light" href="investor-other-documents.html">OMNI patent certificate ${icons.arrowRight}</a>
         </div>
         <p class="fineprint">[Technical claims to be confirmed. Placeholder copy where exact specifications are pending.]</p>

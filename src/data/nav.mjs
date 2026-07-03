@@ -41,7 +41,7 @@ export const primaryNav = [
     mega: "investor",
   },
   { label: "Press Release", href: "press-release.html" },
-  { label: "Contact Us", href: "contact-us.html" },
+  { label: "Contact Us", href: "contact.html" },
 ];
 
 // --- Mega menu definitions --------------------------------------------------
@@ -169,7 +169,7 @@ export const footerNav = [
   {
     heading: "For Patients & Families",
     links: [
-      { label: "Book Appointment", href: "contact-us.html#appointment" },
+      { label: "Book Appointment", href: "contact.html#appointment" },
       { label: "Earkart Centers", href: "geo4.html" },
       { label: "Hearing Aids", href: "hearing-aids.html" },
       { label: "Hearing Loss", href: "hearing-loss.html" },
@@ -190,7 +190,7 @@ export const footerNav = [
   {
     heading: "Partners",
     links: [
-      { label: "Become Our Partner", href: "contact-us.html#partner" },
+      { label: "Become Our Partner", href: "contact.html#partner" },
       { label: "Partner Clinic Network", href: "geo4.html" },
       { label: "OMNI Remote Audiometry", href: "index.html#omni" },
       { label: "Press Release", href: "press-release.html" },

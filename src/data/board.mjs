@@ -9,7 +9,7 @@ export const board = [
     name: "Rohit Misra",
     role: "Managing Director & CEO",
     tag: "Executive",
-    bio: "Founder and Managing Director of Earkart, leading the Company's vision to make hearing care accessible, transparent and technology-driven across India. [Add verified profile details.]",
+    bio: "Founder and Managing Director of Earkart, and a hearing-industry veteran who previously served as Managing Director of Starkey India. He leads the Company's vision to make hearing care accessible, transparent and technology-driven across India. [Confirm full profile details.]",
   },
   {
     name: "Ajay Kumar Giri",

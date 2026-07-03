@@ -105,7 +105,7 @@ export const investorPages = {
         { title: "Disclosure under Regulation 30", date: "[Add date]", type: "PDF", href: "#" },
       ]},
       { heading: "Policies under LODR", docs: [
-        { title: "Policy on Determination of Materiality", date: "[Add date]", type: "PDF", href: "#" },
+        { title: "Policy on Disclosure of Material Events", date: "[Add date]", type: "PDF", href: `${BASE}/investor/bp/Policy-on-disclosure-of-Material-Events.pdf` },
         { title: "Familiarization Programme for Independent Directors", date: "[Add date]", type: "PDF", href: "#" },
       ]},
     ],
@@ -136,6 +136,8 @@ export const investorPages = {
         { title: "Outcome of Board Meeting", date: "[Add date]", type: "PDF", href: "#" },
       ]},
       { heading: "General Meetings", docs: [
+        { title: "Notice of Extra-Ordinary General Meeting", date: "28 Mar 2025", type: "PDF", href: `${BASE}/Notice-EGM.pdf` },
+        { title: "Notice of EGM", date: "03 Feb 2025", type: "PDF", href: `${BASE}/EGM-Notice-3rd-Feb-2025.pdf` },
         { title: "Notice of the Extra-Ordinary General Meeting", date: "[Add date]", type: "PDF", href: `${BASE}/notice-of-the-extra-ordinary-general-meeting.pdf` },
       ]},
       { heading: "Postal Ballot", docs: [

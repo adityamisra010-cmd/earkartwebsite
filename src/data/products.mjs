@@ -206,7 +206,7 @@ export const otherProducts = [
     suitableFor: "Educational & rehabilitation use", pdf: null },
   { slug: "hearing-aid-test-system", name: "Hearing Aid Test System", category: "Clinical Equipment",
     blurb: "A test system for evaluating hearing aid performance in clinical and service settings.",
-    suitableFor: "Clinics, audiologists & service centres", pdf: null },
+    suitableFor: "Clinics, audiologists & service centres", pdf: "https://earkart.in/HATS.pdf" },
   { slug: "lh-71-bte-kit", name: "LH 71 BTE Kit — Component Category II", category: "Component Kit",
     blurb: "Behind-the-ear component kit, category II, for assembly and servicing.",
     suitableFor: "Manufacturing & service partners", pdf: null },

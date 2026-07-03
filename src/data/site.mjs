@@ -34,7 +34,7 @@ export const contact = {
   whatsappRaw: "919560576416",
   whatsappUrl: "https://wa.me/919560576416",
   email: "contact@earkart.com", // verified from live site
-  investorEmail: "contact@earkart.com", // [CONFIRM] dedicated investor/grievance email if different
+  investorEmail: "ir@earkart.in", // verified from live site (investor relations)
   corporateOffice:
     "A-133, Ground Floor, Block A, Sector 63, Gautam Buddha Nagar, Noida, Uttar Pradesh 201301",
   registeredOffice:
@@ -44,12 +44,12 @@ export const contact = {
 
 // --- Primary CTAs (single source of truth) ---------------------------------
 export const cta = {
-  book: { label: "Book Appointment", href: "contact-us.html#appointment" },
-  bookAlt: { label: "Book an Appointment", href: "contact-us.html#appointment" },
+  book: { label: "Book Appointment", href: "contact.html#appointment" },
+  bookAlt: { label: "Book an Appointment", href: "contact.html#appointment" },
   call: { label: "Call Now", href: `tel:${contact.phoneRaw}` },
   whatsapp: { label: "WhatsApp Us", href: contact.whatsappUrl },
   findCenter: { label: "Find a Center", href: "geo4.html" }, // real live URL for the centers page
-  partner: { label: "Become Our Partner", href: "contact-us.html#partner" }, // [CONFIRM] external partner portal URL
+  partner: { label: "Become Our Partner", href: "contact.html#partner" }, // [CONFIRM] external partner portal URL
   investors: { label: "View Investor Resources", href: "investor.html" },
   exploreAids: { label: "Explore Hearing Aids", href: "hearing-aids.html" },
   learnLoss: { label: "Learn About Hearing Loss", href: "hearing-loss.html" },

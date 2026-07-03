@@ -26,11 +26,11 @@ export default function notFound() {
           { label: "Hearing Aids", href: "hearing-aids.html" },
           { label: "Earkart Centers", href: "geo4.html" },
           { label: "Hearing Loss Guide", href: "hearing-loss.html" },
-          { label: "Book Appointment", href: "contact-us.html#appointment" },
+          { label: "Book Appointment", href: "contact.html#appointment" },
           { label: "Investor Relations", href: "investor.html" },
           { label: "Press Release", href: "press-release.html" },
           { label: "Blog & Resources", href: "blog.html" },
-          { label: "Contact Us", href: "contact-us.html" },
+          { label: "Contact Us", href: "contact.html" },
         ].map((l) => `<a class="card investor-tile reveal" href="${l.href}">${icons.arrowRight}<span class="investor-tile__title">${l.label}</span></a>`).join("")}
       </div>
     </div>

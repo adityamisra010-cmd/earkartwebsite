@@ -14,7 +14,7 @@ export default function hearingLoss() {
     subtitle:
       "Hearing changes are common and manageable. Here's a calm, clear guide to the signs, the types of hearing loss, and when it's worth speaking to an expert.",
     ctas: [
-      { cta: { label: "Book a hearing test", href: "contact-us.html#appointment" }, variant: "gold", opts: { icon: "calendar" } },
+      { cta: { label: "Book a hearing test", href: "contact.html#appointment" }, variant: "gold", opts: { icon: "calendar" } },
       { cta: cta.findCenter, variant: "secondary", opts: { icon: "pin" } },
     ],
     variant: "hero--inner",
