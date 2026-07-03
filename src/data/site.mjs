@@ -22,21 +22,24 @@ export const site = {
 };
 
 // --- Contact details -------------------------------------------------------
+// Values below marked "verified from live site" were confirmed from earkart.in.
 export const contact = {
   phoneDisplay: "+91 95605 76416",
   phoneRaw: "+919560576416",
+  landlineDisplay: "0120 4102857", // verified from live site
+  landlineRaw: "+911204102857",
   tollFreeDisplay: "1800 [CONFIRM]", // [CONFIRM] toll-free number
   tollFreeRaw: "",
   whatsappDisplay: "+91 95605 76416",
   whatsappRaw: "919560576416",
   whatsappUrl: "https://wa.me/919560576416",
-  email: "info@earkart.in", // [CONFIRM] primary email
-  investorEmail: "investors@earkart.in", // [CONFIRM] investor grievance email
+  email: "contact@earkart.com", // verified from live site
+  investorEmail: "contact@earkart.com", // [CONFIRM] dedicated investor/grievance email if different
   corporateOffice:
-    "A-133, Ground Floor, Sector 63, Gautam Buddha Nagar, Noida, Uttar Pradesh 201301",
+    "A-133, Ground Floor, Block A, Sector 63, Gautam Buddha Nagar, Noida, Uttar Pradesh 201301",
   registeredOffice:
-    "[CONFIRM] Registered Office — Earkart Limited, Uttar Pradesh, India",
-  cin: "[CONFIRM] CIN — Lxxxxx UP2021PLCxxxxxx",
+    "[CONFIRM] Registered Office — Earkart Limited, New Delhi (per CIN)",
+  cin: "U74999DL2021PLC399313", // verified from live site
 };
 
 // --- Primary CTAs (single source of truth) ---------------------------------
@@ -45,7 +48,7 @@ export const cta = {
   bookAlt: { label: "Book an Appointment", href: "contact-us.html#appointment" },
   call: { label: "Call Now", href: `tel:${contact.phoneRaw}` },
   whatsapp: { label: "WhatsApp Us", href: contact.whatsappUrl },
-  findCenter: { label: "Find a Center", href: "earkart-centers.html" },
+  findCenter: { label: "Find a Center", href: "geo4.html" }, // real live URL for the centers page
   partner: { label: "Become Our Partner", href: "contact-us.html#partner" }, // [CONFIRM] external partner portal URL
   investors: { label: "View Investor Resources", href: "investor.html" },
   exploreAids: { label: "Explore Hearing Aids", href: "hearing-aids.html" },

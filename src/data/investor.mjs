@@ -50,15 +50,13 @@ export const investorPages = {
     title: "Financial Information",
     intro: "Annual reports, restated financials, audit reports and periodic financial results.",
     groups: [
-      { heading: "Annual & Restated Financials", docs: [
-        { title: "Restated Financial Statements", date: "[Add date]", type: "PDF", href: "#" },
+      { heading: "Restated Financial Statements", docs: [
+        { title: "Restated Financial Statements (RFS) — March 2025", date: "Mar 2025", type: "PDF", href: `${BASE}/investor/fi/RFS_March%2725.pdf` },
         { title: "Audit Report", date: "[Add date]", type: "PDF", href: "#" },
-        { title: "RFS — Restated Financial Statements", date: "[Add date]", type: "PDF", href: "#" },
         { title: "Stub Period Financials", date: "[Add date]", type: "PDF", href: "#" },
       ]},
-      { heading: "Periodic Results", docs: [
-        { title: "Financial Results — FY [Year]", date: "[Add date]", type: "PDF", href: "#" },
-        { title: "Financial Results — H1 FY26", date: "[Add date]", type: "PDF", href: "#" },
+      { heading: "Investor Presentation", docs: [
+        { title: "Investor Presentation", date: "Nov 2025", type: "PDF", href: `${BASE}/investor/Investors-Presentation.pdf` },
       ]},
       { heading: "Earnings Calls", docs: [
         { title: "Earnings Call Transcript — H1 FY26", date: "04 Dec 2025", type: "PDF", href: `${BASE}/investor/Earkart-transcript.pdf` },
@@ -87,8 +85,13 @@ export const investorPages = {
     groups: [
       { heading: "Offer Documents", docs: [
         { title: "Draft Prospectus", date: "[Add date]", type: "PDF", href: `${BASE}/investor/ipo/Earkart_Limited_Draft_Prospectus.pdf` },
-        { title: "Prospectus", date: "[Add date]", type: "PDF", href: `${BASE}/investor/ipo/Earkart-Prospectus.pdf` },
-        { title: "Addendum to Prospectus", date: "[Add date]", type: "PDF", href: `${BASE}/investor/ipo/Earkart_Addendum2.pdf` },
+        { title: "Prospectus", date: "18 Sep 2025", type: "PDF", href: `${BASE}/investor/ipo/Earkart-Prospectus.pdf` },
+        { title: "Addendum to Prospectus", date: "[Add date]", type: "PDF", href: `${BASE}/investor/ipo/Earkart_Addendum.pdf` },
+        { title: "Addendum to Prospectus (II)", date: "[Add date]", type: "PDF", href: `${BASE}/investor/ipo/Earkart_Addendum2.pdf` },
+      ]},
+      { heading: "Listing & Approvals", docs: [
+        { title: "BSE Approval Letter", date: "[Add date]", type: "PDF", href: `${BASE}/investor/ipo/Approval-Letter-BSE.pdf` },
+        { title: "Trading Approval", date: "[Add date]", type: "PDF", href: `${BASE}/investor/ipo/trading-approval.pdf` },
       ]},
     ],
   },
@@ -97,8 +100,9 @@ export const investorPages = {
     intro: "Disclosures made under the SEBI (Listing Obligations and Disclosure Requirements) Regulations.",
     groups: [
       { heading: "Regulation 30 Disclosures", docs: [
+        { title: "Investor Presentation", date: "Nov 2025", type: "PDF", href: `${BASE}/investor/Investors-Presentation.pdf` },
+        { title: "Intimation to BSE", date: "20 Jan 2026", type: "PDF", href: `${BASE}/investor/Letter.pdf` },
         { title: "Disclosure under Regulation 30", date: "[Add date]", type: "PDF", href: "#" },
-        { title: "Investor Presentation", date: "[Add date]", type: "PDF", href: "#" },
       ]},
       { heading: "Policies under LODR", docs: [
         { title: "Policy on Determination of Materiality", date: "[Add date]", type: "PDF", href: "#" },
@@ -111,6 +115,8 @@ export const investorPages = {
     intro: "Policies approved by the Board of Directors governing the Company's conduct and disclosures.",
     groups: [
       { heading: "Approved Policies", docs: [
+        { title: "CSR Policy", date: "[Add date]", type: "PDF", href: `${BASE}/investor/bp/CSR-policy.pdf` },
+        { title: "Policy for Performance Evaluation of Board of Directors", date: "[Add date]", type: "PDF", href: `${BASE}/investor/bp/Policy-for-Performance-Evaluation-of-Board-of-Directors.pdf` },
         { title: "Code of Conduct", date: "[Add date]", type: "PDF", href: "#" },
         { title: "Whistle Blower / Vigil Mechanism Policy", date: "[Add date]", type: "PDF", href: "#" },
         { title: "Related Party Transaction Policy", date: "[Add date]", type: "PDF", href: "#" },
@@ -125,11 +131,12 @@ export const investorPages = {
     intro: "Notices and outcomes of board meetings, general meetings and postal ballots.",
     groups: [
       { heading: "Board Meetings", docs: [
-        { title: "Notice of Board Meeting", date: "[Add date]", type: "PDF", href: "#" },
+        { title: "Notice of Board Meeting", date: "[Add date]", type: "PDF", href: `${BASE}/Notice-of-Board-Meeting.pdf` },
+        { title: "Notice of Independent Directors' Meeting", date: "[Add date]", type: "PDF", href: `${BASE}/Notice-of-Independent-Director-Board-Meeting.pdf` },
         { title: "Outcome of Board Meeting", date: "[Add date]", type: "PDF", href: "#" },
       ]},
       { heading: "General Meetings", docs: [
-        { title: "Notice of General Meeting (AGM/EGM)", date: "[Add date]", type: "PDF", href: "#" },
+        { title: "Notice of the Extra-Ordinary General Meeting", date: "[Add date]", type: "PDF", href: `${BASE}/notice-of-the-extra-ordinary-general-meeting.pdf` },
       ]},
       { heading: "Postal Ballot", docs: [
         { title: "Postal Ballot Notice", date: "[Add date]", type: "PDF", href: "#" },
@@ -167,8 +174,8 @@ export const investorPages = {
         { title: "OMNI Patent Certificate", date: "[Add date]", type: "PDF", href: "#" }, // [CONFIRM] certificate PDF URL
       ]},
       { heading: "Other Disclosures", docs: [
+        { title: "Intimation to BSE", date: "20 Jan 2026", type: "PDF", href: `${BASE}/investor/Letter.pdf` },
         { title: "Newspaper Publications", date: "[Add date]", type: "PDF", href: "#" },
-        { title: "Intimation to Stock Exchange", date: "[Add date]", type: "PDF", href: "#" },
         { title: "Archived Documents", date: "[Add date]", type: "Link", href: "#" },
       ]},
     ],
@@ -177,9 +184,16 @@ export const investorPages = {
     title: "Material Documents (IPO)",
     intro: "Material contracts and documents referred to in the offer document, available for inspection.",
     groups: [
-      { heading: "Material Documents", docs: [
-        { title: "Material Contracts & Documents for Inspection", date: "[Add date]", type: "PDF", href: "#" },
-        { title: "Prospectus", date: "[Add date]", type: "PDF", href: `${BASE}/investor/ipo/Earkart-Prospectus.pdf` },
+      { heading: "Constitutional Documents", docs: [
+        { title: "Memorandum of Association (e-MOA)", date: "[Add date]", type: "PDF", href: `${BASE}/investor/md/e-MOA.pdf.pdf` },
+        { title: "Articles of Association (e-AOA)", date: "[Add date]", type: "PDF", href: `${BASE}/investor/md/e-AOA.pdf.pdf` },
+      ]},
+      { heading: "Resolutions", docs: [
+        { title: "Board Resolution — IPO", date: "[Add date]", type: "PDF", href: `${BASE}/investor/md/BR-IPO.pdf.pdf` },
+        { title: "Shareholders' Resolution — IPO", date: "[Add date]", type: "PDF", href: `${BASE}/investor/md/SR-IPO.pdf.pdf` },
+      ]},
+      { heading: "Offer Document", docs: [
+        { title: "Prospectus", date: "18 Sep 2025", type: "PDF", href: `${BASE}/investor/ipo/Earkart-Prospectus.pdf` },
       ]},
     ],
   },

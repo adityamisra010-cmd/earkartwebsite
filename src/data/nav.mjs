@@ -24,7 +24,7 @@ const fameVariants = hearingAidModels
 export const primaryNav = [
   { label: "Home", href: "index.html" },
   { label: "About Us", href: "about-us.html" },
-  { label: "Earkart Centers", href: "earkart-centers.html" },
+  { label: "Earkart Centers", href: "geo4.html" },
   {
     label: "Hearing Aids",
     href: "hearing-aids.html",
@@ -170,7 +170,7 @@ export const footerNav = [
     heading: "For Patients & Families",
     links: [
       { label: "Book Appointment", href: "contact-us.html#appointment" },
-      { label: "Earkart Centers", href: "earkart-centers.html" },
+      { label: "Earkart Centers", href: "geo4.html" },
       { label: "Hearing Aids", href: "hearing-aids.html" },
       { label: "Hearing Loss", href: "hearing-loss.html" },
       { label: "Blog & Resources", href: "blog.html" },
@@ -191,7 +191,7 @@ export const footerNav = [
     heading: "Partners",
     links: [
       { label: "Become Our Partner", href: "contact-us.html#partner" },
-      { label: "Partner Clinic Network", href: "earkart-centers.html" },
+      { label: "Partner Clinic Network", href: "geo4.html" },
       { label: "OMNI Remote Audiometry", href: "index.html#omni" },
       { label: "Press Release", href: "press-release.html" },
     ],
@@ -203,7 +203,7 @@ export const footerNav = [
   {
     heading: "Quick Links",
     links: [
-      { label: "Clinic Locations", href: "earkart-centers.html" },
+      { label: "Clinic Locations", href: "geo4.html" },
       // Pending certificate PDF lives as a document card on the page below.
       // [CONFIRM] swap to the direct PDF URL once available.
       { label: "OMNI Patent Certificate", href: "investor-other-documents.html" },

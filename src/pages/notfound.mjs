@@ -24,7 +24,7 @@ export default function notFound() {
       <div class="grid grid--4">
         ${[
           { label: "Hearing Aids", href: "hearing-aids.html" },
-          { label: "Earkart Centers", href: "earkart-centers.html" },
+          { label: "Earkart Centers", href: "geo4.html" },
           { label: "Hearing Loss Guide", href: "hearing-loss.html" },
           { label: "Book Appointment", href: "contact-us.html#appointment" },
           { label: "Investor Relations", href: "investor.html" },

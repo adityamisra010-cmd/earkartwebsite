@@ -23,39 +23,82 @@ if you prefer, though shipping them is harmless) to the web root of
 > will work but SEO tags will point at production — that is intentional for
 > staging.
 
-## 2. Legacy-URL redirect map  ⚠️ REQUIRED BEFORE CUTOVER
+## 2. URL continuity  ⚠️ CRITICAL — links are on SEBI/BSE & government filings
 
-The rebuild preserves these confirmed legacy URLs exactly (no redirect needed):
+The single rule that protects every submitted link:
 
-| Legacy URL | Status |
+> **Deploy ADDITIVELY. Upload the new files on top of the existing site —
+> do NOT wipe the web root first.** Every existing file that the rebuild does
+> not replace must stay in place. Existing URLs then keep returning HTTP 200
+> at the same address (no redirect), which is what compliance links require.
+
+### 2a. HTML pages confirmed to match the live site exactly (same URL, redesigned)
+
+These live URLs were verified on earkart.in and the rebuild uses the **same
+filenames**, so they upgrade in place with zero link breakage:
+
+| Live URL | Rebuilt |
 |---|---|
-| `/about-us.html` | ✅ same URL, rebuilt |
-| `/board-details.html` | ✅ same URL, rebuilt |
-| `/material.html` | ✅ same URL, rebuilt |
-| `/geo4.html` | ✅ same URL, rebuilt (canonicals to `/earkart-centers.html`) |
-| `/investor/...pdf` (all investor PDFs) | ✅ untouched — keep the `/investor/` directory of PDFs deployed as-is |
+| `/` (index.html) | ✅ |
+| `/about-us.html` | ✅ |
+| `/hearing-aids.html` | ✅ |
+| `/board-details.html` | ✅ |
+| `/material.html` | ✅ (now lists the real MOA/AOA/BR/SR + prospectus PDFs) |
+| `/geo4.html` | ✅ centers page — now the canonical centers URL the whole site links to |
+| `/blog.html` | ✅ |
+| `/privacy-policy.html` | ✅ |
 
-**Action required:** the old site could not be crawled from the build
-environment, so the remaining legacy filenames are unconfirmed. Before DNS
-cutover, crawl the live site (e.g. `wget --spider -r https://earkart.in/` from
-any machine, or export the old sitemap/Google Search Console coverage list)
-and map every old URL that differs from the new one:
+### 2b. Existing PDFs & assets the new site LINKS TO — keep them on the server
+
+The rebuild references these real live files by absolute URL. They are **not**
+in this repo; they must remain deployed. (All confirmed present via search.)
+
+- **Investor docs:** everything under `/investor/` incl. `/investor/ipo/`
+  (`Earkart-Prospectus.pdf`, `Earkart_Limited_Draft_Prospectus.pdf`,
+  `Earkart_Addendum.pdf`, `Earkart_Addendum2.pdf`, `Approval-Letter-BSE.pdf`,
+  `trading-approval.pdf`), `/investor/bp/` (board policies),
+  `/investor/fi/RFS_March'25.pdf`, `/investor/md/` (e-MOA, e-AOA, BR-IPO,
+  SR-IPO), `/investor/shareholding-pattern.pdf`,
+  `/investor/Investors-Presentation.pdf`, `/investor/Earkart-transcript.pdf`,
+  `/investor/Letter.pdf`.
+- **Root-level notices:** `/Notice-of-Board-Meeting.pdf`,
+  `/Notice-of-Independent-Director-Board-Meeting.pdf`,
+  `/notice-of-the-extra-ordinary-general-meeting.pdf`.
+- **Product spec PDFs:** `/eqfy.pdf`, `/F2TS.pdf`, `/RADIUS16.pdf`,
+  `/radius/*.pdf`, `/tlm/*.pdf`, and any other `/*.pdf` product sheets.
+
+### 2c. NEW URLs the rebuild adds (additive — break nothing)
+
+Product HTML pages (`/product-*.html`), investor sub-section pages
+(`/investor-*.html`), extra blog posts (`/blog-*.html`), `/contact-us.html`,
+`/hearing-loss.html`, `/other-products.html`, `/press-release.html`,
+`/investor.html`, `/terms-and-conditions.html`, `/404.html`,
+`/earkart-centers.html` (alias → geo4). These are additions; they cannot
+break anything that was submitted.
+
+### 2d. Action required before cutover — verify nothing is missed
+
+The build environment cannot crawl earkart.in, so confirm the **complete**
+old URL list from an authoritative source you control:
+
+1. Best: the exact list of links submitted to SEBI/BSE/government/investor
+   portals (you have these) — send them over and each will be checked to
+   resolve on the new site.
+2. Or export `https://earkart.in/sitemap.xml`, or the hosting file listing,
+   or Google Search Console's "Pages" coverage.
+
+For any old URL whose page was **renamed** in the redesign (e.g. an old
+hearing-education page such as `early-intervention-hearing-loss-tests.html` or
+`stigma-hearing-aid.html`), either keep the old file or add a 301:
 
 ```
-# Nginx example
-rewrite ^/old-hearing-aids-page\.html$ /hearing-aids.html permanent;
-
-# Apache .htaccess example
-Redirect 301 /old-hearing-aids-page.html /hearing-aids.html
-
-# Netlify _redirects example
-/old-hearing-aids-page.html   /hearing-aids.html   301
+# Netlify _redirects            # Apache .htaccess              # Nginx
+/old-page.html /new-page.html 301   Redirect 301 /old-page.html /new-page.html   rewrite ^/old-page\.html$ /new-page.html permanent;
 ```
 
-Likely candidates to check for on the old site: product pages, contact page,
-press page, individual investor sub-pages, blog/landing pages
-(`/earkart-lp-3/`, `/eic/` exist on the live site — decide whether to keep,
-redirect, or retire them; they are **not** part of this rebuild).
+Separate landing pages/subdomains on the live site — `/campaign/`,
+`/earkart-lp-3/`, `/eic/`, `best-hearing-aid.earkart.in` — are **not** part of
+this rebuild; leave them as-is.
 
 ## 3. Server configuration
 
@@ -94,12 +137,17 @@ After changing any of these, run `node build.mjs` and redeploy the HTML.
 
 ## 6. Content checklist before announcing
 
-Search the `src/` tree for `[CONFIRM` and `[Add ` — each marker is an item:
+Already filled from the live site: **CIN** `U74999DL2021PLC399313`, **email**
+`contact@earkart.com`, **landline** `0120 4102857`, and the real **product +
+investor PDF links** (see §2b). Still to confirm — search the `src/` tree for
+`[CONFIRM` and `[Add `:
 
 - [ ] Toll-free number (`contact.tollFreeDisplay/Raw`) — footer + contact page
-- [ ] CIN + registered office (`contact.cin`, `contact.registeredOffice`)
-- [ ] Primary + investor email addresses (`contact.email`, `contact.investorEmail`)
-- [ ] Listing exchange in investor snapshot (`src/data/investor.mjs`)
+- [ ] Registered office full address (`contact.registeredOffice`) — CIN is Delhi
+- [ ] Dedicated investor/grievance email if different from `contact@earkart.com`
+- [ ] Listing exchange in investor snapshot (`src/data/investor.mjs` → BSE SME?)
+- [ ] Remaining product spec PDFs (TINY, Fame, Fame P/SP, other Radius variants,
+      TLM-2/3, MSIED, LH 71/72, walker, battery) — add real `pdf:` URLs
 - [ ] Social profile URLs (`site.mjs → social`) — icons stay dim until set
 - [ ] Partner-portal URL if external (`cta.partner.href`)
 - [ ] Impact stats (`site.mjs → impactStats`) — cards show "coming soon" until values set

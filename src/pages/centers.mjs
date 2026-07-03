@@ -84,28 +84,28 @@ function centersContent() {
   return [hero, finder, how, faq, partnerCTA(), ctaSection({ title: "Find your nearest Earkart center." })].join("\n");
 }
 
-export default function centers() {
+// PRIMARY centers page — geo4.html is the real, live URL (submitted on
+// filings), so it is canonical and is what the whole site links to.
+export function geo4() {
   return {
-    path: "earkart-centers.html",
-    title: "Earkart Centers — Find a Hearing Care Clinic",
+    path: "geo4.html",
+    title: "Find OMNI Centers Near You",
     description:
-      "Find an Earkart partner hearing care clinic near you. Search by city, state, service type or pin code and book a hearing assessment with an expert audiologist.",
-    breadcrumbs: [{ label: "Earkart Centers", href: "earkart-centers.html" }],
+      "Find OMNI-powered hearing care centers near you. Search Earkart's partner clinic network by city, state, service type or pin code.",
+    breadcrumbs: [{ label: "Earkart Centers", href: "geo4.html" }],
     jsonld: [faqSchema(faqsCenters), ...centersSchema(site.domain)],
     content: centersContent(),
   };
 }
 
-// Preserve legacy /geo4.html route (Find OMNI Centers) with the same content.
-// Canonical points at earkart-centers.html so search engines treat the pair
-// as one page instead of duplicate content.
-export function geo4() {
+// Additive alias kept for any earlier internal links; canonicals to geo4.html.
+export default function centers() {
   return {
-    path: "geo4.html",
-    canonical: "earkart-centers.html",
-    title: "Find OMNI Centers Near You",
+    path: "earkart-centers.html",
+    canonical: "geo4.html",
+    title: "Earkart Centers — Find a Hearing Care Clinic",
     description:
-      "Find OMNI-powered hearing care centers near you. Search Earkart's partner clinic network by city, state, service type or pin code.",
+      "Find an Earkart partner hearing care clinic near you. Search by city, state, service type or pin code and book a hearing assessment with an expert audiologist.",
     breadcrumbs: [{ label: "Earkart Centers", href: "geo4.html" }],
     jsonld: [faqSchema(faqsCenters)],
     content: centersContent(),
