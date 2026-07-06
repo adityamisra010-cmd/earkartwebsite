@@ -950,8 +950,65 @@ html.js .hero-viz__eq span { animation: eqbar 1.5s var(--ease) infinite; }
 /* Eyebrow gets a faint trailing rule for editorial polish */
 .section-head--center .eyebrow::after { content: ""; width: 26px; height: 1px; background: linear-gradient(90deg, currentColor, transparent); opacity: .5; }
 
+/* ==========================================================================
+   Premium polish III — entrance, footer depth, forms, micro-details
+   ========================================================================== */
+
+/* ---- Staggered hero entrance (plays once on load) ----------------------- */
+html.js .hero__content.hero-in > * { opacity: 0; animation: heroIn .85s var(--ease-out) both; }
+html.js .hero__content.hero-in > *:nth-child(1) { animation-delay: .06s; }
+html.js .hero__content.hero-in > *:nth-child(2) { animation-delay: .16s; }
+html.js .hero__content.hero-in > *:nth-child(3) { animation-delay: .26s; }
+html.js .hero__content.hero-in > *:nth-child(4) { animation-delay: .36s; }
+html.js .hero__content.hero-in > *:nth-child(5) { animation-delay: .46s; }
+html.js .hero__media.hero-in--media { opacity: 0; animation: heroIn 1s var(--ease-out) .28s both; }
+@keyframes heroIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+
+/* ---- Selection + main scrollbar ----------------------------------------- */
+::selection { background: rgba(198, 154, 69, .28); color: var(--navy); }
+html { scrollbar-width: thin; scrollbar-color: var(--border-strong) var(--bg); }
+html::-webkit-scrollbar { width: 12px; }
+html::-webkit-scrollbar-track { background: var(--bg); }
+html::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 10px; border: 3px solid var(--bg); }
+html::-webkit-scrollbar-thumb:hover { background: var(--muted-light); }
+
+/* ---- Animated underline for inline prose links -------------------------- */
+.article__body a, .legal a, .prose a, .callout p a {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1.5px; background-position: 0 100%; background-repeat: no-repeat;
+  transition: background-size .3s var(--ease-out);
+}
+.article__body a:hover, .legal a:hover, .prose a:hover, .callout p a:hover { background-size: 100% 1.5px; }
+
+/* ---- Premium form fields ------------------------------------------------ */
+.input { background: #fbfdfe; transition: border-color .2s, box-shadow .25s var(--ease-out), background .2s; }
+.input:hover:not(:focus) { border-color: var(--muted-light); }
+.input:focus { background: var(--white); box-shadow: 0 0 0 3px rgba(15,110,126,.16), 0 6px 16px rgba(15,110,126,.12); }
+.form.card { position: relative; overflow: hidden; }
+.form.card::after { content: ""; position: absolute; inset: 0 0 auto; height: 4px; background: var(--gold-sheen); opacity: .9; }
+
+/* ---- FAQ accordion: clearer open state ---------------------------------- */
+.faq__item { transition: border-color .25s var(--ease-out), box-shadow .25s var(--ease-out); }
+.faq__item[open] { border-color: rgba(15, 110, 126, .35); box-shadow: var(--shadow-md); }
+.faq__q:hover .faq__q-text { color: var(--teal-600); }
+
+/* ---- Trust strip: lively icons ------------------------------------------ */
+.trust-strip__item svg { transition: transform .35s var(--ease-spring); }
+.trust-strip__item:hover svg { transform: scale(1.16) translateY(-1px); }
+
+/* ---- Footer depth ------------------------------------------------------- */
+.footer { position: relative; overflow: hidden; border-top: 1px solid rgba(198, 154, 69, .18); }
+.footer::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(40% 60% at 92% 0%, rgba(15, 110, 126, .20), transparent 70%),
+    radial-gradient(36% 60% at 4% 12%, rgba(198, 154, 69, .09), transparent 72%); }
+.footer > * { position: relative; z-index: 1; }
+.footer__social { transition: transform .25s var(--ease-out), background .25s, color .25s; }
+.footer__social:not(.footer__social--pending):hover { transform: translateY(-3px); }
+
 /* ---- Print -------------------------------------------------------------- */
 @media print {
   .site-header, .mobile-nav, .mobile-nav__scrim, .mcta, .final-cta, .partner-cta { display: none !important; }
   .section--navy::before, .section--navy::after { display: none !important; }
+  .footer::before { display: none !important; }
 }

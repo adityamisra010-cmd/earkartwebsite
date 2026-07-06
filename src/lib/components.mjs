@@ -226,14 +226,14 @@ export function pageHero({ eyebrow: eb, title, subtitle, ctas = [], badges = [],
   return `<section class="hero ${variant}" data-parallax>
     <div class="hero__bg" aria-hidden="true"><span class="hero__wave">${brandWave("hero")}</span></div>
     <div class="container hero__inner">
-      <div class="hero__content reveal">
+      <div class="hero__content hero-in">
         ${eyebrow(eb)}
         <h1 class="hero__title">${title}</h1>
         ${subtitle ? `<p class="hero__subtitle">${subtitle}</p>` : ""}
         ${ctaHtml ? `<div class="hero__ctas">${ctaHtml}</div>` : ""}
         ${badgeHtml}
       </div>
-      ${media ? `<div class="hero__media reveal">${media}</div>` : ""}
+      ${media ? `<div class="hero__media hero-in hero-in--media">${media}</div>` : ""}
     </div>
   </section>`;
 }
