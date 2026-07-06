@@ -902,7 +902,56 @@ html.js .hero-viz__eq span { animation: eqbar 1.5s var(--ease) infinite; }
   html.js .brand-wave__line { stroke-dashoffset: 0; animation: none; }
 }
 
+/* ==========================================================================
+   Premium enrichment II — navy depth, glass tiles, tactile detail
+   ========================================================================== */
+
+/* Navy bands get a soft dual-colour mesh + fine grid so they read as crafted
+   surfaces rather than a flat fill. Content is lifted above the decoration. */
+.section--navy::before, .partner-cta::before, .final-cta::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(38% 48% at 88% 4%, rgba(198,154,69,.16), transparent 70%),
+    radial-gradient(44% 56% at 8% 98%, rgba(15,110,126,.24), transparent 68%);
+}
+.section--navy::after, .partner-cta::after, .final-cta::after {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: .6;
+  background-image: linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size: 52px 52px;
+  mask-image: radial-gradient(120% 100% at 50% 0%, #000 35%, transparent 80%);
+  -webkit-mask-image: radial-gradient(120% 100% at 50% 0%, #000 35%, transparent 80%);
+}
+.section--navy > *, .partner-cta > *, .final-cta > * { position: relative; z-index: 1; }
+/* a thin champagne seam crowns each navy band for a premium edge */
+.section--navy::before { border-top: 2px solid rgba(198,154,69,.28); }
+
+/* Glass stat tiles on the dark impact band */
+.stat { background: var(--glass-dark-bg); border: 1px solid var(--glass-dark-border); backdrop-filter: blur(8px) saturate(140%); -webkit-backdrop-filter: blur(8px) saturate(140%); box-shadow: var(--glass-dark-shadow); transition: transform .32s var(--ease-out), border-color .32s, background .32s; }
+.stat:hover { transform: translateY(-3px); border-color: rgba(198,154,69,.42); background: rgba(255,255,255,.1); }
+/* keep the deliberate "pending" cue: dashed edge, no hover lift */
+.stat--pending { border-style: dashed; }
+.stat--pending:hover { transform: none; border-color: var(--glass-dark-border); background: var(--glass-dark-bg); }
+
+/* Tactile icon chips — soft gradient + top highlight, gentle lift with card */
+.feature__icon, .checklist__icon, .contact-card__icon, .investor-index__icon, .doc__icon {
+  background: linear-gradient(140deg, #ecf6f6, var(--teal-050));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.85), 0 5px 12px rgba(15,110,126,.12);
+  transition: transform .32s var(--ease-out), box-shadow .32s var(--ease-out);
+}
+.card:hover .feature__icon, a.card:hover .contact-card__icon, a.card:hover .investor-index__icon, .doc:hover .doc__icon {
+  transform: translateY(-2px) scale(1.06); box-shadow: inset 0 1px 0 rgba(255,255,255,.9), 0 10px 20px rgba(15,110,126,.2);
+}
+
+/* Richer process-step numbers + a gold hairline crown on each step card */
+.step { overflow: hidden; }
+.step::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--gold), transparent 70%); opacity: .8; }
+.step__num { background: linear-gradient(135deg, #d9b25e, var(--gold-600)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* Eyebrow gets a faint trailing rule for editorial polish */
+.section-head--center .eyebrow::after { content: ""; width: 26px; height: 1px; background: linear-gradient(90deg, currentColor, transparent); opacity: .5; }
+
 /* ---- Print -------------------------------------------------------------- */
 @media print {
   .site-header, .mobile-nav, .mobile-nav__scrim, .mcta, .final-cta, .partner-cta { display: none !important; }
+  .section--navy::before, .section--navy::after { display: none !important; }
 }
