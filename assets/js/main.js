@@ -102,8 +102,20 @@
     });
   });
 
-  /* ---- Reveal on scroll ------------------------------------------------- */
+  /* ---- Reveal on scroll (with per-group stagger) ------------------------ */
   var reveals = slice(doc.querySelectorAll(".reveal"));
+  // Give reveals that share a parent an incrementing delay so grids/rows
+  // cascade in rather than snapping together.
+  (function stagger() {
+    var groups = new Map();
+    reveals.forEach(function (el) {
+      var p = el.parentElement;
+      if (!groups.has(p)) groups.set(p, 0);
+      var i = groups.get(p);
+      if (i > 0) el.style.setProperty("--reveal-i", Math.min(i, 6));
+      groups.set(p, i + 1);
+    });
+  })();
   if (reduceMotion || !("IntersectionObserver" in window)) {
     reveals.forEach(function (el) { el.classList.add("is-visible"); });
   } else {
@@ -116,6 +128,72 @@
       });
     }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
     reveals.forEach(function (el) { io.observe(el); });
+  }
+
+  /* ---- Scroll progress bar + rAF-batched scroll effects ----------------- */
+  var progress = doc.querySelector(".scroll-progress");
+  var parallaxEls = slice(doc.querySelectorAll("[data-parallax]"));
+  var ticking = false;
+  function onFrame() {
+    ticking = false;
+    var y = window.pageYOffset || doc.documentElement.scrollTop || 0;
+    if (progress) {
+      var h = doc.documentElement.scrollHeight - window.innerHeight;
+      progress.style.setProperty("--scroll", h > 0 ? Math.min(y / h, 1).toFixed(4) : 0);
+    }
+    // Parallax: normalise each element's own offset from viewport centre and
+    // expose it as --p (decorative layers read it in CSS). Never moves text.
+    if (!reduceMotion) {
+      for (var i = 0; i < parallaxEls.length; i++) {
+        var el = parallaxEls[i];
+        var rect = el.getBoundingClientRect();
+        var mid = rect.top + rect.height / 2;
+        var p = (mid - window.innerHeight / 2) / window.innerHeight; // ~ -1..1
+        el.style.setProperty("--p", p.toFixed(3));
+      }
+    }
+  }
+  function requestFrame() {
+    if (!ticking) { ticking = true; window.requestAnimationFrame(onFrame); }
+  }
+  if (progress || (parallaxEls.length && !reduceMotion)) {
+    window.addEventListener("scroll", requestFrame, { passive: true });
+    window.addEventListener("resize", requestFrame, { passive: true });
+    onFrame();
+  }
+
+  /* ---- Animated stat / snapshot counters -------------------------------- */
+  var counters = slice(doc.querySelectorAll("[data-count]"));
+  if (counters.length) {
+    var runCount = function (el) {
+      var raw = el.getAttribute("data-count");
+      var target = parseFloat(raw);
+      if (isNaN(target)) { return; }
+      var prefix = el.getAttribute("data-count-prefix") || "";
+      var suffix = el.getAttribute("data-count-suffix") || "";
+      var decimals = (raw.split(".")[1] || "").length;
+      if (reduceMotion) { el.textContent = prefix + target.toFixed(decimals) + suffix; return; }
+      var dur = 1400, start = 0, t0 = null;
+      var tick = function (t) {
+        if (t0 === null) t0 = t;
+        var k = Math.min((t - t0) / dur, 1);
+        var eased = 1 - Math.pow(1 - k, 3); // easeOutCubic
+        var val = start + (target - start) * eased;
+        el.textContent = prefix + val.toFixed(decimals) + suffix;
+        if (k < 1) window.requestAnimationFrame(tick);
+      };
+      window.requestAnimationFrame(tick);
+    };
+    if (!("IntersectionObserver" in window)) {
+      counters.forEach(runCount);
+    } else {
+      var cio = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { runCount(e.target); cio.unobserve(e.target); }
+        });
+      }, { threshold: 0.5 });
+      counters.forEach(function (el) { cio.observe(el); });
+    }
   }
 
   /* ---- Blog category filter (toggle buttons, aria-pressed) --------------- */

@@ -221,7 +221,9 @@ export function footer() {
 export function pageHero({ eyebrow: eb, title, subtitle, ctas = [], badges = [], variant = "", media = "" } = {}) {
   const ctaHtml = ctas.map((c, i) => button(c.cta, c.variant || (i === 0 ? "primary" : "secondary"), c.opts || {})).join("");
   const badgeHtml = badges.length ? `<ul class="hero__badges">${badges.map((b) => `<li class="hero__badge">${icons.checkCircle}<span>${esc(b)}</span></li>`).join("")}</ul>` : "";
-  return `<section class="hero ${variant}">
+  // data-parallax: JS exposes a scroll-relative --p that decorative layers
+  // (orbs, chips, figure) read in CSS. Purely aesthetic; never moves text.
+  return `<section class="hero ${variant}" data-parallax>
     <div class="hero__bg" aria-hidden="true"><span class="hero__wave">${brandWave("hero")}</span></div>
     <div class="container hero__inner">
       <div class="hero__content reveal">
@@ -234,6 +236,25 @@ export function pageHero({ eyebrow: eb, title, subtitle, ctas = [], badges = [],
       ${media ? `<div class="hero__media reveal">${media}</div>` : ""}
     </div>
   </section>`;
+}
+
+// Branded hero visualization — an animated audiometry motif (concentric sound
+// rings + a live equalizer around the ear mark) that stands in for premium
+// photography while none is supplied. Decorative: exposed as a single labelled
+// image to assistive tech.
+export function heroViz(label = "Earkart hearing care — expert audiology and OMNI remote audiometry") {
+  const bars = Array.from({ length: 13 }, (_, i) => {
+    const delay = (i * 0.11).toFixed(2);
+    const h = 28 + ((i * 41) % 58);
+    return `<span style="animation-delay:-${delay}s;height:${h}%"></span>`;
+  }).join("");
+  return `<div class="hero-viz" role="img" aria-label="${esc(label)}">
+    <span class="hero-viz__glow" aria-hidden="true"></span>
+    <span class="hero-viz__tag">${icons.soundwave}<span>Live audiometry</span></span>
+    <span class="hero-viz__rings" aria-hidden="true"><span class="hero-viz__ring"></span><span class="hero-viz__ring"></span><span class="hero-viz__ring"></span></span>
+    <span class="hero-viz__core" aria-hidden="true">${icons.ear}</span>
+    <span class="hero-viz__eq" aria-hidden="true">${bars}</span>
+  </div>`;
 }
 
 // Image slot: renders a branded placeholder until a real asset path is
@@ -289,6 +310,19 @@ export function statCard(stat) {
       <span class="stat__value stat__value--pending" aria-hidden="true">—</span>
       <span class="stat__label">${esc(stat.label)}</span>
       <span class="stat__note">Verified figure coming soon</span>
+    </div>`;
+  }
+  // When a real, numeric figure is supplied (e.g. "50+", "1200", "12 cities"),
+  // emit count-up attributes so it animates in on scroll. Non-numeric values
+  // (or none) render statically — no fabricated numbers, ever.
+  const raw = String(stat.value);
+  const m = raw.match(/^(\D*)([\d.]+)(.*)$/);
+  if (m) {
+    const prefix = m[1], num = m[2], suffix = m[3];
+    const zero = prefix + "0" + suffix;
+    return `<div class="stat reveal">
+      <span class="stat__value" data-stat data-count="${esc(num)}" data-count-prefix="${esc(prefix)}" data-count-suffix="${esc(suffix)}">${esc(zero)}</span>
+      <span class="stat__label">${esc(stat.label)}</span>
     </div>`;
   }
   return `<div class="stat reveal">

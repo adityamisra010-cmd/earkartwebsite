@@ -1,5 +1,5 @@
 import {
-  pageHero, sectionHeader, trustStrip, featureCard, processSteps, statCard,
+  pageHero, heroViz, sectionHeader, trustStrip, featureCard, processSteps, statCard,
   productFamilyCard, hearingAidTypeCard, reviewCard, blogCard, partnerCTA,
   ctaSection, button, imagePlaceholder, eyebrow,
 } from "../lib/components.mjs";
@@ -31,7 +31,7 @@ export default function home() {
       "Publicly listed Indian company",
     ],
     media: `<div class="hero__figure">
-      ${imagePlaceholder("Audiologist consultation — premium healthcare imagery", "4x5", "img-ph--hero")}
+      ${heroViz()}
       <div class="hero__chip hero__chip--1">${icons.checkCircle}<span>Transparent, no-pressure guidance</span></div>
       <div class="hero__chip hero__chip--2">${icons.headset}<span>Tele-audiology support</span></div>
     </div>`,

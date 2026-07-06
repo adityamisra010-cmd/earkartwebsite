@@ -104,6 +104,7 @@ ${head}
 </head>
 <body class="${bodyClass}">
 <a class="skip-link" href="#main">Skip to main content</a>
+<div class="scroll-progress" aria-hidden="true"></div>
 ${header(path)}
 ${mobileNav()}
 <main id="main">
