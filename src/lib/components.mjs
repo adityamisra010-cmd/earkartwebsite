@@ -204,7 +204,7 @@ export function footer() {
         <p class="footer__cin">${esc(site.legalName)} &nbsp;·&nbsp; CIN: ${esc(contact.cin)}</p>
         <ul class="footer__legal-links">
           <li><a href="privacy-policy.html">Privacy Policy</a></li>
-          <li><a href="terms-and-conditions.html">Terms &amp; Conditions</a></li>
+          <li><a href="terms.html">Terms &amp; Conditions</a></li>
           <li><a href="press-release.html">Press Release</a></li>
         </ul>
       </div>

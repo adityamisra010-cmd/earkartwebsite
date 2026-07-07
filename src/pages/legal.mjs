@@ -29,10 +29,10 @@ export function terms() {
     { h: "6. Contact", body: [`For questions about these terms, contact ${contact.email} or write to our registered office.`] },
   ];
   return {
-    path: "terms-and-conditions.html",
+    path: "terms.html",
     title: "Terms & Conditions",
     description: "Terms & Conditions governing the use of the Earkart Limited website and services.",
-    breadcrumbs: [{ label: "Terms & Conditions", href: "terms-and-conditions.html" }],
+    breadcrumbs: [{ label: "Terms & Conditions", href: "terms.html" }],
     content: [hero, legalShell(sections), ctaSection()].join("\n"),
   };
 }

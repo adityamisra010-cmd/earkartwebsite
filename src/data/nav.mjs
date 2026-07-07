@@ -211,7 +211,7 @@ export const footerNav = [
       { label: "Hearing Aids", href: "hearing-aids.html" },
       { label: "Press Release", href: "press-release.html" },
       { label: "Blog", href: "blog.html" },
-      { label: "Terms & Conditions", href: "terms-and-conditions.html" },
+      { label: "Terms & Conditions", href: "terms.html" },
       { label: "Privacy Policy", href: "privacy-policy.html" },
     ],
   },
