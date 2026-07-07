@@ -9,13 +9,13 @@ const toLink = (m) => ({ label: m.name, href: productHref(m.slug) });
 
 // Family overview pages (product-radius.html etc.) live in the "Families"
 // column, so model columns exclude them — no duplicate links in the menu.
+// Radius models are grouped by channel count (all Radius models are BTE).
 const isFamilyOverview = (m) => hearingAidFamilies.some((f) => f.slug === m.slug);
-const radiusRicModels = hearingAidModels
-  .filter((m) => m.family === "radius" && !isFamilyOverview(m) && !m.type.includes("BTE"))
-  .map(toLink);
-const radiusBteModels = hearingAidModels
-  .filter((m) => m.family === "radius" && !isFamilyOverview(m) && m.type.includes("BTE"))
-  .map(toLink);
+const bySlugs = (slugs) =>
+  slugs.map((s) => toLink(hearingAidModels.find((m) => m.slug === s)));
+const radius8Channel = bySlugs(["radius-8", "radius-8p", "radius-p8", "radius-m8", "radius-h8"]);
+const radius16Channel = bySlugs(["radius-pro", "radius-12", "radius-16", "radius-p-16", "radius-m-16", "radius-h-16"]);
+const radius16BteSeries = bySlugs(["radius-16-bte", "radius-p-16-bte", "radius-m-16-bte", "radius-h-16-bte"]);
 const fameVariants = hearingAidModels
   .filter((m) => m.family === "fame" && !isFamilyOverview(m))
   .map(toLink);
@@ -65,25 +65,25 @@ export const megaMenus = {
         }],
       },
       {
-        groups: [{ heading: "Radius — RIC Models", links: radiusRicModels }],
+        groups: [{ heading: "Radius — 12 & 16 Channel", links: radius16Channel }],
       },
       {
         groups: [
-          { heading: "Radius — BTE Models", links: radiusBteModels },
+          { heading: "Radius — 8 Channel", links: radius8Channel },
           { heading: "Fame Variants", links: fameVariants },
         ],
       },
       {
-        groups: [{
-          heading: "By Style",
-          links: [
-            { label: "RIC — Receiver in Canal", href: "hearing-aids.html#types" },
-            { label: "BTE — Behind the Ear", href: "hearing-aids.html#types" },
-            { label: "ITE / ITC — In the Ear", href: "hearing-aids.html#types" },
-            { label: "CIC / IIC — In the Canal", href: "hearing-aids.html#types" },
-            { label: "Download spec sheets", href: "hearing-aids.html#specs" },
-          ],
-        }],
+        groups: [
+          { heading: "Radius — 16 BTE Series", links: radius16BteSeries },
+          {
+            heading: "By Style",
+            links: [
+              { label: "Hearing aid styles explained", href: "hearing-aids.html#types" },
+              { label: "Download spec sheets", href: "hearing-aids.html#specs" },
+            ],
+          },
+        ],
       },
     ],
   },

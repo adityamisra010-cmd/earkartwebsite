@@ -38,12 +38,19 @@ export function hearingAidProductPage(model, { family = null, siblings = [], cro
   ];
   const benefits = (isFamily && family?.features ? family.features : genericBenefits).slice(0, 6);
 
-  const specRows = [
-    { label: "Style / Form Factor", value: model.type },
-    { label: "Channels", value: model.channels && model.channels !== "[Confirm]" ? model.channels : "[Confirm specification]" },
-    { label: "Suitable For", value: model.suitableFor },
-    ...placeholderSpecRows.slice(2),
-  ];
+  // Real transcribed spec sheet when available; placeholder table otherwise.
+  const hasRealSpecs = Array.isArray(model.specs) && model.specs.length > 0;
+  const specRows = hasRealSpecs
+    ? model.specs
+    : [
+        { label: "Style / Form Factor", value: model.type },
+        { label: "Channels", value: model.channels && model.channels !== "[Confirm]" ? model.channels : "[Confirm specification]" },
+        { label: "Suitable For", value: model.suitableFor },
+        ...placeholderSpecRows.slice(2),
+      ];
+  const specNote = hasRealSpecs
+    ? "Specifications as per the official earKART technical specification sheet. Specifications may be updated; please confirm at consultation."
+    : "[Specifications are placeholders — confirm against the official spec sheet / PDF.]";
 
   const hero = `<section class="hero hero--inner hero--product">
     <div class="hero__bg" aria-hidden="true"></div>
@@ -79,7 +86,7 @@ export function hearingAidProductPage(model, { family = null, siblings = [], cro
           ${specRows.map((r) => `<tr><th scope="row">${esc(r.label)}</th><td>${esc(r.value)}</td></tr>`).join("")}
         </tbody>
       </table>
-      <p class="fineprint">[Specifications are placeholders — confirm against the official spec sheet / PDF.]</p>
+      <p class="fineprint">${specNote}</p>
       <div class="section__cta">${specBtn("Download full spec sheet")}</div>
     </div>
   </section>`;
